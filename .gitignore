@@ -1,22 +1,22 @@
-* .env
-* .venv
-* __pycache__/
-* *.py[cod]
-* .mypy_cache/
-* .pytest_cache/
-* .coverage
-* .idea/
-* .vscode/
+# Environment
+.env
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.coverage
+
+# Editors / IDEs
+.idea/
+.vscode/
 
 # macOS system files
 .DS_Store
 .AppleDouble
 .LSOverride
-
-# macOS folder attributes
 __MACOSX/
-
-# macOS resource fork files
 *.AppleDouble
-*.DS_Store
 
