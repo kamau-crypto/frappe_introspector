@@ -15,3 +15,13 @@
 pip freeze > requirements.txt
 
 ```
+
+## Installation
+
+- TO install the application's modules, run the command
+
+```python
+
+pip install < requirements.txt
+
+```
