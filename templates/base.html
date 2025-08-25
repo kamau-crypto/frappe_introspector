@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ERPNext DocType Inspector{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Nunito', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="bg-blue-700 text-white">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a class="font-bold text-lg flex items-center gap-2" href="{{ url_for('index') }}">
+                <i class="fas fa-database"></i>
+                ERPNext DocType Inspector
+            </a>
+            <div class="flex gap-4">
+                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('index') }}">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('connect') }}">
+                    <i class="fas fa-plug"></i> Connect
+                </a>
+                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('doctypes') }}">
+                    <i class="fas fa-list"></i> DocTypes
+                </a>
+                <a class="hover:text-blue-200 transition flex items-center gap-1"
+                    href="{{ url_for('generate_openapi') }}">
+                    <i class="fas fa-code"></i> Generate API
+                </a>
+                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('swagger_ui') }}">
+                    <i class="fas fa-book"></i> Swagger UI
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="max-w-7xl mx-auto px-4 mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div
+            class="rounded px-4 py-3 mb-2 text-white font-semibold flex items-center gap-2
+            {% if category == 'error' %}bg-red-600{% elif category == 'warning' %}bg-yellow-500 text-black{% else %}bg-green-600{% endif %}">
+            <i
+                class="fas fa-{{ 'exclamation-triangle' if category == 'error' else ('info-circle' if category == 'warning' else 'check-circle') }}"></i>
+            {{ message }}
+            <button type="button" class="ml-auto text-white"
+                onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 mt-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 mt-5 py-4">
+        <div class="max-w-7xl mx-auto text-center text-gray-500">
+            <p>&copy; ERPNext DocType Inspector. Built with Flask & Tailwind CSS.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Tailwind CSS is loaded via CDN above -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

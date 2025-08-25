@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center py-16">
+    <div class="max-w-2xl w-full text-center">
+        <div class="py-8">
+            <h1 class="text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+                <i class="fas fa-database text-blue-600"></i>
+                ERPNext DocType Inspector
+            </h1>
+            <p class="text-xl text-gray-600 mb-6">
+                Explore, analyze, and generate OpenAPI documentation for your ERPNext DocTypes with ease.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="{{ url_for('connect') }}"
+                    class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded text-lg font-semibold hover:bg-blue-700 transition">
+                    <i class="fas fa-plug mr-2"></i>Get Started
+                </a>
+                <a href="{{ url_for('swagger_ui') }}"
+                    class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 rounded text-lg font-semibold hover:bg-gray-100 transition">
+                    <i class="fas fa-book mr-2"></i>View Docs
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 max-w-5xl mx-auto">
+    <div class="bg-white rounded shadow p-6 text-center">
+        <div class="text-4xl text-yellow-500 mb-3">
+            <i class="fas fa-book"></i>
+        </div>
+        <h5 class="text-lg font-semibold mb-2">Interactive Documentation</h5>
+        <p class="text-gray-600">Browse and test your APIs using the built-in Swagger UI documentation interface.</p>
+    </div>
+</div>
+
+<div class="max-w-5xl mx-auto mt-10">
+    <div class="bg-white rounded shadow">
+        <div class="border-b px-6 py-4">
+            <h5 class="text-lg font-semibold mb-0 flex items-center gap-2">
+                <i class="fas fa-info-circle text-blue-600"></i>How it Works
+            </h5>
+        </div>
+        <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h6 class="font-semibold mb-2 flex items-center gap-2"><i
+                        class="fas fa-step-forward text-blue-600"></i>Steps to Get Started:</h6>
+                <ol class="list-decimal list-inside text-gray-700">
+                    <li><strong>Connect:</strong> Enter your ERPNext URL and API credentials</li>
+                    <li><strong>Explore:</strong> Browse available DocTypes and their field definitions</li>
+                    <li><strong>Generate:</strong> Create OpenAPI documentation for selected DocTypes</li>
+                    <li><strong>Document:</strong> Use Swagger UI to interact with your APIs</li>
+                </ol>
+            </div>
+            <div>
+                <h6 class="font-semibold mb-2 flex items-center gap-2"><i
+                        class="fas fa-key text-green-600"></i>Requirements:</h6>
+                <ul class="list-none text-gray-700">
+                    <li class="flex items-center gap-2"><i class="fas fa-check text-green-600"></i>ERPNext v13+ instance
+                    </li>
+                    <li class="flex items-center gap-2"><i class="fas fa-check text-green-600"></i>API Key and Secret
+                    </li>
+                    <li class="flex items-center gap-2"><i class="fas fa-check text-green-600"></i>Network access to
+                        your ERPNext server</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

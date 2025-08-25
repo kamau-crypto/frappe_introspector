@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}DocTypes - DocType Inspector{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+    <div>
+        <h2 class="text-2xl font-bold flex items-center gap-2">
+            <i class="fas fa-list text-blue-600"></i>Available DocTypes
+        </h2>
+        <p class="text-gray-500 mt-2">{{ doctypes|length }} DocTypes found</p>
+    </div>
+    <div>
+        <a href="{{ url_for('generate_openapi') }}"
+            class="inline-flex items-center px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+            <i class="fas fa-code mr-2"></i>Generate API Docs
+        </a>
+    </div>
+</div>
+
+<!-- Filter and Search -->
+<div class="bg-white rounded shadow mb-8">
+    <div class="px-6 py-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <input type="text" id="searchDocTypes"
+                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Search DocTypes...">
+            <select id="moduleFilter"
+                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Modules</option>
+                {% for doctype in doctypes %}
+                <option value="{{ doctype.module }}">{{ doctype.module }}</option>
+                {% endfor %}
+            </select>
+            <select id="typeFilter"
+                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Types</option>
+                <option value="standard">Standard</option>
+                <option value="custom">Custom</option>
+            </select>
+            <button id="clearFilters"
+                class="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-100 transition">Clear</button>
+        </div>
+    </div>
+</div>
+
+<!-- DocTypes Grid -->
+<div id="doctypesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for doctype in doctypes %}
+    <div class="doctype-item" data-name="{{ doctype.name|lower }}" data-module="{{ doctype.module }}"
+        data-type="{{ 'custom' if doctype.custom else 'standard' }}">
+        <div class="bg-white rounded shadow h-full flex flex-col p-6">
+            <div class="flex justify-between items-start mb-2">
+                <h6 class="text-lg font-bold mb-0">
+                    <a href="{{ url_for('doctype_detail', doctype_name=doctype.name) }}"
+                        class="text-blue-700 hover:underline">
+                        {{ doctype.name }}
+                    </a>
+                </h6>
+                {% if doctype.custom %}
+                <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded">Custom</span>
+                {% endif %}
+            </div>
+            <p class="text-gray-500 text-sm mb-2 flex items-center gap-1">
+                <i class="fas fa-cube"></i>{{ doctype.module }}
+            </p>
+            {% if doctype.description %}
+            <p class="text-gray-700 text-sm">{{ doctype.description[:80] }}{% if doctype.description|length > 80 %}...{%
+                endif %}</p>
+            {% endif %}
+            <div class="mt-auto flex justify-between items-center pt-4">
+                <div class="text-gray-400 text-sm flex gap-2">
+                    {% if doctype.is_submittable %}
+                    <i class="fas fa-check-circle text-green-600" title="Submittable"></i>
+                    {% endif %}
+                    {% if doctype.is_tree %}
+                    <i class="fas fa-sitemap text-yellow-500" title="Tree Structure"></i>
+                    {% endif %}
+                </div>
+                <a href="{{ url_for('doctype_detail', doctype_name=doctype.name) }}"
+                    class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded font-semibold hover:bg-blue-600 hover:text-white transition">
+                    <i class="fas fa-eye mr-2"></i>View
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- No results message -->
+<div id="noResults" class="flex flex-col items-center justify-center py-16 text-center hidden">
+    <div class="text-gray-400">
+        <i class="fas fa-search fa-4x mb-4"></i>
+        <h5 class="text-xl font-semibold mb-2">No DocTypes Found</h5>
+        <p class="text-gray-500 mb-6">Try adjusting your search criteria.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('searchDocTypes');
+        const moduleFilter = document.getElementById('moduleFilter');
+        const typeFilter = document.getElementById('typeFilter');
+        const clearButton = document.getElementById('clearFilters');
+        const doctypeItems = document.querySelectorAll('.doctype-item');
+        const noResults = document.getElementById('noResults');
+
+        // Remove duplicate options from module filter
+        const uniqueModules = new Set();
+        Array.from(moduleFilter.options).forEach(option => {
+            if (option.value && uniqueModules.has(option.value))
+            {
+                option.remove();
+            } else if (option.value)
+            {
+                uniqueModules.add(option.value);
+            }
+        });
+
+        function filterDocTypes() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedModule = moduleFilter.value;
+            const selectedType = typeFilter.value;
+            let visibleCount = 0;
+
+            doctypeItems.forEach(item => {
+                const name = item.dataset.name;
+                const module = item.dataset.module;
+                const type = item.dataset.type;
+
+                const matchesSearch = name.includes(searchTerm);
+                const matchesModule = !selectedModule || module === selectedModule;
+                const matchesType = !selectedType || type === selectedType;
+
+                if (matchesSearch && matchesModule && matchesType)
+                {
+                    item.style.display = '';
+                    visibleCount++;
+                } else
+                {
+                    item.style.display = 'none';
+                }
+            });
+
+            noResults.classList.toggle('d-none', visibleCount > 0);
+        }
+
+        function clearFilters() {
+            searchInput.value = '';
+            moduleFilter.value = '';
+            typeFilter.value = '';
+            filterDocTypes();
+        }
+
+        searchInput.addEventListener('input', filterDocTypes);
+        moduleFilter.addEventListener('change', filterDocTypes);
+        typeFilter.addEventListener('change', filterDocTypes);
+        clearButton.addEventListener('click', clearFilters);
+    });
+</script>
+{% endblock %}

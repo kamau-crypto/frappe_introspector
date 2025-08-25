@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Connect to ERPNext - DocType Inspector{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto">
+    <div class="bg-white rounded shadow mb-8">
+        <div class="border-b px-6 py-4">
+            <h4 class="text-xl font-bold flex items-center gap-2">
+                <i class="fas fa-plug text-blue-600"></i>Connect to ERPNext
+            </h4>
+        </div>
+        <div class="px-6 py-6">
+            <p class="text-gray-500 mb-6">
+                Enter your ERPNext instance details to establish a connection for DocType introspection.
+            </p>
+            <form method="POST" class="space-y-6">
+                {{ form.hidden_tag() }}
+
+                <div>
+                    {{ form.base_url.label(class="block font-semibold mb-1") }}
+                    {{ form.base_url(class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none
+                    focus:ring-2 focus:ring-blue-500" + (" border-red-500" if form.base_url.errors else "")) }}
+                    {% if form.base_url.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {% for error in form.base_url.errors %}
+                        {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="text-gray-400 text-xs mt-1">
+                        The full URL to your ERPNext instance (e.g., https://yoursite.erpnext.com)
+                    </div>
+                </div>
+
+                <div>
+                    {{ form.api_key.label(class="block font-semibold mb-1") }}
+                    {{ form.api_key(class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none
+                    focus:ring-2 focus:ring-blue-500" + (" border-red-500" if form.api_key.errors else "")) }}
+                    {% if form.api_key.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {% for error in form.api_key.errors %}
+                        {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    {{ form.api_secret.label(class="block font-semibold mb-1") }}
+                    {{ form.api_secret(class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none
+                    focus:ring-2 focus:ring-blue-500" + (" border-red-500" if form.api_secret.errors else "")) }}
+                    {% if form.api_secret.errors %}
+                    <div class="text-red-600 text-sm mt-1">
+                        {% for error in form.api_secret.errors %}
+                        {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <button type="submit"
+                        class="w-full inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded font-semibold hover:bg-blue-700 transition">
+                        <i class="fas fa-plug mr-2"></i>Connect
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="bg-white rounded shadow">
+        <div class="border-b px-6 py-4">
+            <h6 class="text-lg font-semibold flex items-center gap-2">
+                <i class="fas fa-question-circle text-blue-600"></i>Need API Credentials?
+            </h6>
+        </div>
+        <div class="px-6 py-4">
+            <p class="text-gray-500 text-sm mb-2">
+                To get API credentials:
+            </p>
+            <ol class="list-decimal list-inside text-gray-700 text-sm">
+                <li>Log into your ERPNext instance as Administrator</li>
+                <li>Go to <strong>Settings &gt; API</strong> or search for "User" in Awesome Bar</li>
+                <li>Edit your user record</li>
+                <li>Scroll to "API Access" section</li>
+                <li>Generate API Key and Secret</li>
+            </ol>
+        </div>
+    </div>
+</div>
+{% endblock %}

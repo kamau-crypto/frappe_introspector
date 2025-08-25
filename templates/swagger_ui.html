@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}API Documentation - DocType Inspector{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui.css" />
+<style>
+    #swagger-ui {
+        margin-top: 20px;
+    }
+
+    .swagger-ui .topbar {
+        display: none;
+    }
+
+    /* Tailwind overrides for Swagger UI container */
+    .swagger-ui {
+        font-family: 'Nunito', sans-serif;
+        background: transparent;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+    <div>
+        <h2 class="text-2xl font-bold flex items-center gap-2">
+            <i class="fas fa-book text-blue-600"></i>API Documentation
+        </h2>
+        <p class="text-gray-500 mt-2">Interactive OpenAPI documentation powered by Swagger UI</p>
+    </div>
+    <div>
+        <a href="{{ url_for('generate_openapi') }}"
+            class="inline-flex items-center px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+            <i class="fas fa-sync-alt mr-2"></i>Regenerate
+        </a>
+    </div>
+</div>
+
+<!-- Check if OpenAPI spec exists -->
+<div id="swagger-ui"></div>
+
+<div id="no-spec-message" class="flex flex-col items-center justify-center py-16 text-center" style="display: none;">
+    <div class="text-gray-400">
+        <i class="fas fa-file-alt fa-4x mb-4"></i>
+        <h5 class="text-xl font-semibold mb-2">No API Documentation Available</h5>
+        <p class="text-gray-500 mb-6">Generate an OpenAPI specification first to view the interactive documentation.</p>
+        <a href="{{ url_for('generate_openapi') }}"
+            class="inline-flex items-center px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+            <i class="fas fa-code mr-2"></i>Generate API Documentation
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-bundle.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Check if OpenAPI spec exists
+        fetch('/static/swagger/openapi.json')
+            .then(response => {
+                if (response.ok)
+                {
+                    return response.json();
+                }
+                throw new Error('No OpenAPI spec found');
+            })
+            .then(spec => {
+                // Initialize Swagger UI
+                SwaggerUIBundle({
+                    url: '/static/swagger/openapi.json',
+                    dom_id: '#swagger-ui',
+                    deepLinking: true,
+                    presets: [
+                        SwaggerUIBundle.presets.apis,
+                        SwaggerUIBundle.presets.standalone
+                    ],
+                    plugins: [
+                        SwaggerUIBundle.plugins.DownloadUrl
+                    ],
+                    layout: "StandaloneLayout",
+                    tryItOutEnabled: true,
+                    requestInterceptor: (request) => {
+                        // You could add default auth headers here if needed
+                        return request;
+                    }
+                });
+            })
+            .catch(error => {
+                console.log('No OpenAPI spec available:', error);
+                document.getElementById('swagger-ui').style.display = 'none';
+                document.getElementById('no-spec-message').style.display = 'block';
+            });
+    });
+</script>
+{% endblock %}
