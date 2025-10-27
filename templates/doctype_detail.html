@@ -1,13 +1,16 @@
-{% extends "base.html" %}
-
-{% block title %}{{ doctype_name }} - DocType Inspector{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}{{ doctype_name }} - DocType
+Inspector{% endblock %} {% block content %}
 <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
     <div>
         <nav class="mb-2" aria-label="breadcrumb">
             <ol class="flex space-x-2 text-sm text-gray-500">
-                <li><a href="{{ url_for('doctypes') }}" class="hover:underline text-blue-600">DocTypes</a></li>
+                <li>
+                    <a
+                        href="{{ url_for('doctypes') }}"
+                        class="hover:underline text-blue-600"
+                        >DocTypes</a
+                    >
+                </li>
                 <li>/</li>
                 <li class="font-semibold text-gray-700">{{ doctype_name }}</li>
             </ol>
@@ -18,13 +21,17 @@
         {% endif %}
     </div>
     <div class="flex gap-2">
-        <button type="button"
+        <button
+            type="button"
             class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded font-semibold hover:bg-blue-600 hover:text-white transition"
-            onclick="openRawDataModal()">
+            onclick="openRawDataModal()"
+        >
             <i class="fas fa-code mr-2"></i>Raw Data
         </button>
-        <a href="{{ url_for('generate_openapi') }}?doctypes={{ doctype_name }}"
-            class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 transition">
+        <a
+            href="{{ url_for('generate_openapi') }}?doctypes={{ doctype_name }}"
+            class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 transition"
+        >
             <i class="fas fa-file-export mr-2"></i>Export API
         </a>
     </div>
@@ -32,7 +39,9 @@
 
 <!-- Stats Cards -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-    <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded shadow text-center p-6">
+    <div
+        class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded shadow text-center p-6"
+    >
         <div class="text-3xl font-bold mb-2">{{ field_stats.total }}</div>
         <div class="text-sm">Total Fields</div>
     </div>
@@ -67,38 +76,64 @@
     </div>
     <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-6">
         <ul class="list-none space-y-2">
-            <li><strong>Is Submittable:</strong>
+            <li>
+                <strong>Is Submittable:</strong>
                 {% if doctype_doc.is_submittable %}
-                <span class="text-green-600 font-semibold"><i class="fas fa-check"></i> Yes</span>
+                <span class="text-green-600 font-semibold"
+                    ><i class="fas fa-check"></i> Yes</span
+                >
                 {% else %}
-                <span class="text-gray-400"><i class="fas fa-times"></i> No</span>
+                <span class="text-gray-400"
+                    ><i class="fas fa-times"></i> No</span
+                >
                 {% endif %}
             </li>
-            <li><strong>Is Tree:</strong>
+            <li>
+                <strong>Is Tree:</strong>
                 {% if doctype_doc.is_tree %}
-                <span class="text-green-600 font-semibold"><i class="fas fa-check"></i> Yes</span>
+                <span class="text-green-600 font-semibold"
+                    ><i class="fas fa-check"></i> Yes</span
+                >
                 {% else %}
-                <span class="text-gray-400"><i class="fas fa-times"></i> No</span>
+                <span class="text-gray-400"
+                    ><i class="fas fa-times"></i> No</span
+                >
                 {% endif %}
             </li>
-            <li><strong>Track Changes:</strong>
+            <li>
+                <strong>Track Changes:</strong>
                 {% if doctype_doc.track_changes %}
-                <span class="text-green-600 font-semibold"><i class="fas fa-check"></i> Yes</span>
+                <span class="text-green-600 font-semibold"
+                    ><i class="fas fa-check"></i> Yes</span
+                >
                 {% else %}
-                <span class="text-gray-400"><i class="fas fa-times"></i> No</span>
+                <span class="text-gray-400"
+                    ><i class="fas fa-times"></i> No</span
+                >
                 {% endif %}
             </li>
         </ul>
         <ul class="list-none space-y-2">
-            <li><strong>Custom:</strong>
+            <li>
+                <strong>Custom:</strong>
                 {% if doctype_doc.custom %}
-                <span class="text-blue-600 font-semibold"><i class="fas fa-check"></i> Yes</span>
+                <span class="text-blue-600 font-semibold"
+                    ><i class="fas fa-check"></i> Yes</span
+                >
                 {% else %}
-                <span class="text-gray-400"><i class="fas fa-times"></i> No</span>
+                <span class="text-gray-400"
+                    ><i class="fas fa-times"></i> No</span
+                >
                 {% endif %}
             </li>
-            <li><strong>Auto Name:</strong> {{ doctype_doc.autoname or 'Not set' }}</li>
-            <li><strong>Naming Series:</strong> {{ doctype_doc.naming_series or 'Not set' }}</li>
+            <li>
+                <strong>Auto Name:</strong> {{ doctype_doc.autoname or 'Not set'
+                }}
+            </li>
+            <li>
+                <strong>Naming Series:</strong> {{ doctype_doc.naming_series or
+                'Not set' }}
+            </li>
         </ul>
     </div>
 </div>
@@ -111,99 +146,150 @@
         <h6 class="text-lg font-semibold mb-0">Fields ({{ fields|length }})</h6>
         <button
             class="inline-flex items-center px-3 py-1 border border-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-100 transition"
-            type="button" onclick="document.getElementById('fieldFilters').classList.toggle('hidden')">
+            type="button"
+            onclick="document.getElementById('fieldFilters').classList.toggle('hidden')"
+        >
             <i class="fas fa-filter mr-1"></i>Filter
         </button>
     </div>
     <!-- Field Filters -->
     <div id="fieldFilters" class="px-6 py-4 border-b hidden">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-            <input type="text" id="fieldSearch"
+            <input
+                type="text"
+                id="fieldSearch"
                 class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Search fields...">
-            <select id="fieldTypeFilter"
-                class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                placeholder="Search fields..."
+            />
+            <select
+                id="fieldTypeFilter"
+                class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
                 <option value="">All Types</option>
-                {% set field_types = fields|map(attribute='fieldtype')|unique|sort %}
-                {% for field_type in field_types %}
+                {% set field_types =
+                fields|map(attribute='fieldtype')|unique|sort %} {% for
+                field_type in field_types %}
                 <option value="{{ field_type }}">{{ field_type }}</option>
                 {% endfor %}
             </select>
-            <select id="requiredFilter"
-                class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select
+                id="requiredFilter"
+                class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
                 <option value="">All Fields</option>
                 <option value="required">Required Only</option>
                 <option value="optional">Optional Only</option>
             </select>
-            <select id="readOnlyFilter"
-                class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select
+                id="readOnlyFilter"
+                class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
                 <option value="">All Fields</option>
                 <option value="readonly">Read-only Only</option>
                 <option value="editable">Editable Only</option>
             </select>
-            <button id="clearFieldFilters"
-                class="w-full inline-flex items-center justify-center px-2 py-1 border border-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-100 transition">Clear
-                Filters</button>
+            <button
+                id="clearFieldFilters"
+                class="w-full inline-flex items-center justify-center px-2 py-1 border border-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-100 transition"
+            >
+                Clear Filters
+            </button>
         </div>
     </div>
     <div class="overflow-x-auto">
         <table class="min-w-full text-sm">
             <thead class="bg-gray-50">
                 <tr>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Field Name</th>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Label</th>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Type</th>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Options</th>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Properties</th>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Default</th>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                        Field Name
+                    </th>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                        Label
+                    </th>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                        Type
+                    </th>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                        Options
+                    </th>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                        Properties
+                    </th>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                        Default
+                    </th>
                 </tr>
             </thead>
             <tbody id="fieldsTableBody">
                 {% for field in fields %}
-                <tr class="field-row border-b" data-fieldname="{{ field.fieldname|lower }}"
-                    data-label="{{ field.label|lower if field.label }}" data-fieldtype="{{ field.fieldtype }}"
+                <tr
+                    class="field-row border-b"
+                    data-fieldname="{{ field.fieldname|lower }}"
+                    data-label="{{ field.label|lower if field.label }}"
+                    data-fieldtype="{{ field.fieldtype }}"
                     data-required="{{ 'true' if field.reqd else 'false' }}"
-                    data-readonly="{{ 'true' if field.read_only else 'false' }}">
-                    <td class="px-4 py-2"><code class="text-blue-600 font-mono">{{ field.fieldname }}</code></td>
-                    <td class="px-4 py-2">{{ field.label or '-' }}</td>
-                    <td class="px-4 py-2"><span class="bg-gray-100 rounded px-2 py-1">{{ field.fieldtype }}</span></td>
+                    data-readonly="{{ 'true' if field.read_only else 'false' }}"
+                >
                     <td class="px-4 py-2">
-                        {% if field.options %}
-                        {% if field.fieldtype == 'Select' %}
+                        <code class="text-blue-600 font-mono"
+                            >{{ field.fieldname }}</code
+                        >
+                    </td>
+                    <td class="px-4 py-2">{{ field.label or '-' }}</td>
+                    <td class="px-4 py-2">
+                        <span class="bg-gray-100 rounded px-2 py-1"
+                            >{{ field.fieldtype }}</span
+                        >
+                    </td>
+                    <td class="px-4 py-2">
+                        {% if field.options %} {% if field.fieldtype == 'Select'
+                        %}
                         <div class="flex flex-wrap gap-1">
-                            {% for option in field.options.split('\n')[:3] %}
-                            {% if option.strip() %}
-                            <span class="bg-gray-200 text-gray-700 rounded px-2 py-1">{{ option.strip() }}</span>
-                            {% endif %}
-                            {% endfor %}
-                            {% if field.options.split('\n')|length > 3 %}
-                            <span class="text-gray-400">+{{ field.options.split('\n')|length - 3 }} more</span>
+                            {% for option in field.options.split('\n')[:3] %} {%
+                            if option.strip() %}
+                            <span
+                                class="bg-gray-200 text-gray-700 rounded px-2 py-1"
+                                >{{ option.strip() }}</span
+                            >
+                            {% endif %} {% endfor %} {% if
+                            field.options.split('\n')|length > 3 %}
+                            <span class="text-gray-400"
+                                >+{{ field.options.split('\n')|length - 3 }}
+                                more</span
+                            >
                             {% endif %}
                         </div>
-                        {% else %}
-                        {{ field.options }}
-                        {% endif %}
-                        {% else %}
-                        -
+                        {% else %} {{ field.options }} {% endif %} {% else %} -
                         {% endif %}
                     </td>
                     <td class="px-4 py-2">
                         <div class="flex flex-wrap gap-1">
                             {% if field.reqd %}
-                            <span class="bg-red-100 text-red-700 rounded px-2 py-1">Required</span>
-                            {% endif %}
-                            {% if field.read_only %}
-                            <span class="bg-gray-300 text-gray-700 rounded px-2 py-1">Read-only</span>
-                            {% endif %}
-                            {% if field.unique %}
-                            <span class="bg-yellow-100 text-yellow-700 rounded px-2 py-1">Unique</span>
-                            {% endif %}
-                            {% if field.hidden %}
-                            <span class="bg-gray-800 text-white rounded px-2 py-1">Hidden</span>
+                            <span
+                                class="bg-red-100 text-red-700 rounded px-2 py-1"
+                                >Required</span
+                            >
+                            {% endif %} {% if field.read_only %}
+                            <span
+                                class="bg-gray-300 text-gray-700 rounded px-2 py-1"
+                                >Read-only</span
+                            >
+                            {% endif %} {% if field.unique %}
+                            <span
+                                class="bg-yellow-100 text-yellow-700 rounded px-2 py-1"
+                                >Unique</span
+                            >
+                            {% endif %} {% if field.hidden %}
+                            <span
+                                class="bg-gray-800 text-white rounded px-2 py-1"
+                                >Hidden</span
+                            >
                             {% endif %}
                         </div>
                     </td>
-                    <td class="px-4 py-2 text-gray-400">{{ field.default or '-' }}</td>
+                    <td class="px-4 py-2 text-gray-400">
+                        {{ field.default or '-' }}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -212,41 +298,55 @@
 </div>
 
 <!-- Raw Data Modal (Tailwind) -->
-<div id="rawDataModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4">
+<div
+    id="rawDataModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 max-h-5/6 overflow-y-auto"
+>
+    <div
+        class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 h-4/5 overflow-y-auto"
+    >
         <div class="flex justify-between items-center border-b px-6 py-4">
             <h5 class="text-xl font-semibold">Raw DocType Data</h5>
-            <button type="button" class="text-gray-400 hover:text-gray-700 text-2xl font-bold"
-                onclick="closeRawDataModal()">&times;</button>
+            <button
+                type="button"
+                class="text-gray-400 hover:text-gray-700 text-2xl font-bold"
+                onclick="closeRawDataModal()"
+            >
+                &times;
+            </button>
         </div>
         <div class="px-6 py-4">
             <div class="json-viewer">
-                <button class="btn btn-sm btn-outline-primary mb-3" onclick="copyToClipboard('rawJsonData')">
+                <button
+                    class="btn btn-sm btn-outline-primary mb-3"
+                    onclick="copyToClipboard('rawJsonData')"
+                >
                     <i class="fas fa-copy me-1"></i>Copy to Clipboard
                 </button>
-                <div id="clipboardPopup"
-                    class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white px-4 py-2 rounded shadow-lg text-center hidden">
-                    <i class="fas fa-check mr-2"></i>DocType definition copied to clipboard!
+                <div
+                    id="clipboardPopup"
+                    class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white px-4 py-2 rounded shadow-lg text-center hidden"
+                >
+                    <i class="fas fa-check mr-2"></i>DocType definition copied
+                    to clipboard!
                 </div>
                 <pre
-                    class="overflow-x-auto"><code id="rawJsonData" class="language-typescript">{{ doctype_doc | safe }}</code></pre>
+                    class="overflow-x-auto"
+                ><code id="rawJsonData" class="language-typescript">{{ doctype_doc | safe }}</code></pre>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
+{% endblock %} {% block extra_js %}
 <script>
     // Field filtering functionality
-    document.addEventListener('DOMContentLoaded', function () {
-        const fieldSearch = document.getElementById('fieldSearch');
-        const fieldTypeFilter = document.getElementById('fieldTypeFilter');
-        const requiredFilter = document.getElementById('requiredFilter');
-        const readOnlyFilter = document.getElementById('readOnlyFilter');
-        const clearFilters = document.getElementById('clearFieldFilters');
-        const fieldRows = document.querySelectorAll('.field-row');
+    document.addEventListener("DOMContentLoaded", function () {
+        const fieldSearch = document.getElementById("fieldSearch");
+        const fieldTypeFilter = document.getElementById("fieldTypeFilter");
+        const requiredFilter = document.getElementById("requiredFilter");
+        const readOnlyFilter = document.getElementById("readOnlyFilter");
+        const clearFilters = document.getElementById("clearFieldFilters");
+        const fieldRows = document.querySelectorAll(".field-row");
 
         function filterFields() {
             const searchTerm = fieldSearch.value.toLowerCase();
@@ -254,62 +354,68 @@
             const selectedRequired = requiredFilter.value;
             const selectedReadOnly = readOnlyFilter.value;
 
-            fieldRows.forEach(row => {
+            fieldRows.forEach((row) => {
                 const fieldname = row.dataset.fieldname;
                 const label = row.dataset.label;
                 const fieldtype = row.dataset.fieldtype;
-                const required = row.dataset.required === 'true';
-                const readonly = row.dataset.readonly === 'true';
+                const required = row.dataset.required === "true";
+                const readonly = row.dataset.readonly === "true";
 
-                const matchesSearch = fieldname.includes(searchTerm) || label.includes(searchTerm);
+                const matchesSearch =
+                    fieldname.includes(searchTerm) ||
+                    label.includes(searchTerm);
                 const matchesType = !selectedType || fieldtype === selectedType;
-                const matchesRequired = !selectedRequired ||
-                    (selectedRequired === 'required' && required) ||
-                    (selectedRequired === 'optional' && !required);
-                const matchesReadOnly = !selectedReadOnly ||
-                    (selectedReadOnly === 'readonly' && readonly) ||
-                    (selectedReadOnly === 'editable' && !readonly);
+                const matchesRequired =
+                    !selectedRequired ||
+                    (selectedRequired === "required" && required) ||
+                    (selectedRequired === "optional" && !required);
+                const matchesReadOnly =
+                    !selectedReadOnly ||
+                    (selectedReadOnly === "readonly" && readonly) ||
+                    (selectedReadOnly === "editable" && !readonly);
 
-                if (matchesSearch && matchesType && matchesRequired && matchesReadOnly)
-                {
-                    row.style.display = '';
-                } else
-                {
-                    row.style.display = 'none';
+                if (
+                    matchesSearch &&
+                    matchesType &&
+                    matchesRequired &&
+                    matchesReadOnly
+                ) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
                 }
             });
         }
 
         function clearFieldFilters() {
-            fieldSearch.value = '';
-            fieldTypeFilter.value = '';
-            requiredFilter.value = '';
-            readOnlyFilter.value = '';
+            fieldSearch.value = "";
+            fieldTypeFilter.value = "";
+            requiredFilter.value = "";
+            readOnlyFilter.value = "";
             filterFields();
         }
 
-        fieldSearch.addEventListener('input', filterFields);
-        fieldTypeFilter.addEventListener('change', filterFields);
-        requiredFilter.addEventListener('change', filterFields);
-        readOnlyFilter.addEventListener('change', filterFields);
-        clearFilters.addEventListener('click', clearFieldFilters);
+        fieldSearch.addEventListener("input", filterFields);
+        fieldTypeFilter.addEventListener("change", filterFields);
+        requiredFilter.addEventListener("change", filterFields);
+        readOnlyFilter.addEventListener("change", filterFields);
+        clearFilters.addEventListener("click", clearFieldFilters);
     });
 
     // Modal open/close logic (Tailwind)
     function openRawDataModal() {
-        const modal = document.getElementById('rawDataModal');
-        modal.classList.remove('hidden');
-        modal.classList.add('opacity-100');
+        const modal = document.getElementById("rawDataModal");
+        modal.classList.remove("hidden");
+        modal.classList.add("opacity-100");
         // Highlight TypeScript code
-        if (window.Prism)
-        {
+        if (window.Prism) {
             Prism.highlightAll();
         }
     }
     function closeRawDataModal() {
-        const modal = document.getElementById('rawDataModal');
-        modal.classList.add('hidden');
-        modal.classList.remove('opacity-100');
+        const modal = document.getElementById("rawDataModal");
+        modal.classList.add("hidden");
+        modal.classList.remove("opacity-100");
     }
 
     // Copy to clipboard function
@@ -319,10 +425,10 @@
 
         navigator.clipboard.writeText(text).then(function () {
             // Show popup notification
-            const popup = document.getElementById('clipboardPopup');
-            popup.classList.remove('hidden');
+            const popup = document.getElementById("clipboardPopup");
+            popup.classList.remove("hidden");
             setTimeout(() => {
-                popup.classList.add('hidden');
+                popup.classList.add("hidden");
             }, 2000);
         });
     }
