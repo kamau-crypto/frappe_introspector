@@ -16,13 +16,17 @@ from werkzeug.exceptions import RequestEntityTooLarge
 from wtforms import PasswordField, SelectField, StringField, TextAreaField
 from wtforms.validators import URL, DataRequired
 
+ERPNEXT_URL= os.environ.get("ERPNEXT_URL", "http://127.0.0.1:5000")
+ERP_API_KEY= os.environ.get("ERP_API_KEY", None)
+ERP_API_SECRET= os.environ.get("ERP_API_SECRET", None)
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-change-this')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file upload
 
 class ERPNextConnection:
     """Handles connections and API calls to ERPNext instances"""
-    
+
     def __init__(self, base_url: str, api_key: str, api_secret: str):
         self.base_url = base_url.rstrip('/')
         self.headers = {
@@ -30,7 +34,7 @@ class ERPNextConnection:
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-    
+
     def test_connection(self) -> Dict[str, Any]:
         """Test the connection to ERPNext"""
         try:
@@ -45,7 +49,7 @@ class ERPNextConnection:
                 return {'success': False, 'message': f'HTTP {response.status_code}'}
         except Exception as e:
             return {'success': False, 'message': str(e)}
-    
+
     def get_doctype_meta(self, doctype: str) -> Optional[Dict]:
         """Get DocType metadata using the working whitelisted method"""
         try:
@@ -55,7 +59,7 @@ class ERPNextConnection:
                 headers=self.headers,
                 timeout=30
             )
-            
+
             if response.status_code == 200:
                 data = response.json()
                 return data.get('message', {})
@@ -65,7 +69,7 @@ class ERPNextConnection:
         except Exception as e:
             print(f"Exception getting metadata for {doctype}: {e}")
             return None
-    
+
     def get_all_doctypes(self) -> List[Dict]:
         """Get all available DocTypes"""
         try:
@@ -78,7 +82,7 @@ class ERPNextConnection:
                 headers=self.headers,
                 timeout=30
             )
-            
+
             if response.status_code == 200:
                 data = response.json()
                 return data.get('data', [])
@@ -86,7 +90,7 @@ class ERPNextConnection:
         except Exception as e:
             print(f"Exception getting all DocTypes: {e}")
             return []
-    
+
     def get_doctype_definition(self, doctype: str) -> Optional[Dict]:
         """Get the raw DocType definition"""
         try:
@@ -95,11 +99,36 @@ class ERPNextConnection:
                 headers=self.headers,
                 timeout=30
             )
-            
+            custom_fields= requests.get(
+                f'{self.base_url}/api/resource/Custom Field',
+                params={
+                    'filters': f'[["dt","=","{doctype}"]]',
+                    'fields': '["*"]'
+                },
+                headers=self.headers,
+                timeout=30
+            )
+            property_setter= requests.get(
+                f'{self.base_url}/api/resource/Property Setter?filters=[["doctype","=","{doctype}"]]',
+                headers=self.headers,
+                timeout=30
+            )
+            # all= self.conn.get_doctype_meta(doctype)
+
+            print(f"Custom Fields for doctype {doctype} is {(custom_fields.json())}")
+            # print(f"Property Setters is {(property_setter.json())}")
+
             if response.status_code == 200:
                 data = response.json()
+                # Add the customized fields to the app
+                customization = custom_fields.json().get('data', {}) if custom_fields.json() else []
+                properties = property_setter.json().get('data', {}) if property_setter.json() else []
+                data_tables=  data.get('data',{})
+                # Return all the data fields, including the customizations and others
+                all ={**data_tables, **customization, **properties}
+
                 # print (f"DocType definition for {doctype}: {data}")
-                return data.get('data', {})
+                return all
             return None
         except Exception as e:
             print(f"Exception getting DocType definition for {doctype}: {e}")
@@ -172,27 +201,27 @@ class OpenAPIGenerator:
                 schema['required'].append(fieldname)
         return schema
     """Generates OpenAPI specifications from ERPNext DocTypes"""
-    
+
     def __init__(self, erpnext_conn: ERPNextConnection):
         self.conn = erpnext_conn
-    
+
     def map_frappe_field_to_openapi(self, field: Dict) -> Dict:
         """Map Frappe field types to OpenAPI schema properties"""
         property_def = {
             'description': field.get('label', field.get('fieldname', ''))
         }
-        
+
         # Add read-only flag
         if field.get('read_only'):
             property_def['readOnly'] = True
-        
+
         # Add default value
         if field.get('default'):
             property_def['default'] = field['default']
-        
+
         # Map field types
         fieldtype = field.get('fieldtype', 'Data')
-        
+
         field_type_mapping = {
             'Data': {'type': 'string'},
             'Small Text': {'type': 'string'},
@@ -221,30 +250,30 @@ class OpenAPIGenerator:
             'Barcode': {'type': 'string'},
             'Geolocation': {'type': 'string'}
         }
-        
+
         property_def.update(field_type_mapping.get(fieldtype, {'type': 'string'}))
-        
+
         # Handle Select options
         if fieldtype == 'Select' and field.get('options'):
             options = [opt.strip() for opt in field['options'].split('\n') if opt.strip()]
             if options:
                 property_def['enum'] = options
-        
+
         # Handle Link field description
         if fieldtype == 'Link' and field.get('options'):
             property_def['description'] += f" (Links to {field['options']})"
-        
+
         return property_def
-    
+
     def generate_doctype_schema(self, doctype: str, metadata: Dict) -> Dict:
         """Generate OpenAPI schema for a DocType"""
         docs = metadata.get('docs', [])
         if not docs:
             return {}
-        
+
         doctype_doc = docs[0]  # Main DocType document
         fields = doctype_doc.get('fields', [])
-        
+
         schema = {
             'type': 'object',
             'properties': {
@@ -259,22 +288,22 @@ class OpenAPIGenerator:
             },
             'required': []
         }
-        
+
         # Process fields
         for field in fields:
             if not field.get('fieldname') or field.get('fieldtype') in ['Section Break', 'Column Break', 'HTML']:
                 continue
-            
+
             fieldname = field['fieldname']
             property_def = self.map_frappe_field_to_openapi(field)
             schema['properties'][fieldname] = property_def
-            
+
             # Add to required fields if mandatory
             if field.get('reqd'):
                 schema['required'].append(fieldname)
-        
+
         return schema
-    
+
     def generate_openapi_spec(self, doctypes: List[str], info: Dict = {}) -> Dict:
         """Generate complete OpenAPI specification"""
         spec = {
@@ -301,7 +330,7 @@ class OpenAPIGenerator:
             'security': [{'ApiKeyAuth': []}],
             'paths': {}
         }
-        
+
         for doctype in doctypes:
             print(f"Processing DocType: {doctype}")
             metadata = self.conn.get_doctype_meta(doctype)
@@ -310,14 +339,14 @@ class OpenAPIGenerator:
                 if schema:
                     spec['components']['schemas'][doctype] = schema
                     self._add_crud_paths(spec, doctype)
-        
+
         return spec
-    
+
     def _add_crud_paths(self, spec: Dict, doctype: str):
         """Add CRUD paths for a DocType to the OpenAPI spec"""
         collection_path = f'/api/resource/{doctype}'
         item_path = f'/api/resource/{doctype}/{{name}}'
-        
+
         # Collection endpoints (GET, POST)
         spec['paths'][collection_path] = {
             'get': {
@@ -376,7 +405,7 @@ class OpenAPIGenerator:
                 }
             }
         }
-        
+
         # Item endpoints (GET, PUT, DELETE)
         spec['paths'][item_path] = {
             'get': {
@@ -437,19 +466,21 @@ class OpenAPIGenerator:
 
 # Flask Forms
 class ConnectionForm(FlaskForm):
-    base_url = StringField('ERPNext URL', validators=[DataRequired(), URL()], 
-                          render_kw={"placeholder": "https://your-site.erpnext.com"})
+    # Read the environment Variables for the variables
+
+    base_url = StringField('ERPNext URL', validators=[DataRequired(), URL()],
+                            render_kw={"placeholder": "https://your-site.erpnext.com"},)
     api_key = StringField('API Key', validators=[DataRequired()],
-                         render_kw={"placeholder": "Your API Key"})
+                            render_kw={"placeholder": "Your API Key"})
     api_secret = PasswordField('API Secret', validators=[DataRequired()],
-                              render_kw={"placeholder": "Your API Secret"})
+        render_kw={"placeholder": "Your API Secret"})
 
 class OpenAPIGenerateForm(FlaskForm):
     doctypes = StringField('DocTypes (comma-separated)', validators=[DataRequired()],
                           render_kw={"placeholder": "Lead,Customer,Item,Sales Order"})
     title = StringField('API Title', default='ERPNext API Documentation')
     version = StringField('API Version', default='1.0.0')
-    description = TextAreaField('API Description', 
+    description = TextAreaField('API Description',
                                default='Auto-generated OpenAPI specification for ERPNext')
 
 # Global connection object
@@ -464,18 +495,21 @@ def index():
 def connect():
     """Connection setup page"""
     form = ConnectionForm()
-    
+    # Load the environment variables
+    form.base_url.data= ERPNEXT_URL
+    form.api_key.data = ERP_API_KEY
+
     if form.validate_on_submit():
         global current_connection
-        
+
         try:
             # Test connection
             conn = ERPNextConnection(
-                (form.base_url.data or '').strip(),
-                (form.api_key.data or '').strip(),
-                (form.api_secret.data or '').strip()
+               (form.base_url.data or '').strip(),
+               (form.api_key.data or '').strip(),
+               (form.api_secret.data or '').strip()
             )
-            
+
             result = conn.test_connection()
             if result['success']:
                 current_connection = conn
@@ -483,10 +517,10 @@ def connect():
                 return redirect(url_for('doctypes'))
             else:
                 flash(f'Connection failed: {result["message"]}', 'error')
-        
+
         except Exception as e:
             flash(f'Connection error: {str(e)}', 'error')
-    
+
     return render_template('connect.html', form=form)
 
 @app.route('/doctypes')
@@ -495,7 +529,7 @@ def doctypes():
     if not current_connection:
         flash('Please connect to ERPNext first', 'warning')
         return redirect(url_for('connect'))
-    
+
     doctypes_list = current_connection.get_all_doctypes()
     return render_template('doctypes.html', doctypes=doctypes_list)
 
@@ -505,12 +539,12 @@ def doctype_detail(doctype_name):
     if not current_connection:
         flash('Please connect to ERPNext first', 'warning')
         return redirect(url_for('connect'))
-    
+
     metadata = current_connection.get_doctype_definition(doctype_name)
     if not metadata:
         flash(f'Could not load DocType: {doctype_name}', 'error')
         return redirect(url_for('doctypes'))
-    
+
     # Extract useful information
     fields = metadata.get('fields', [])
     actual_fields = [f for f in fields if f.get('fieldname') and f.get('fieldtype') not in ['Section Break', 'Column Break', 'HTML']]
@@ -532,7 +566,7 @@ def doctype_detail(doctype_name):
     typescript_json_schema = generator.frappe_fields_to_typescript_json_schema(actual_fields)
     ts_code= generator.json_schema_to_typescript_interface(typescript_json_schema, interface_name=doctype_name + "Schema")
 
-    return render_template('doctype_detail.html', 
+    return render_template('doctype_detail.html',
                          doctype_name=doctype_name,
                          doctype_doc=ts_code,
                          fields=actual_fields,
@@ -544,32 +578,32 @@ def generate_openapi():
     if not current_connection:
         flash('Please connect to ERPNext first', 'warning')
         return redirect(url_for('connect'))
-    
+
     form = OpenAPIGenerateForm()
-    
+
     if form.validate_on_submit():
         try:
             doctypes_raw = form.doctypes.data or ''
             doctypes = [dt.strip() for dt in doctypes_raw.split(',') if dt.strip()]
-            
+
             generator = OpenAPIGenerator(current_connection)
             spec = generator.generate_openapi_spec(doctypes, {
                 'title': form.title.data,
                 'version': form.version.data,
                 'description': form.description.data
             })
-            
+
             # Save spec to file for Swagger UI
             os.makedirs('static/swagger', exist_ok=True)
             with open('static/swagger/openapi.json', 'w') as f:
                 json.dump(spec, f, indent=2)
-            
+
             flash(f'OpenAPI specification generated for {len(doctypes)} DocTypes!', 'success')
             return redirect(url_for('swagger_ui'))
-        
+
         except Exception as e:
             flash(f'Error generating OpenAPI spec: {str(e)}', 'error')
-    
+
     return render_template('generate_openapi.html', form=form)
 
 @app.route('/swagger-ui')
@@ -582,7 +616,7 @@ def api_doctype_metadata(doctype_name):
     """API endpoint to get DocType metadata as JSON"""
     if not current_connection:
         return jsonify({'error': 'No connection established'}), 400
-    
+
     metadata = current_connection.get_doctype_meta(doctype_name)
     if metadata:
         return jsonify(metadata)
@@ -605,7 +639,7 @@ def api_doctype_fields(doctype_name):
 
 @app.route('/static/swagger/<path:filename>')
 def swagger_static(filename):
-    """Serve swagger static files"""
+    """Serve swagger static files from swagger"""
     return send_from_directory('static/swagger', filename)
 
 @app.errorhandler(404)
@@ -617,41 +651,42 @@ def internal_error(error):
     return render_template('500.html'), 500
 
 if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
     # Use watchdog to auto-reload Flask app on file changes
-    try:
-        import threading
-        import time
+    # try:
+    #     import threading
+    #     import time
 
-        from watchdog.events import FileSystemEventHandler
-        from watchdog.observers import Observer
+    #     from watchdog.events import FileSystemEventHandler
+    #     from watchdog.observers import Observer
 
-        class ReloadHandler(FileSystemEventHandler):
-            def __init__(self, restart_func):
-                self.restart_func = restart_func
-            def on_modified(self, event):
-                # Only restart on file modification events for .py files
-                if event.is_directory:
-                    # made some change
-                    return
-                if str(event.src_path).endswith('.py'):
-                    print(f"Detected change in {event.src_path}, restarting Flask app...")
-                    self.restart_func()
+    #     class ReloadHandler(FileSystemEventHandler):
+    #         def __init__(self, restart_func):
+    #             self.restart_func = restart_func
+    #         def on_modified(self, event):
+    #             # Only restart on file modification events for .py files
+    #             if event.is_directory:
+    #                 # made some change
+    #                 return
+    #             if str(event.src_path).endswith('.py'):
+    #                 print(f"Detected change in {event.src_path}, restarting Flask app...")
+    #                 self.restart_func()
 
-        def run_flask():
-            app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False)
+    #     def run_flask():
+    #         app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False, use_debugger=True)
 
-        def restart_flask():
-            os._exit(3)  # Triggers restart if run with 'flask run' or similar
+    #     def restart_flask():
+    #         os._exit(3)  # Triggers restart if run with 'flask run' or similar
 
-        event_handler = ReloadHandler(restart_flask)
-        observer = Observer()
-        observer.schedule(event_handler, path=os.path.abspath('.'), recursive=True)
-        observer.start()
-        try:
-            run_flask()
-        finally:
-            observer.stop()
-            observer.join()
-    except ImportError:
-        print("watchdog not installed. Run 'pip install watchdog' for auto-reload support.")
-        app.run(debug=True, host='0.0.0.0', port=5000)
+    #     event_handler = ReloadHandler(restart_flask)
+    #     observer = Observer()
+    #     observer.schedule(event_handler, path=os.path.abspath('.'), recursive=True)
+    #     observer.start()
+    #     try:
+    #         run_flask()
+    #     finally:
+    #         observer.stop()
+    #         observer.join()
+    # except ImportError:
+    #     print("watchdog not installed. Run 'pip install watchdog' for auto-reload support.")
+    #     app.run(debug=True, host='0.0.0.0', port=5000)
