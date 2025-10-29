@@ -583,6 +583,7 @@ Gmail API limits:
   - Google Workspace: 2000/day (or custom limit)
 
 To avoid hitting limits:
+
 ```python
 # Add rate limiting in site_config.json
 {
@@ -597,6 +598,7 @@ To avoid hitting limits:
 ### Step-by-Step Migration
 
 1. **Test in Dev/Staging First**
+
    ```bash
    # Clone production to staging
    bench --site staging.example.com restore /path/to/production/backup
@@ -612,6 +614,7 @@ To avoid hitting limits:
    - Test attachments
 
 4. **Deploy to Production**
+
    ```bash
    # Update production site_config.json
    bench --site production.example.com clear-cache
@@ -642,41 +645,33 @@ Emails will immediately go back to SMTP.
 
 ---
 
-## FAQ
+## **FAQ**
 
 **Q: Can I use this with multiple sending domains?**
+
 A: Yes, configure separate service accounts with domain-wide delegation for each domain, or use `gmail_delegated_email` to specify the sender.
 
 **Q: What about email tracking (open rates, click rates)?**
+
 A: Gmail API doesn't provide built-in tracking. You'd need to:
 - Add tracking pixels to HTML emails
 - Use URL shorteners with tracking
 - Integrate third-party email tracking service
 
 **Q: Can I still use Email Account doctype?**
+
 A: Yes, Email Account records can remain for documentation/reference. They're just not used for sending when Gmail API is enabled.
 
 **Q: Does this work with ERPNext's Newsletter feature?**
+
 A: Yes! Newsletter uses the Email Queue system, so it automatically uses Gmail API.
 
 **Q: What about email replies?**
+
 A: This solution only handles *sending*. For receiving emails, you still need to configure Email Account with IMAP/POP3.
 
 **Q: Can I send from multiple email addresses?**
+
 A: Yes, if using domain-wide delegation. Set `gmail_delegated_email` dynamically or create multiple service accounts.
 
 ---
-
-## Summary
-
-You now have:
-
-✅ Gmail API integrated with ERPNext
-✅ All URLs fixed to use proper domain
-✅ Email Queue working normally
-✅ Attachments supported
-✅ User signup/reset with correct links
-✅ Easy configuration and rollback
-✅ Production-ready security
-
-Everything works through ERPNext's standard interface - users won't notice any difference except more reliable email delivery!
