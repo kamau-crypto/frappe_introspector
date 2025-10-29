@@ -36,7 +36,8 @@ touch overrides/__init__.py
 ```
 
 Your structure should be:
-```
+
+```bash
 apps/custom_app/custom_app/
 ├── __init__.py
 ├── hooks.py
@@ -75,6 +76,7 @@ nano /home/frappe/frappe-bench/sites/your-site/site_config.json
 ```
 
 Add:
+
 ```json
 {
   "db_name": "your_db",
@@ -232,6 +234,7 @@ curl -X POST https://yourdomain.com/api/method/custom_app.custom_app.overrides.u
 ### Issue 1: URLs Still Show localhost or Wrong Domain
 
 **Check:**
+
 ```bash
 bench --site your-site console
 ```
@@ -250,12 +253,14 @@ print("Config:", frappe.get_site_config().get('host_name'))
 ### Issue 2: Attachment Links Don't Work
 
 **Check file permissions:**
+
 ```bash
 ls -la /home/frappe/frappe-bench/sites/your-site/public/files
 ls -la /home/frappe/frappe-bench/sites/your-site/private/files
 ```
 
 **Fix:**
+
 ```bash
 cd /home/frappe/frappe-bench
 sudo chown -R frappe:frappe sites/your-site/public/files
