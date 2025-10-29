@@ -1,9 +1,8 @@
 
 import json
 import os
-from datetime import datetime
 from typing import Any, Dict, List, Optional
-from urllib.parse import quote
+
 
 from dotenv import load_dotenv
 
@@ -12,6 +11,8 @@ import requests
 from flask import (Flask, flash, jsonify, redirect, render_template, request,
                    send_from_directory, url_for)
 from flask_wtf import FlaskForm
+
+from flask_misaka import Misaka
 from werkzeug.exceptions import RequestEntityTooLarge
 from wtforms import PasswordField, SelectField, StringField, TextAreaField
 from wtforms.validators import URL, DataRequired
@@ -20,9 +21,15 @@ ERPNEXT_URL= os.environ.get("ERPNEXT_URL", "http://127.0.0.1:5000")
 ERP_API_KEY= os.environ.get("ERP_API_KEY", None)
 ERP_API_SECRET= os.environ.get("ERP_API_SECRET", None)
 
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-change-this')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file upload
+
+Misaka(app, fenced_code=True, tables=True, autolink=True, highlight=True, math=True, strikethrough=True)
+DOCS_FOLDER= os.path.join(app.root_path, 'documentation', 'docs')
+
 
 class ERPNextConnection:
     """Handles connections and API calls to ERPNext instances"""
@@ -108,27 +115,34 @@ class ERPNextConnection:
                 headers=self.headers,
                 timeout=30
             )
-            property_setter= requests.get(
-                f'{self.base_url}/api/resource/Property Setter?filters=[["doctype","=","{doctype}"]]',
-                headers=self.headers,
-                timeout=30
-            )
+            # property_setter= requests.get(
+            #     f'{self.base_url}/api/resource/Property Setter?filters=[["doctype","=","{doctype}"]]',
+            #     headers=self.headers,
+            #     timeout=30
+            # )
             # all= self.conn.get_doctype_meta(doctype)
 
-            print(f"Custom Fields for doctype {doctype} is {(custom_fields.json())}")
-            # print(f"Property Setters is {(property_setter.json())}")
-
-            if response.status_code == 200:
+            if response.status_code == 200 or custom_fields.status_code == 200 :
+                # Convert the response to a JSON
                 data = response.json()
-                # Add the customized fields to the app
-                customization = custom_fields.json().get('data', {}) if custom_fields.json() else []
-                properties = property_setter.json().get('data', {}) if property_setter.json() else []
-                data_tables=  data.get('data',{})
-                # Return all the data fields, including the customizations and others
-                all ={**data_tables, **customization, **properties}
+                # Add the customized fields of the app to the data folder
+                data_tables = data.get('data')
+                print(f"{type(data).__name__}")
+                print(f"{type(data_tables).__name__}")
+                print(f"Data Tables are , {data_tables}")
+                # Customizations to append to the list of files
+                customization = custom_fields.json().get('data',)
+                # properties = property_setter.json().get('data')
+                # Append the customizations to the application
+                for custom in customization:
+                    data_tables = {**data_tables, **custom}
+                # Append the property setters
+                # for property in properties:
+                #     data_tables= {**data_tables,property}
+                print(f"All Fields for doctype {doctype} are  {data_tables}")
 
                 # print (f"DocType definition for {doctype}: {data}")
-                return all
+                return data_tables
             return None
         except Exception as e:
             print(f"Exception getting DocType definition for {doctype}: {e}")
@@ -523,6 +537,11 @@ def connect():
 
     return render_template('connect.html', form=form)
 
+@app.context_processor
+def inject_pygments_css():
+    from pygments.formatters import HtmlFormatter
+    return {'pygments_css': HtmlFormatter(style='monokai').get_style_defs('.codehilite')}
+
 @app.route('/doctypes')
 def doctypes():
     """DocTypes listing page"""
@@ -611,6 +630,71 @@ def swagger_ui():
     """Swagger UI page"""
     return render_template('swagger_ui.html')
 
+@app.route('/docs')
+def docs():
+    """
+        This route scans the documentation folder and lists all .md files.
+        It walks through subdirectories to find all markdown files.
+    """
+    markdown_files = []
+
+    for root, dirs, files in os.walk(DOCS_FOLDER):
+        for file in files:
+            if file.endswith('.md'):
+                full_path = os.path.join(root, file)
+                relative_path = os.path.relpath(full_path, DOCS_FOLDER)
+                url_path = relative_path[:-3] if relative_path.endswith('.md') else relative_path
+
+                markdown_files.append({
+                    'filename': file,
+                    'path': relative_path,
+                    'url': url_path,
+                    'folder': os.path.dirname(relative_path) if os.path.dirname(relative_path) else 'Root'
+                })
+
+    markdown_files.sort(key=lambda x: (x['folder'], x['filename']))
+
+    return render_template('doc_list.html', files=markdown_files)
+
+@app.route('/docs/<path:filename>')
+def doc_content(filename):
+    print(f"Filename received: {filename}",flush=True)
+    # Add .md extension if not present
+    if not filename.endswith('.md'):
+        filename += '.md'
+
+    filepath = os.path.join(DOCS_FOLDER, filename)
+
+    # Security check: prevent directory traversal
+    abs_filepath = os.path.abspath(filepath)
+    abs_docs_folder = os.path.abspath(DOCS_FOLDER)
+
+
+    if not abs_filepath.startswith(abs_docs_folder):
+        flash(f"Security violation: The file could not be found {filename}", "error")
+        return redirect(url_for('docs_list'))  # Redirect instead of continuing
+
+    if not os.path.exists(filepath):
+        flash(f"File not found: {filename}", "error")
+        return redirect(url_for('docs_list'))  # Redirect instead of continuing
+
+    # Read the file
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+    except Exception as e:
+        flash(f"Error reading file: {str(e)}", "error")
+        return redirect(url_for('docs_list'))
+
+    title = os.path.basename(filename)[:-3].replace('-', ' ').replace('_', ' ').title()
+    print(f"Rendering with title: {title}")
+
+    return render_template('doc_viewer.html', content=content, title=title, filename=filename)
+
+
+
+
 @app.route('/api/doctype/<doctype_name>/metadata')
 def api_doctype_metadata(doctype_name):
     """API endpoint to get DocType metadata as JSON"""
@@ -651,42 +735,4 @@ def internal_error(error):
     return render_template('500.html'), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
-    # Use watchdog to auto-reload Flask app on file changes
-    # try:
-    #     import threading
-    #     import time
-
-    #     from watchdog.events import FileSystemEventHandler
-    #     from watchdog.observers import Observer
-
-    #     class ReloadHandler(FileSystemEventHandler):
-    #         def __init__(self, restart_func):
-    #             self.restart_func = restart_func
-    #         def on_modified(self, event):
-    #             # Only restart on file modification events for .py files
-    #             if event.is_directory:
-    #                 # made some change
-    #                 return
-    #             if str(event.src_path).endswith('.py'):
-    #                 print(f"Detected change in {event.src_path}, restarting Flask app...")
-    #                 self.restart_func()
-
-    #     def run_flask():
-    #         app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False, use_debugger=True)
-
-    #     def restart_flask():
-    #         os._exit(3)  # Triggers restart if run with 'flask run' or similar
-
-    #     event_handler = ReloadHandler(restart_flask)
-    #     observer = Observer()
-    #     observer.schedule(event_handler, path=os.path.abspath('.'), recursive=True)
-    #     observer.start()
-    #     try:
-    #         run_flask()
-    #     finally:
-    #         observer.stop()
-    #         observer.join()
-    # except ImportError:
-    #     print("watchdog not installed. Run 'pip install watchdog' for auto-reload support.")
-    #     app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run()
