@@ -158,10 +158,14 @@ bench --site your-site clear-cache
 ## Testing Your Setup
 
 ### Test 1: Basic Email Send
+- Access your bench console using the command
 
 ```bash
+
 bench --site your-site console
+
 ```
+- Add the following code to test the mailer functionality.
 
 ```python
 import frappe
