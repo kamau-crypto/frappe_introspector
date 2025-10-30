@@ -27,14 +27,14 @@
 document.querySelectorAll('pre').forEach(pre => {
     // Create button
     const btn = document.createElement('button');
-    btn.textContent = 'Copy';
+    btn.innerHTML = '<i class="fa fa-clipboard" aria-hidden="true"></i>';
     btn.className = 'copy-btn';
 
     // Add click handler
     btn.onclick = async () => {
         await navigator.clipboard.writeText(pre.textContent);
         btn.textContent = '✓ Copied To clipboard';
-        setTimeout(() => btn.textContent = '📋 Copy', 2000);
+        setTimeout(() => btn.innerHTML = '<i class="fa fa-clipboard" aria-hidden="true"></i>', 2000);
     };
 
     // Wrap pre in div and add button
