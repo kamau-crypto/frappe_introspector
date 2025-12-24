@@ -1,0 +1,56 @@
+{%extends "base.html" %} {% block title %} Decode Hash {% endblock %} {% block
+content%}
+
+<div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+    <div>
+        <h2 class="text-2xl font-bold flex items-center gap-2">
+            <i class="fas fa-hash-tag text-blue-600" aria-hidden="true"></i>
+            Decode MPESA Hash
+        </h2>
+    </div>
+</div>
+
+<div class="bg-white rounded shadow mb-8">
+    <div class="px-6 py-4 flex flex-col gap-8">
+        <input
+            type="text"
+            id="searchDocTypes"
+            class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Paste Mpesa Hash Here"
+        />
+        <pre class="output h-[400px] px-10 border border-gray-3000"></pre>
+    </div>
+</div>
+
+<script>
+    document.querySelector("output")= ()=>{
+      //Create the copy button
+      const btn = document.createElement('button');
+      btn.innerHTML = '<i class="fa fa-clipboard" aria-hidden="true"></i>';
+      btn.className = 'copy-btn';
+
+      btn.onclick = async () => {
+          await navigator.clipboard.writeText(pre.textContent);
+          btn.textContent = '✓ Copied To clipboard';
+          setTimeout(() => btn.innerHTML = '<i class="fa fa-clipboard" aria-hidden="true"></i>', 2000);
+      };
+    }
+</script>
+
+<style>
+    .copy-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 4px 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    .copy-btn:hover {
+        background: white;
+    }
+</style>
+
+{% endblock %}

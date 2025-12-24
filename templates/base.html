@@ -58,7 +58,7 @@
 
     <body>
         <!-- Navigation -->
-        <nav class="bg-blue-700 text-white">
+        <nav class="bg-blue-700 text-white fixed top-0 w-full">
             <div
                 class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between"
             >
@@ -90,6 +90,12 @@
                     </a>
                     <a
                         class="hover:text-blue-200 transition flex items-center gap-1"
+                        href="{{ url_for('decode_mpesa_hash') }}"
+                    >
+                        <i class="fas fa-hashtag"></i> Decode
+                    </a>
+                    <a
+                        class="hover:text-blue-200 transition flex items-center gap-1"
                         href="{{ url_for('generate_openapi') }}"
                     >
                         <i class="fas fa-code"></i> Generate API
@@ -111,7 +117,7 @@
         </nav>
 
         <!-- Flash Messages -->
-        <div class="max-w-7xl mx-auto px-4 mt-3">
+        <div class="max-w-7xl mx-auto px-4 mt-3 w-full" id="flash_err">
             {% with messages = get_flashed_messages(with_categories=true) %} {%
             if messages %} {% for category, message in messages %}
             <div
@@ -154,6 +160,12 @@
 
         <script>
             hljs.highlightAll();
+            const nav = document.getElementsByTagName("nav");
+            const flash_section = document.getElementById("flash_err");
+            const main_section = document.getElementsByTagName("main");
+            const navHeight = nav[0].offsetHeight;
+            flash_section.classList.add(`mt-[${navHeight}px]`);
+            main_section[0].classList.add(`mt-[${navHeight + 10}px]`);
         </script>
         {% block extra_js %}{% endblock %}
     </body>

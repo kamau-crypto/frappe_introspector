@@ -1,9 +1,10 @@
 import json
 import os
-from typing import Any, List, Dict, Optional
-
+from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
+
+from hash import decode, populate_range, setup_db
 
 load_dotenv()
 import requests
@@ -16,9 +17,8 @@ from flask import (
     send_from_directory,
     url_for,
 )
-from flask_wtf import FlaskForm
-
 from flask_misaka import Misaka
+from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, TextAreaField
 from wtforms.validators import URL, DataRequired
 
@@ -556,6 +556,14 @@ class ConnectionForm(FlaskForm):
     )
 
 
+class HashForm(FlaskForm):
+    hash = StringField(
+        "Hash",
+        validators=[DataRequired(), URL()],
+        render_kw={"placeholder": "MSISDN Code"},
+    )
+
+
 class OpenAPIGenerateForm(FlaskForm):
     doctypes = StringField(
         "DocTypes (comma-separated)",
@@ -752,6 +760,7 @@ def docs():
                 markdown_files.append(
                     {
                         "filename": file,
+                        "label": file.replace("_", " ").capitalize(),
                         "path": relative_path,
                         "url": url_path,
                         "folder": os.path.dirname(relative_path)
@@ -767,7 +776,6 @@ def docs():
 
 @app.route("/docs/<path:filename>")
 def doc_content(filename):
-    print(f"Filename received: {filename}", flush=True)
     # Add .md extension if not present
     if not filename.endswith(".md"):
         filename += ".md"
@@ -796,7 +804,6 @@ def doc_content(filename):
         return redirect(url_for("docs_list"))
 
     title = os.path.basename(filename)[:-3].replace("-", " ").replace("_", " ").title()
-    print(f"Rendering with title: {title}")
 
     return render_template(
         "doc_viewer.html", content=content, title=title, filename=filename
@@ -804,7 +811,7 @@ def doc_content(filename):
 
 
 @app.route("/api/doctype/<doctype_name>/metadata")
-def api_doctype_metadata(doctype_name):
+def api_doctype_metadata(doctype_name: str):
     """API endpoint to get DocType metadata as JSON"""
     if not current_connection:
         return jsonify({"error": "No connection established"}), 400
@@ -850,6 +857,26 @@ def not_found(error):
 @app.errorhandler(500)
 def internal_error(error):
     return render_template("500.html"), 500
+
+
+@app.route("/hash")
+def decode_mpesa_hash():
+    hashform = HashForm()
+
+    # Example: Populate Safaricom 0722 range
+    if hashform.validate_on_submit():
+        try:
+            hashtext = hashform.hash.data
+            print(f"hashText, {hashtext}")
+            if not hashtext:
+                flash("Hash Code not found", "error")
+
+            decode(hashtext)
+        except Exception as e:
+            flash(f"Could not find Error: {str(e)}", "error")
+
+    # Get the code from the input
+    return render_template("hash.html"), 500
 
 
 if __name__ == "__main__":
