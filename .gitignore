@@ -9,6 +9,9 @@ __pycache__/
 .pytest_cache/
 .coverage
 
+# Javascript
+*.js
+
 # Editors / IDEs
 .idea/
 .vscode/
