@@ -1,8 +1,16 @@
-# ERPNext Introspector
+# ERPNext Unravel
+
+## Problem Statement.
+- Working with ERPNext, even for some experienced developers is a heavy task since it does not provide an API-Spec endpoint, from which fields to populate can be defined. As a result, developers have to spend time navigating through the documentation, understanding the modules, and should they want to integrate simpler front-ends, run into the problem of having to manually read through each docType's properties to know which field to populate. After that, compile a JSONified req (POST, GET, e.t.c) from which they can send to the req for testing and beyond. 
+- Errors are bound to happen, missed fields which cannot be fully explained, unmet mandatory fields e.tc., all at the development level. Eventually they lead to bottlenecks and fatigue.
+  - Defining the types is also a challenge since they field's metaproperties are not easily visible. In comes the *ERPNext unravel*, a small tool to help with *ERPNext development* by exploring some of the `DocType's properties` to improve the `developer experience` and `productivity`.
 
 ## Introduction
 
-- A tool for introspecting/ viewing erpnext apis
+- A tool for `unravelling`/ viewing erpnext doctype's and their properties for purposes including:
+  1. API development from typescript servers using prebuilt type definitions.
+  2. DocType extrapolation/inspection for easier understanding on how ERPNext ties its properties and field Metadata together.
+  3. Easier development from reading the docType details preventing underfetching and overfetching of the fields.
 
 ## Getting started
 
