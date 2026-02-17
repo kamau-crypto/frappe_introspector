@@ -1,172 +1,187 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{% block title %}ERPNext DocType Inspector{% endblock %}</title>
-        <link
-            rel="shortcut icon"
-            href="{{ url_for('static', filename='favicon.ico') }}"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"
-            rel="stylesheet"
-        />
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-            rel="stylesheet"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"
-        />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script>
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        fontFamily: {
-                            sans: ["Nunito", "system-ui", "sans-serif"],
-                        },
-                        colors: {
-                            primary: {
-                                50: "#eff6ff",
-                                100: "#dbeafe",
-                                200: "#bfdbfe",
-                                300: "#93c5fd",
-                                400: "#60a5fa",
-                                500: "#3b82f6",
-                                600: "#2563eb",
-                                700: "#1d4ed8",
-                                800: "#1e40af",
-                                900: "#1e3a8a",
-                            },
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}ERPNext DocType Inspector{% endblock %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["Nunito", "system-ui", "sans-serif"],
+                    },
+                    colors: {
+                        primary: {
+                            50: "#eff6ff",
+                            100: "#dbeafe",
+                            200: "#bfdbfe",
+                            300: "#93c5fd",
+                            400: "#60a5fa",
+                            500: "#3b82f6",
+                            600: "#2563eb",
+                            700: "#1d4ed8",
+                            800: "#1e40af",
+                            900: "#1e3a8a",
                         },
                     },
                 },
-            };
-        </script>
-        <style>
-            body {
-                font-family: "Nunito", sans-serif;
-            }
-        </style>
-        {% block extra_css %}{% endblock %}
-    </head>
+            },
+        };
+    </script>
+    <style>
+        body {
+            font-family: "Nunito", sans-serif;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
 
-    <body>
-        <!-- Navigation -->
-        <nav class="bg-blue-700 text-white fixed top-0 w-full">
-            <div
-                class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between"
-            >
-                <a
-                    class="font-bold text-lg flex items-center gap-2"
-                    href="{{ url_for('index') }}"
-                >
-                    <i class="fas fa-database"></i>
-                    ERPNext DocType Inspector
+<body>
+    <!-- Navigation -->
+    <nav class="bg-blue-700 text-white fixed top-0 w-full">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a class="font-bold text-lg flex items-center gap-2" href="{{ url_for('index') }}">
+                <i class="fas fa-database"></i>
+                ERPNext DocType Inspector
+            </a>
+            <div class="flex gap-8 p-2">
+                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('index') }}">
+                    <i class="fas fa-home"></i> Home
                 </a>
-                <div class="flex gap-8 p-2">
-                    <a
-                        class="hover:text-blue-200 transition flex items-center gap-1"
-                        href="{{ url_for('index') }}"
-                    >
-                        <i class="fas fa-home"></i> Home
-                    </a>
-                    <a
-                        class="hover:text-blue-200 transition flex items-center gap-1"
-                        href="{{ url_for('connect') }}"
-                    >
-                        <i class="fas fa-plug"></i> Connect
-                    </a>
-                    <a
-                        class="hover:text-blue-200 transition flex items-center gap-1"
-                        href="{{ url_for('doctypes') }}"
-                    >
-                        <i class="fas fa-list"></i> DocTypes
-                    </a>
-                    <a
-                        class="hover:text-blue-200 transition flex items-center gap-1"
-                        href="{{ url_for('decode_mpesa_hash') }}"
-                    >
-                        <i class="fas fa-hashtag"></i> Decode
-                    </a>
-                    <a
-                        class="hover:text-blue-200 transition flex items-center gap-1"
-                        href="{{ url_for('generate_openapi') }}"
-                    >
-                        <i class="fas fa-code"></i> Generate API
-                    </a>
-                    <a
-                        class="hover:text-blue-200 transition flex items-center gap-1"
-                        href="{{ url_for('swagger_ui') }}"
-                    >
-                        <i class="fas fa-book"></i> Swagger UI
-                    </a>
-                    <a
-                        class="hover:text-blue-200 transition flex items-center gap-1"
-                        href="{{ url_for('docs') }}"
-                    >
-                        <i class="fas fa-file-text"></i> Documentation
-                    </a>
-                </div>
+                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('connect') }}">
+                    <i class="fas fa-plug"></i> Connect
+                </a>
+                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('doctypes') }}">
+                    <i class="fas fa-list"></i> DocTypes
+                </a>
+                <a class="hover:text-blue-200 transition flex items-center gap-1"
+                    href="{{ url_for('decode_mpesa_hash') }}">
+                    <i class="fas fa-hashtag"></i> Decode
+                </a>
+                <a class="hover:text-blue-200 transition flex items-center gap-1"
+                    href="{{ url_for('generate_openapi') }}">
+                    <i class="fas fa-code"></i> Generate API
+                </a>
+                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('swagger_ui') }}">
+                    <i class="fas fa-book"></i> Swagger UI
+                </a>
+                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('docs') }}">
+                    <i class="fas fa-file-text"></i> Documentation
+                </a>
             </div>
-        </nav>
-
-        <!-- Flash Messages -->
-        <div class="max-w-7xl mx-auto px-4 mt-3 w-full" id="flash_err">
-            {% with messages = get_flashed_messages(with_categories=true) %} {%
-            if messages %} {% for category, message in messages %}
-            <div
-                class="rounded px-4 py-3 mb-2 text-white font-semibold flex items-center gap-2 {% if category == 'error' %}bg-red-600{% elif category == 'warning' %}bg-yellow-500 text-black{% else %}bg-green-600{% endif %}"
-            >
-                <i
-                    class="fas fa-{{ 'exclamation-triangle' if category == 'error' else ('info-circle' if category == 'warning' else 'check-circle') }}"
-                ></i>
-                {{ message }}
-                <button
-                    type="button"
-                    class="ml-auto text-white"
-                    onclick="this.parentElement.style.display='none'"
-                >
-                    &times;
-                </button>
-            </div>
-            {% endfor %} {% endif %} {% endwith %}
         </div>
+    </nav>
 
-        <!-- Main Content -->
-        <main class="max-w-7xl mx-auto px-4 mt-4">
-            {% block content %}{% endblock %}
-        </main>
+    <!-- Flash Messages -->
+    <div class="max-w-7xl mx-auto px-4 mt-3 w-full" id="flash_err">
+        {% with messages = get_flashed_messages(with_categories=true) %} {%
+        if messages %} {% for category, message in messages %}
+        <div class="rounded px-4 py-3 mb-2 text-white font-semibold flex items-center gap-2 {% if category == 'error' %}bg-red-600{% elif category == 'warning' %}bg-yellow-500 text-black{% else %}bg-green-600{% endif %}"
+            id="err_cont">
+            <i class="fas fa-{{ 'exclamation-triangle' if category == 'error' else ('info-circle' if category == 'warning' else 'check-circle') }}"
+                id="info-icons"></i>
+            {{ message }}
+            <button type="button" class="ml-auto text-white" onclick="this.parentElement.style.display='none'">
+                &times;
+            </button>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+    </div>
 
-        <!-- Footer -->
-        <footer class="bg-gray-100 mt-8 py-2 w-full fixed bottom-0">
-            <div class="max-w-7xl mx-auto text-center text-gray-500">
-                <p>
-                    &copy; ERPNext DocType Inspector. Built with Flask &
-                    Tailwind CSS.
-                </p>
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 mt-4">
+        {% block content %}{% endblock %}
+        <!-- Chat Section-->
+        <div id="chat-widget" class="fixed bottom-8 right-2">
+            <!-- Chat Header/Toggle Button -->
+            <button id="chat-toggle"
+                class="w-full gap-4 bg-blue-600 text-white py-3 px-4 rounded-lg shadow-lg flex justify-between items-center hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                <span class="font-semibold">Chat with AI</span>
+                <!-- Icon for toggle (e.g., chevron or message icon) -->
+                <svg id="toggle-icon" class="w-5 h-5 transition-transform transform rotate-0" xmlns="http://www.w3.org"
+                    fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            <!-- Chat Body (Collapsible Content) -->
+            <div id="chat-body"
+                class="bg-white rounded-lg shadow-xl mt-2 max-h-[800px] w-[400px] flex flex-col transition-all duration-300 ease-in-out overflow-hidden"
+                style="display: none">
+                <!-- Messages Area -->
+                <div class="flex flex-col p-4 overflow-y-auto h-[600px]" id="chat_messages">
+                    <!-- Example message bubble -->
+                    <div class="mb-4">
+                        <div class="bg-gray-200 p-3 rounded-lg max-w-xs text-sm text-gray-800">
+                            Hello! How can I help you today?
+                        </div>
+                    </div>
+                    <!-- Add more messages here -->
+                </div>
+                <!-- Clear History Button -->
+                <div class="px-3 py-2 bg-gray-50 border-t border-gray-200">
+                    <button id="clear-history-btn" type="button"
+                        class="text-xs text-red-600 hover:text-red-800 hover:underline focus:outline-none">
+                        <i class="fas fa-trash-alt"></i> Clear Conversation History
+                    </button>
+                </div>
+                <form id="chat_form">
+                    <label for="chat" class="sr-only" class="text-blue-400">Your message</label>
+                    <div class="flex items-center px-3 py-2 rounded-base bg-blue-100">
+                        <textarea id="chat" rows="4"
+                            class="mx-4 bg-gray-100 border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 placeholder:text-body resize-none overflow-y-auto text-blue-700"
+                            placeholder="Your message..."></textarea>
+                        <button
+                            class="inline-flex justify-center p-2 text-fg-brand rounded-full cursor-pointer hover:bg-brand-softer">
+                            <svg class="w-6 h-6 rotate-90 rtl:-rotate-90" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m12 18-7 3 7-18 7 18-7-3Zm0 0v-5" />
+                            </svg>
+                            <span class="sr-only">Send message</span>
+                        </button>
+                    </div>
+                </form>
             </div>
-        </footer>
+        </div>
+    </main>
 
-        <!-- Scripts -->
-        <!-- Tailwind CSS is loaded via CDN above -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
+    <!-- Footer -->
+    <footer class="bg-gray-100 mt-8 py-2 w-full bottom-0">
+        <div class="max-w-7xl mx-auto text-center text-gray-500">
+            <p>
+                &copy; ERPNext DocType Inspector. Built with Flask &
+                Tailwind CSS.
+            </p>
+        </div>
+    </footer>
 
-        <script>
-            hljs.highlightAll();
-            const nav = document.getElementsByTagName("nav");
-            const flash_section = document.getElementById("flash_err");
-            const main_section = document.getElementsByTagName("main");
-            const navHeight = nav[0].offsetHeight;
-            flash_section.classList.add(`mt-[${navHeight}px]`);
-            main_section[0].classList.add(`mt-[${navHeight + 10}px]`);
-        </script>
-        {% block extra_js %}{% endblock %}
-    </body>
+    <!-- Scripts -->
+    <!-- Tailwind CSS is loaded via CDN above -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
+    <script type="module" src="{{url_for('static', filename='typescript/chat.js')}}"></script>
+    <script>
+        hljs.highlightAll();
+        const nav = document.getElementsByTagName("nav");
+        const flash_section = document.getElementById("flash_err");
+        const main_section = document.getElementsByTagName("main");
+        const navHeight = nav[0].offsetHeight;
+        flash_section.classList.add(`mt-[${navHeight}px]`);
+        main_section[0].classList.add(`mt-[${navHeight + 10}px]`);
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
 </html>
