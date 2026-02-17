@@ -1,31 +1,26 @@
 import json
 import os
+import uuid
 from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
+from ollama import Message
 
+from ai import AIChat, AIChatDB
 from hash import decode, populate_range, setup_db
 
 load_dotenv()
 import requests
-from flask import (
-    Flask,
-    flash,
-    jsonify,
-    redirect,
-    render_template,
-    send_from_directory,
-    url_for,
-)
+from flask import (Flask, Response, flash, jsonify, redirect, render_template,
+                   request, send_from_directory, session, url_for)
 from flask_misaka import Misaka
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, TextAreaField
+from wtforms import PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import URL, DataRequired
 
-ERPNEXT_URL = os.environ.get("ERPNEXT_URL", "http://127.0.0.1:5000")
+ERPNEXT_URL = os.environ.get("ERPNEXT_URL", "http://127.0.0.1:8000")
 ERP_API_KEY = os.environ.get("ERP_API_KEY", None)
 ERP_API_SECRET = os.environ.get("ERP_API_SECRET", None)
-
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "your-secret-key-change-this")
@@ -562,6 +557,7 @@ class HashForm(FlaskForm):
         validators=[DataRequired(), URL()],
         render_kw={"placeholder": "MSISDN Code"},
     )
+    submit = SubmitField("Decode")
 
 
 class OpenAPIGenerateForm(FlaskForm):
@@ -689,6 +685,99 @@ def doctype_detail(doctype_name):
         fields=actual_fields,
         field_stats=field_stats,
     )
+
+
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    """Handle chat requests with conversation history context"""
+    if request.method == "POST":
+        data = request.get_json()
+        message: str = data.get("message", "")
+        
+        if not message:
+            return jsonify({"error": "No message provided"}), 400
+        
+        # Initialize session data for new conversations
+        if "conversation_id" not in session:
+            session["conversation_id"] = str(uuid.uuid4())
+            session["conversation_history"] = []
+        
+        conversation_id = session["conversation_id"]
+        user_id = session.get("user_id", "guest")
+        
+        # Get conversation history from session
+        conversation_history = session.get("conversation_history", [])
+        
+        # Add user message to history
+        conversation_history.append({"role": "user", "content": message})
+        
+        # Store user message in database
+        db = AIChatDB()
+        db.store_message(user_id=user_id, role="user", content=message)
+        
+        # Convert history to Message objects for Ollama
+        messages = [Message(role=msg["role"], content=msg["content"]) for msg in conversation_history]
+        
+        # Initialize the AI chat class
+        chat_app = AIChat()
+        
+        # Accumulate assistant response for storage
+        accumulated_response = ""
+        
+        # Stream the response directly from the chat generator
+        def event_stream():
+            nonlocal accumulated_response
+            for text_chunk in chat_app.chat(messages=messages):
+                if text_chunk:
+                    accumulated_response += text_chunk
+                    yield text_chunk
+            
+            # After streaming completes, store assistant response
+            if accumulated_response:
+                conversation_history.append({"role": "assistant", "content": accumulated_response})
+                session["conversation_history"] = conversation_history
+                db.store_message(user_id=user_id, role="assistant", content=accumulated_response)
+        
+        # Return the response as a stream
+        response = Response(event_stream(), mimetype='text/event-stream')
+        response.headers['X-Accel-Buffering'] = 'no'
+        response.headers['Cache-Control'] = 'no-cache'
+        return response
+    
+    return jsonify({"error": "Invalid request method"}), 405
+
+
+@app.route("/get_messages", methods=["GET"])
+def get_messages():
+    """Retrieve conversation history from database"""
+    user_id = session.get("user_id", "guest")
+    db = AIChatDB()
+    messages = db.retrieve_messages(user_id=user_id)
+    
+    # Format messages for frontend consumption
+    formatted_messages = [
+        {
+            "message_id": msg[0],
+            "role": msg[1],
+            "thinking": msg[2],
+            "content": msg[3]
+        }
+        for msg in messages
+    ]
+    
+    return jsonify({"messages": formatted_messages})
+
+
+@app.route("/clear_history", methods=["POST"])
+def clear_history():
+    """Clear conversation history for current session"""
+    if "conversation_history" in session:
+        session["conversation_history"] = []
+    if "conversation_id" in session:
+        session["conversation_id"] = str(uuid.uuid4())
+    
+    return jsonify({"success": True, "message": "Conversation history cleared"})
 
 
 @app.route("/generate-openapi", methods=["GET", "POST"])
@@ -859,24 +948,22 @@ def internal_error(error):
     return render_template("500.html"), 500
 
 
-@app.route("/hash")
+@app.route("/hash", methods=["GET", "POST"])
 def decode_mpesa_hash():
     hashform = HashForm()
 
     # Example: Populate Safaricom 0722 range
     if hashform.validate_on_submit():
-        try:
-            hashtext = hashform.hash.data
-            print(f"hashText, {hashtext}")
-            if not hashtext:
-                flash("Hash Code not found", "error")
-
-            decode(hashtext)
-        except Exception as e:
-            flash(f"Could not find Error: {str(e)}", "error")
+        hashtext = hashform.hash.data
+        if not hashtext:
+            flash("Provided Code is not a Hash Code", "error")
+            return render_template("hash.html", form=hashform)
+        decode(hashtext)
+    # except Exception as e:
+    #     flash(f"Could not find Error: {str(e)}", "error")
 
     # Get the code from the input
-    return render_template("hash.html"), 500
+    return render_template("hash.html", form=hashform), 500
 
 
 if __name__ == "__main__":
