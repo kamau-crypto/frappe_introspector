@@ -78,3 +78,8 @@ def define_table_data(params: TableDataSize):
 
     query = f"select msisdn, hash from rainbow_table {search_text} limit {limit} offet {page_size} "
     execute_sql(query, None, True)
+
+
+def data_table_size():
+    query = "select count(msisdn) as `no_of_values` from rainbow_table"
+    execute_sql(query, None, True)
