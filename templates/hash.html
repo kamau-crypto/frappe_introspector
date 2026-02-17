@@ -12,29 +12,76 @@ content%}
 
 <div class="bg-white rounded shadow mb-8">
     <div class="px-6 py-4 flex flex-col gap-8">
-        <input
-            type="text"
-            id="searchDocTypes"
-            class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Paste Mpesa Hash Here"
-        />
-        <pre class="output h-[400px] px-10 border border-gray-3000"></pre>
+        <form action="{{url_for("decode_mpesa_hash")}}" method="GET" class="flex flex-row gap-2" >
+            {{ form.hidden_tag() }}
+            <input
+                type="text"
+                id="searchDocTypes"
+                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Paste Mpesa Hash Here"
+            />
+            <button class="bg-primary-700 border-gray-300 hover:scale-110 p-2 text-white rounded-xl">
+            {{form.submit()}}
+            </button>
+        </form>
+    </div>
+    <div id="msisdn_table" class="grid overflow-x-auto">
+        <table class="min-w-full text-sm">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                        Msisdn
+                    </th>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                        Hash
+                    </th>
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results%}
+                <tr
+                    class="field-row border-b"
+                    data-fieldname="{{ field.fieldname|lower }}"
+                    data-label="{{ field.label|lower if field.label }}"
+                    data-fieldtype="{{ field.fieldtype }}"
+                    data-required="{{ 'true' if field.reqd else 'false' }}"
+                    data-readonly="{{ 'true' if field.read_only else 'false' }}"
+                >
+                    <td class="px-4 py-2 wrap-break-word break-all">
+                        <code class="text-blue-600 font-mono"
+                            >{{ result.msisdn }}</code
+                        >
+                    </td>
+                    <td class="px-4 py-2 wrap-break-word break-all">
+                        <span class="text-blue-600 font-mono"
+                            >{{ result.hash}}</span
+                        >
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 
 <script>
-    document.querySelector("output")= ()=>{
-      //Create the copy button
-      const btn = document.createElement('button');
-      btn.innerHTML = '<i class="fa fa-clipboard" aria-hidden="true"></i>';
-      btn.className = 'copy-btn';
+    document.addEventListener("DOMContentLoaded", ()=>{
+      document.querySelector("output")= ()=>{
+        //Create the copy button
+        const btn = document.createElement('button');
+        btn.innerHTML = '<i class="fa fa-clipboard" aria-hidden="true"></i>';
+        btn.className = 'copy-btn';
 
-      btn.onclick = async () => {
-          await navigator.clipboard.writeText(pre.textContent);
-          btn.textContent = '✓ Copied To clipboard';
-          setTimeout(() => btn.innerHTML = '<i class="fa fa-clipboard" aria-hidden="true"></i>', 2000);
-      };
-    }
+        btn.onclick = async () => {
+            await navigator.clipboard.writeText(pre.textContent);
+            btn.textContent = '✓ Copied To clipboard';
+            setTimeout(() => btn.innerHTML = '<i class="fa fa-clipboard" aria-hidden="true"></i>', 2000);
+        };
+      }
+    })
 </script>
 
 <style>
