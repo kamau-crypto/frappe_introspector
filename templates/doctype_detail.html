@@ -5,33 +5,26 @@ Inspector{% endblock %} {% block content %}
         <nav class="mb-2" aria-label="breadcrumb">
             <ol class="flex space-x-2 text-sm text-gray-500">
                 <li>
-                    <a
-                        href="{{ url_for('doctypes') }}"
-                        class="hover:underline text-blue-600"
-                        >DocTypes</a
-                    >
+                    <a href="{{ url_for('doctypes') }}"
+                        class="hover:underline text-blue-600 dark:text-blue-400">DocTypes</a>
                 </li>
                 <li>/</li>
-                <li class="font-semibold text-gray-700">{{ doctype_name }}</li>
+                <li class="font-semibold text-gray-700 dark:text-gray-400">{{ doctype_name }}</li>
             </ol>
         </nav>
-        <h2 class="text-2xl font-bold mb-1">{{ doctype_name }}</h2>
+        <h2 class="text-2xl font-bold mb-1 text-gray-700 dark:text-gray-400">{{ doctype_name }}</h2>
         {% if doctype_doc.module %}
-        <p class="text-gray-500">Module: {{ doctype_doc.module }}</p>
+        <p class="text-gray-500 dark:text-gray-400">Module: {{ doctype_doc.module }}</p>
         {% endif %}
     </div>
     <div class="flex gap-2">
-        <button
-            type="button"
+        <button type="button"
             class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded font-semibold hover:bg-blue-600 hover:text-white transition"
-            onclick="openRawDataModal()"
-        >
+            onclick="openRawDataModal()">
             <i class="fas fa-code mr-2"></i>Raw Data
         </button>
-        <a
-            href="{{ url_for('generate_openapi') }}?doctypes={{ doctype_name }}"
-            class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 transition"
-        >
+        <a href="{{ url_for('generate_openapi') }}?doctypes={{ doctype_name }}"
+            class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 transition">
             <i class="fas fa-file-export mr-2"></i>Export API
         </a>
     </div>
@@ -39,9 +32,7 @@ Inspector{% endblock %} {% block content %}
 
 <!-- Stats Cards -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-    <div
-        class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded shadow text-center p-6"
-    >
+    <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded shadow text-center p-6">
         <div class="text-3xl font-bold mb-2">{{ field_stats.total }}</div>
         <div class="text-sm">Total Fields</div>
     </div>
@@ -61,55 +52,43 @@ Inspector{% endblock %} {% block content %}
 
 <!-- DocType Information -->
 {% if doctype_doc.description %}
-<div class="bg-white rounded shadow mb-6">
+<div class="bg-light-bg dark:bg-dark-bg rounded shadow-md mb-6 bg-light-surface dark:bg-dark-surface">
     <div class="px-6 py-4">
-        <h6 class="text-lg font-semibold mb-2">Description</h6>
-        <p class="text-gray-700">{{ doctype_doc.description }}</p>
+        <h6 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-400">Description</h6>
+        <p class="text-gray-700 dark:text-gray-400">{{ doctype_doc.description }}</p>
     </div>
 </div>
 {% endif %}
 
 <!-- Properties Card -->
-<div class="bg-white rounded shadow mb-6">
+<div class="bg-light-bg dark:bg-dark-bg rounded-md shadow-xl mb-6 bg-light-surface dark:bg-dark-surface">
     <div class="border-b px-6 py-4">
-        <h6 class="text-lg font-semibold mb-0">DocType Properties</h6>
+        <h6 class="text-lg font-semibold mb-0 text-gray-700 dark:text-gray-400">DocType Properties</h6>
     </div>
-    <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700 dark:text-gray-400">
         <ul class="list-none space-y-2">
             <li>
                 <strong>Is Submittable:</strong>
                 {% if doctype_doc.is_submittable %}
-                <span class="text-green-600 font-semibold"
-                    ><i class="fas fa-check"></i> Yes</span
-                >
+                <span class="text-green-600 font-semibold"><i class="fas fa-check"></i> Yes</span>
                 {% else %}
-                <span class="text-gray-400"
-                    ><i class="fas fa-times"></i> No</span
-                >
+                <span class="text-gray-400"><i class="fas fa-times"></i> No</span>
                 {% endif %}
             </li>
             <li>
                 <strong>Is Tree:</strong>
                 {% if doctype_doc.is_tree %}
-                <span class="text-green-600 font-semibold"
-                    ><i class="fas fa-check"></i> Yes</span
-                >
+                <span class="text-green-600 font-semibold"><i class="fas fa-check"></i> Yes</span>
                 {% else %}
-                <span class="text-gray-400"
-                    ><i class="fas fa-times"></i> No</span
-                >
+                <span class="text-gray-400"><i class="fas fa-times"></i> No</span>
                 {% endif %}
             </li>
             <li>
                 <strong>Track Changes:</strong>
                 {% if doctype_doc.track_changes %}
-                <span class="text-green-600 font-semibold"
-                    ><i class="fas fa-check"></i> Yes</span
-                >
+                <span class="text-green-600 font-semibold"><i class="fas fa-check"></i> Yes</span>
                 {% else %}
-                <span class="text-gray-400"
-                    ><i class="fas fa-times"></i> No</span
-                >
+                <span class="text-gray-400"><i class="fas fa-times"></i> No</span>
                 {% endif %}
             </li>
         </ul>
@@ -117,22 +96,18 @@ Inspector{% endblock %} {% block content %}
             <li>
                 <strong>Custom:</strong>
                 {% if doctype_doc.custom %}
-                <span class="text-blue-600 font-semibold"
-                    ><i class="fas fa-check"></i> Yes</span
-                >
+                <span class="text-blue-600 font-semibold"><i class="fas fa-check"></i> Yes</span>
                 {% else %}
-                <span class="text-gray-400"
-                    ><i class="fas fa-times"></i> No</span
-                >
+                <span class="text-gray-400"><i class="fas fa-times"></i> No</span>
                 {% endif %}
-            </li>
-            <li>
-                <strong>Auto Name:</strong> {{ doctype_doc.autoname or 'Not set'
-                }}
             </li>
             <li>
                 <strong>Naming Series:</strong> {{ doctype_doc.naming_series or
                 'Not set' }}
+            </li>
+            <li>
+                <strong>Search By:</strong> {{ doctype_doc.search_fields or 'Not set'
+                }}
             </li>
         </ul>
     </div>
@@ -141,30 +116,23 @@ Inspector{% endblock %} {% block content %}
 <!-- Fields Table -->
 
 <!-- Fields Table (Tailwind, simple format) -->
-<div class="bg-white rounded shadow mb-8">
-    <div class="border-b px-6 py-4 flex justify-between items-center">
-        <h6 class="text-lg font-semibold mb-0">Fields ({{ fields|length }})</h6>
+<div class="bg-light-surface dark:bg-dark-muted rounded-md shadow-xl mb-8">
+    <div class="border-b px-6 py-4 flex justify-between items-center bg-muted dark:bg-dark-muted">
+        <h6 class="text-lg font-semibold mb-0 text-light-text dark:text-dark-text">Fields ({{ fields|length }})</h6>
         <button
-            class="inline-flex items-center px-3 py-1 border border-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-100 transition"
-            type="button"
-            onclick="document.getElementById('fieldFilters').classList.toggle('hidden')"
-        >
-            <i class="fas fa-filter mr-1"></i>Filter
+            class="inline-flex items-center px-3 py-1 border border-gray-300 text-gray-700 dark:text-dark-text rounded font-semibold hover:bg-gray-100 dark:hover:bg-dark-muted transition"
+            type="button" onclick="document.getElementById('fieldFilters').classList.toggle('hidden')">
+            <i class="fas fa-filter mr-1 text-light-text dark:text-dark-text"></i>Filter
         </button>
     </div>
     <!-- Field Filters -->
     <div id="fieldFilters" class="px-6 py-4 border-b hidden">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-            <input
-                type="text"
-                id="fieldSearch"
-                class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Search fields..."
-            />
-            <select
-                id="fieldTypeFilter"
-                class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
+            <input type="text" id="fieldSearch"
+                class="w-full border border-gray-300 dark:border-dark-border dark:text-dark-text dark:bg-dark-muted rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Search fields..." />
+            <select id="fieldTypeFilter"
+                class="w-full border border-gray-300 dark:border-dark-border dark:text-dark-text dark:bg-dark-muted rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="">All Types</option>
                 {% set field_types =
                 fields|map(attribute='fieldtype')|unique|sort %} {% for
@@ -172,91 +140,75 @@ Inspector{% endblock %} {% block content %}
                 <option value="{{ field_type }}">{{ field_type }}</option>
                 {% endfor %}
             </select>
-            <select
-                id="requiredFilter"
-                class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
+            <select id="requiredFilter"
+                class="w-full border border-gray-300 dark:border-dark-border dark:text-dark-text dark:bg-dark-muted rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="">All Fields</option>
                 <option value="required">Required Only</option>
                 <option value="optional">Optional Only</option>
             </select>
-            <select
-                id="readOnlyFilter"
-                class="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
+            <select id="readOnlyFilter"
+                class="w-full border border-gray-300 dark:border-dark-border dark:text-dark-text dark:bg-dark-muted rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="">All Fields</option>
                 <option value="readonly">Read-only Only</option>
                 <option value="editable">Editable Only</option>
             </select>
-            <button
-                id="clearFieldFilters"
-                class="w-full inline-flex items-center justify-center px-2 py-1 border border-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-100 transition"
-            >
+            <button id="clearFieldFilters"
+                class="w-full inline-flex items-center justify-center px-2 py-1 border border-gray-300 dark:border-dark-border dark:text-dark-text dark:bg-dark-button rounded font-semibold hover:bg-gray-100 dark:hover:bg-dark-muted transition">
                 Clear Filters
             </button>
         </div>
     </div>
     <div class="overflow-x-auto">
         <table class="min-w-full text-sm">
-            <thead class="bg-gray-50">
+            <thead class="bg-gray-50 dark:bg-dark-muted">
                 <tr>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700 dark:text-dark-text">
                         Field Name
                     </th>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700 dark:text-dark-text">
                         Label
                     </th>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700 dark:text-dark-text">
                         Type
                     </th>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700 dark:text-dark-text">
                         Options
                     </th>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700 dark:text-dark-text">
                         Properties
                     </th>
-                    <th class="px-4 py-2 text-left font-semibold text-gray-700">
+                    <th class="px-4 py-2 text-left font-semibold text-gray-700 dark:text-dark-text">
                         Default
                     </th>
                 </tr>
             </thead>
             <tbody id="fieldsTableBody">
                 {% for field in fields %}
-                <tr
-                    class="field-row border-b"
-                    data-fieldname="{{ field.fieldname|lower }}"
-                    data-label="{{ field.label|lower if field.label }}"
-                    data-fieldtype="{{ field.fieldtype }}"
+                <tr class="field-row border-b" data-fieldname="{{ field.fieldname|lower }}"
+                    data-label="{{ field.label|lower if field.label }}" data-fieldtype="{{ field.fieldtype }}"
                     data-required="{{ 'true' if field.reqd else 'false' }}"
-                    data-readonly="{{ 'true' if field.read_only else 'false' }}"
-                >
+                    data-readonly="{{ 'true' if field.read_only else 'false' }}">
                     <td class="px-4 py-2">
-                        <code class="text-blue-600 font-mono"
-                            >{{ field.fieldname }}</code
-                        >
+                        <code class="text-blue-600 dark:text-blue-400 font-mono">{{ field.fieldname }}</code>
                     </td>
-                    <td class="px-4 py-2">{{ field.label or '-' }}</td>
+                    <td class="px-4 py-2 dark:text-dark-text">{{ field.label or '-' }}</td>
                     <td class="px-4 py-2">
-                        <span class="bg-gray-100 rounded px-2 py-1"
-                            >{{ field.fieldtype }}</span
-                        >
+                        <span class="bg-gray-100 dark:bg-dark-muted rounded px-2 py-1 dark:text-dark-text">{{
+                            field.fieldtype }}</span>
                     </td>
-                    <td class="px-4 py-2">
+                    <td class="px-4 py-2 dark:text-dark-text">
                         {% if field.options %} {% if field.fieldtype == 'Select'
                         %}
-                        <div class="flex flex-wrap gap-1">
+                        <div class="flex flex-wrap gap-1 text-gray-700 dark:text-dark-text">
                             {% for option in field.options.split('\n')[:3] %} {%
                             if option.strip() %}
                             <span
-                                class="bg-gray-200 text-gray-700 rounded px-2 py-1"
-                                >{{ option.strip() }}</span
-                            >
+                                class="bg-gray-200 dark:bg-dark-muted text-gray-700 dark:text-dark-text rounded px-2 py-1">{{
+                                option.strip() }}</span>
                             {% endif %} {% endfor %} {% if
                             field.options.split('\n')|length > 3 %}
-                            <span class="text-gray-400"
-                                >+{{ field.options.split('\n')|length - 3 }}
-                                more</span
-                            >
+                            <span class="text-gray-700 dark:text-dark-text">+{{ field.options.split('\n')|length - 3 }}
+                                more</span>
                             {% endif %}
                         </div>
                         {% else %} {{ field.options }} {% endif %} {% else %} -
@@ -265,29 +217,20 @@ Inspector{% endblock %} {% block content %}
                     <td class="px-4 py-2">
                         <div class="flex flex-wrap gap-1">
                             {% if field.reqd %}
-                            <span
-                                class="bg-red-100 text-red-700 rounded px-2 py-1"
-                                >Required</span
-                            >
+                            <span class="bg-red-100 text-red-700 dark:text-red-400 rounded px-2 py-1">Required</span>
                             {% endif %} {% if field.read_only %}
                             <span
-                                class="bg-gray-300 text-gray-700 rounded px-2 py-1"
-                                >Read-only</span
-                            >
+                                class="bg-gray-300 dark:bg-dark-subtext text-gray-400 dark:text-dark-text rounded px-2 py-1">Read-only</span>
                             {% endif %} {% if field.unique %}
                             <span
-                                class="bg-yellow-100 text-yellow-700 rounded px-2 py-1"
-                                >Unique</span
-                            >
+                                class="bg-yellow-100 text-yellow-700 dark:bg-dark-warning dark:text-yellow-400 rounded px-2 py-1">Unique</span>
                             {% endif %} {% if field.hidden %}
                             <span
-                                class="bg-gray-800 text-white rounded px-2 py-1"
-                                >Hidden</span
-                            >
+                                class="bg-gray-800 dark:bg-dark-border text-white dark:text-dark-text rounded px-2 py-1">Hidden</span>
                             {% endif %}
                         </div>
                     </td>
-                    <td class="px-4 py-2 text-gray-400">
+                    <td class="px-4 py-2 text-gray-400 dark:text-dark-muted">
                         {{ field.default or '-' }}
                     </td>
                 </tr>
@@ -298,41 +241,43 @@ Inspector{% endblock %} {% block content %}
 </div>
 
 <!-- Raw Data Modal (Tailwind) -->
-<div
-    id="rawDataModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 max-h-5/6 overflow-y-auto"
->
-    <div
-        class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 h-4/5 overflow-y-auto"
-    >
+<div id="rawDataModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 max-h-5/6 overflow-y-auto">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 h-4/5 overflow-y-auto bg-light-bg dark:bg-dark-bg">
         <div class="flex justify-between items-center border-b px-6 py-4">
-            <h5 class="text-xl font-semibold">Raw DocType Data</h5>
-            <button
-                type="button"
-                class="text-gray-400 hover:text-gray-700 text-2xl font-bold"
-                onclick="closeRawDataModal()"
-            >
+            <h5 class="text-xl font-semibold dark:text-dark-text">Raw DocType Data</h5>
+            <button type="button"
+                class="text-gray-400 dark:text-dark-subtext hover:text-gray-700 dark:hover:text-dark-text text-2xl font-bold"
+                onclick="closeRawDataModal()">
                 &times;
             </button>
         </div>
         <div class="px-6 py-4">
-            <div class="json-viewer">
-                <button
-                    class="btn btn-sm btn-outline-primary mb-3"
-                    onclick="copyToClipboard('rawJsonData')"
-                >
-                    <i class="fas fa-copy me-1"></i>Copy to Clipboard
+            <div class="json-viewer dark:text-dark-text bg-light-surface dark:bg-dark-surface rounded p-4">
+                <button class="btn btn-sm btn-outline-primary mb-3" onclick="copyToClipboard('rawJsonData')">
+                    <i class="fas fa-copy me-1 dark:text-dark-text"></i>Copy to Clipboard
                 </button>
-                <div
-                    id="clipboardPopup"
-                    class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white px-4 py-2 rounded shadow-lg text-center hidden"
-                >
+                <div class="mr-10 w-1/3">
+                    <select id="codeLanguage"
+                        class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-light-text dark:text-dark-text bg-light-surface dark:bg-dark-surface mb-4">
+                        <option value="typescript" selected>TypeScript</option>
+                        <option value="python">Python</option>
+                        <option value="python">Python (Pydantic)</option>
+                        <option value="go">Go</option>
+                        <option value="csharp">C#</option>
+                        <option value="elixir">Elixir</option>
+                        <option value="json">JSON</option>
+                        <option value="yaml">YAML</option>
+
+                    </select>
+                </div>
+                <div id="clipboardPopup"
+                    class="fixed top-10 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white dark:text-dark-text px-4 py-2 rounded shadow-lg text-center hidden">
                     <i class="fas fa-check mr-2"></i>DocType definition copied
                     to clipboard!
                 </div>
                 <pre
-                    class="overflow-x-auto"
-                ><code id="rawJsonData" class="language-typescript">{{ doctype_doc | safe }}</code></pre>
+                    class="overflow-x-auto dark:text-dark-text"><code id="rawJsonData" class="language-typescript">{{ ts_code | safe }}</code></pre>
             </div>
         </div>
     </div>
@@ -379,9 +324,11 @@ Inspector{% endblock %} {% block content %}
                     matchesType &&
                     matchesRequired &&
                     matchesReadOnly
-                ) {
+                )
+                {
                     row.style.display = "";
-                } else {
+                } else
+                {
                     row.style.display = "none";
                 }
             });
@@ -408,7 +355,8 @@ Inspector{% endblock %} {% block content %}
         modal.classList.remove("hidden");
         modal.classList.add("opacity-100");
         // Highlight TypeScript code
-        if (window.Prism) {
+        if (window.Prism)
+        {
             Prism.highlightAll();
         }
     }

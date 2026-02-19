@@ -9,12 +9,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        const primary = {
+            50: "#eff6ff",
+            100: "#dbeafe",
+            200: "#bfdbfe",
+            300: "#93c5fd",
+            400: "#60a5fa",
+            500: "#3b82f6",
+            600: "#2563eb",
+            700: "#1d4ed8",
+            800: "#1e40af",
+            900: "#1e3a8a",
+        }
         tailwind.config = {
+            darkMode: "class",
             theme: {
                 extend: {
                     fontFamily: {
@@ -22,16 +38,33 @@
                     },
                     colors: {
                         primary: {
-                            50: "#eff6ff",
-                            100: "#dbeafe",
-                            200: "#bfdbfe",
-                            300: "#93c5fd",
-                            400: "#60a5fa",
-                            500: "#3b82f6",
-                            600: "#2563eb",
-                            700: "#1d4ed8",
-                            800: "#1e40af",
-                            900: "#1e3a8a",
+                            ...primary
+                        },
+                        light: {
+                            bg: "#f8fafc",
+                            surface: "#ffffff",
+                            muted: "#e2e8f0",
+                            text: "#0f172a",
+                            subtext: "#334155",
+                            button: primary[700],
+                            border: "#cbd5e1",
+                            accent: primary[600],
+                            success: "#16a34a",
+                            warning: "#ca8a04",
+                            danger: "#dc2626",
+                        },
+                        dark: {
+                            bg: "#0b1120",
+                            surface: "#111827",
+                            muted: "#1f2937",
+                            text: "#e5e7eb",
+                            subtext: "#9ca3af",
+                            border: "#374151",
+                            button: primary[400],
+                            accent: primary[400],
+                            success: "#4ade80",
+                            warning: "#facc15",
+                            danger: "#f87171",
                         },
                     },
                 },
@@ -46,9 +79,9 @@
     {% block extra_css %}{% endblock %}
 </head>
 
-<body>
+<body class="bg-light-bg dark:bg-dark-bg">
     <!-- Navigation -->
-    <nav class="bg-blue-700 text-white fixed top-0 w-full">
+    <nav class="bg-blue-700 text-light-surface dark:text-dark-text dark:bg-primary-900 fixed top-0 z-10 w-full">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
             <a class="font-bold text-lg flex items-center gap-2" href="{{ url_for('index') }}">
                 <i class="fas fa-database"></i>
@@ -65,10 +98,6 @@
                     <i class="fas fa-list"></i> DocTypes
                 </a>
                 <a class="hover:text-blue-200 transition flex items-center gap-1"
-                    href="{{ url_for('decode_mpesa_hash') }}">
-                    <i class="fas fa-hashtag"></i> Decode
-                </a>
-                <a class="hover:text-blue-200 transition flex items-center gap-1"
                     href="{{ url_for('generate_openapi') }}">
                     <i class="fas fa-code"></i> Generate API
                 </a>
@@ -79,6 +108,13 @@
                     <i class="fas fa-file-text"></i> Documentation
                 </a>
             </div>
+            <span id="theme-toggle"
+                class="border border-slate-400 rounded-md relative inline-flex h-9 w-12 items-center justify-center overflow-hidden cursor-pointer transition-colors duration-300">
+                <i
+                    class="fas fa-sun absolute transition-all duration-300 ease-in-out opacity-100 scale-100 rotate-0 dark:opacity-0 dark:scale-75 dark:-rotate-90"></i>
+                <i
+                    class="fas fa-moon absolute transition-all duration-300 ease-in-out opacity-0 scale-75 rotate-90 dark:opacity-100 dark:scale-100 dark:rotate-0"></i>
+            </span>
         </div>
     </nav>
 
@@ -99,7 +135,7 @@
     </div>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 mt-4">
+    <main class="max-w-7xl mx-auto px-4 mt-4 min-h-full">
         {% block content %}{% endblock %}
         <!-- Chat Section-->
         <div id="chat-widget" class="fixed bottom-8 right-2">
@@ -158,8 +194,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-100 mt-8 py-2 w-full bottom-0">
-        <div class="max-w-7xl mx-auto text-center text-gray-500">
+    <footer class="bg-light-muted dark:bg-dark-muted mt-8 py-2 w-full bottom-0">
+        <div class="max-w-7xl mx-auto text-center text-gray-500 dark:text-dark-subtext">
             <p>
                 &copy; ERPNext DocType Inspector. Built with Flask &
                 Tailwind CSS.
@@ -177,9 +213,33 @@
         const nav = document.getElementsByTagName("nav");
         const flash_section = document.getElementById("flash_err");
         const main_section = document.getElementsByTagName("main");
+
         const navHeight = nav[0].offsetHeight;
         flash_section.classList.add(`mt-[${navHeight}px]`);
         main_section[0].classList.add(`mt-[${navHeight + 10}px]`);
+
+        const themeToggle = document.getElementById("theme-toggle");
+        themeToggle.addEventListener("click", () => {
+            document.documentElement.classList.toggle("dark");
+            if (document.documentElement.classList.contains("dark"))
+            {
+                localStorage.theme = "dark";
+                document.documentElement.classList.add("dark");
+            } else
+            {
+                localStorage.theme = "light";
+                document.documentElement.classList.remove("dark");
+            }
+        });
+
+        localStorage.theme === "dark" && document.documentElement.classList.toggle(
+            "dark",
+            localStorage.theme === "dark" ||
+            (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
+        );
+        // localStorage.theme = "light";
+        // localStorage.theme = "dark";
+        // localStorage.removeItem("theme");
     </script>
     {% block extra_js %}{% endblock %}
 </body>

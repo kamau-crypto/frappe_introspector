@@ -5,41 +5,41 @@
 {% block content %}
 <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
     <div>
-        <h2 class="text-2xl font-bold flex items-center gap-2">
+        <h2 class="text-2xl font-bold flex items-center gap-2 text-light-text dark:text-dark-text">
             <i class="fas fa-list text-blue-600"></i>Available DocTypes
         </h2>
-        <p class="text-gray-500 mt-2">{{ doctypes|length }} DocTypes found</p>
+        <p class="text-light-text dark:text-dark-text mt-2">{{ doctypes|length }} DocTypes found</p>
     </div>
     <div>
         <a href="{{ url_for('generate_openapi') }}"
-            class="inline-flex items-center px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+            class="inline-flex items-center px-5 py-2 bg-green-600 text-light-muted dark:text-dark-text rounded hover:bg-green-700 dark:hover:bg-green-500 transition">
             <i class="fas fa-code mr-2"></i>Generate API Docs
         </a>
     </div>
 </div>
 
 <!-- Filter and Search -->
-<div class="bg-white rounded shadow mb-8">
+<div class="bg-light-bg dark:bg-dark-bg rounded shadow mb-8">
     <div class="px-6 py-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <input type="text" id="searchDocTypes"
-                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-light-text dark:text-dark-text bg-light-surface dark:bg-dark-surface"
                 placeholder="Search DocTypes...">
             <select id="moduleFilter"
-                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-light-text dark:text-dark-text bg-light-surface dark:bg-dark-surface">
                 <option value="">All Modules</option>
                 {% for doctype in doctypes %}
                 <option value="{{ doctype.module }}">{{ doctype.module }}</option>
                 {% endfor %}
             </select>
             <select id="typeFilter"
-                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-light-text dark:text-dark-text bg-light-surface dark:bg-dark-surface">
                 <option value="">All Types</option>
                 <option value="standard">Standard</option>
                 <option value="custom">Custom</option>
             </select>
             <button id="clearFilters"
-                class="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 rounded font-semibold hover:bg-gray-100 transition">Clear</button>
+                class="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-light-text dark:text-dark-text rounded font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition">Clear</button>
         </div>
     </div>
 </div>
@@ -49,11 +49,11 @@
     {% for doctype in doctypes %}
     <div class="doctype-item" data-name="{{ doctype.name|lower }}" data-module="{{ doctype.module }}"
         data-type="{{ 'custom' if doctype.custom else 'standard' }}">
-        <div class="bg-white rounded shadow h-full flex flex-col p-6">
+        <div class="bg-light-surface dark:bg-dark-surface rounded shadow-xl h-full flex flex-col p-6">
             <div class="flex justify-between items-start mb-2">
                 <h6 class="text-lg font-bold mb-0">
                     <a href="{{ url_for('doctype_detail', doctype_name=doctype.name) }}"
-                        class="text-blue-700 hover:underline">
+                        class="text-blue-700 dark:text-blue-400 hover:underline">
                         {{ doctype.name }}
                     </a>
                 </h6>
@@ -61,11 +61,12 @@
                 <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded">Custom</span>
                 {% endif %}
             </div>
-            <p class="text-gray-500 text-sm mb-2 flex items-center gap-1">
+            <p class="text-light-text dark:text-dark-text text-sm mb-2 flex items-center gap-1">
                 <i class="fas fa-cube"></i>{{ doctype.module }}
             </p>
             {% if doctype.description %}
-            <p class="text-gray-700 text-sm">{{ doctype.description[:80] }}{% if doctype.description|length > 80 %}...{%
+            <p class="text-light-text dark:text-dark-text text-sm">{{ doctype.description[:80] }}{% if
+                doctype.description|length > 80 %}...{%
                 endif %}</p>
             {% endif %}
             <div class="mt-auto flex justify-between items-center pt-4">
