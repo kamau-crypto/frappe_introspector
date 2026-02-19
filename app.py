@@ -49,6 +49,15 @@ class ERPNextConnection:
             "Accept": "application/json",
         }
 
+
+    def save_session(self):
+        """ Save the current session via the document's headers for some sort of authentication mechanism for the user """    
+        try:
+            # Get the session cookies from the current connection
+            cookie = self.headers.get("Cookie")
+        except Exception as e:
+            return {"success": False, "message": f"Error saving session: {str(e)}"}
+        
     def test_connection(self) -> Dict[str, Any]:
         """Test the connection to ERPNext"""
         try:
@@ -64,7 +73,7 @@ class ERPNextConnection:
         except Exception as e:
             return {"success": False, "message": str(e)}
 
-    def get_doctype_meta(self, doctype: str) -> List[Dict[str, any]]:
+    def get_doctype_meta(self, doctype: str) -> List[Dict[str,Any]]|None:
         """Get DocType metadata using the working whitelisted method"""
         try:
             response = requests.get(
@@ -101,10 +110,12 @@ class ERPNextConnection:
 
             if response.status_code == 200:
                 data = response.json()
+                # Added a Static file for listing all doctypes
+                # with open("./public/doctypes_list.json", "w") as f:
+                #     json.dump(data.get("data", []), f, indent=2)
                 return data.get("data", [])
             return []
-        except Exception as e:
-            print(f"Exception getting all DocTypes: {e}")
+        except Exception as _e:
             return []
 
     def get_doctype_definition(self, doctype: str) -> Optional[Dict]:
@@ -115,19 +126,23 @@ class ERPNextConnection:
                 headers=self.headers,
                 timeout=30,
             )
+            # Extract custom fields for the DocType per documentation
             custom_fields = requests.get(
                 f"{self.base_url}/api/resource/Custom Field",
                 params={"filters": f'[["dt","=","{doctype}"]]', "fields": '["*"]'},
                 headers=self.headers,
                 timeout=30,
             )
-            # property_setter= requests.get(
-            #     f'{self.base_url}/api/resource/Property Setter?filters=[["doctype","=","{doctype}"]]',
-            #     headers=self.headers,
-            #     timeout=30
-            # )
-            # all= self.conn.get_doctype_meta(doctype)
-
+            # Log responses for debugging
+            # [ ] Assuming the doctype has some property Setters
+            property_setter= requests.get(
+                f'{self.base_url}/api/resource/Property Setter?filters=[["doctype","=","{doctype}"]]',
+                headers=self.headers,
+                timeout=30
+            )
+            # There are edge cases whereby the the client's uses the export fixtures. and the fixtures are in the fixtures.json file...
+            # [ ] Refine this for use cases where the user uses bench export --fixtures.
+            all= self.get_doctype_meta(doctype)
             if response.status_code == 200 or custom_fields.status_code == 200:
                 # Convert the response to a JSON
                 data = response.json()
@@ -140,7 +155,10 @@ class ERPNextConnection:
                 # Append the customizations to the application
                 for custom in customization:
                     data_tables.get("fields").append(custom)
-
+                # Check property setters and append to the data tables
+                if property_setter.status_code == 200:
+                    property_setters = property_setter.json().get("data", [])
+                    data_tables.get("fields").extend(property_setters)
                 return data_tables
             return None
         except Exception as e:
@@ -285,8 +303,10 @@ class OpenAPIGenerator:
 
         return property_def
 
-    def generate_doctype_schema(self, doctype: str, metadata: Dict) -> Dict:
+    def generate_doctype_schema(self, doctype: str, metadata: List[Dict[str,Any]]| Dict [str, Any]) -> Dict:
         """Generate OpenAPI schema for a DocType"""
+        if isinstance(metadata, list):
+            return {}
         docs = metadata.get("docs", [])
         if not docs:
             return {}
@@ -648,15 +668,28 @@ def doctype_detail(doctype_name):
         flash(f"Could not load DocType: {doctype_name}", "error")
         return redirect(url_for("doctypes"))
 
-    # Extract useful information
+    # Extract the fields objects
     fields = metadata.get("fields", [])
+    # metadata
+    doctype_meta= {
+        "name": metadata.get("name"),
+        "module": metadata.get("module"),
+        "custom": metadata.get("custom"),
+        "is_submittable": metadata.get("is_submittable"),
+        "is_tree": metadata.get("is_tree"),
+        "description": metadata.get("description"),
+        "is_submittable": metadata.get("is_submittable"),
+        "track_changes": metadata.get("track_changes"),
+        "search_fields": metadata.get("search_fields"),
+    }
     actual_fields = [
         f
         for f in fields
         if f.get("fieldname")
         and f.get("fieldtype") not in ["Section Break", "Column Break", "HTML"]
     ]
-
+    with open(f"./public/doctype/{doctype_name}.json","w") as f:
+        json.dump(metadata, f, indent=2) 
     # Categorize fields
     required_fields = [f for f in actual_fields if f.get("reqd")]
     readonly_fields = [f for f in actual_fields if f.get("read_only")]
@@ -681,7 +714,8 @@ def doctype_detail(doctype_name):
     return render_template(
         "doctype_detail.html",
         doctype_name=doctype_name,
-        doctype_doc=ts_code,
+        doctype_doc=doctype_meta,
+        ts_code =ts_code,
         fields=actual_fields,
         field_stats=field_stats,
     )
@@ -737,6 +771,8 @@ def chat():
             if accumulated_response:
                 conversation_history.append({"role": "assistant", "content": accumulated_response})
                 session["conversation_history"] = conversation_history
+                # Current session Id, plus the conversation history
+                print(f"Conversation ID: {conversation_id}, History: {conversation_history}")
                 db.store_message(user_id=user_id, role="assistant", content=accumulated_response)
         
         # Return the response as a stream
@@ -920,6 +956,8 @@ def api_doctype_fields(doctype_name):
         return jsonify({"error": "No connection established"}), 400
 
     metadata = current_connection.get_doctype_meta(doctype_name)
+    if isinstance(metadata, list):
+        return jsonify({"error": f"DocType {doctype_name} not found"}), 404 
     docs = metadata.get("docs", []) if metadata else []
     doctype_doc = docs[0] if docs else {}
     fields = doctype_doc.get("fields", [])
