@@ -56,6 +56,7 @@ class AIChatDB:
                 role TEXT,
                 thinking BOOLEAN,
                 content TEXT
+                message_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             ) WITHOUT ROWID
         """)
         conn.commit()
