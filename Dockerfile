@@ -19,7 +19,9 @@ COPY requirements-prod.txt .
 # Install dependencies — separate RUN so pip failures are never swallowed by || true
 RUN python -m venv /opt/venv && \
     /opt/venv/bin/pip install --no-cache-dir --upgrade pip setuptools wheel && \
-    /opt/venv/bin/pip install --no-cache-dir -r requirements-prod.txt
+    /opt/venv/bin/pip install --no-cache-dir --no-compile -r requirements-prod.txt && \
+    rm -rf /opt/venv/lib/python3.12/site-packages/pip* /opt/venv/lib/python3.12/site-packages/setuptools* /opt/venv/lib/python3.12/site-packages/wheel* && \
+    rm -f /opt/venv/bin/pip /opt/venv/bin/pip3 /opt/venv/bin/pip3.12
 
 # Strip and clean in a separate layer (|| true is safe here — these are best-effort)
 RUN find /opt/venv -name "*.so" -exec strip --strip-all {} + 2>/dev/null || true && \
