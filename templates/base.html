@@ -104,9 +104,6 @@
                 <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('swagger_ui') }}">
                     <i class="fas fa-book"></i> Swagger UI
                 </a>
-                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('docs') }}">
-                    <i class="fas fa-file-text"></i> Documentation
-                </a>
             </div>
             <span id="theme-toggle"
                 class="border border-slate-400 rounded-md relative inline-flex h-9 w-12 items-center justify-center overflow-hidden cursor-pointer transition-colors duration-300">
@@ -194,7 +191,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-light-muted dark:bg-dark-muted mt-8 py-2 w-full bottom-0">
+    <footer class="bg-light-muted dark:bg-dark-muted mt-8 py-2 w-full">
         <div class="max-w-7xl mx-auto text-center text-gray-500 dark:text-dark-subtext">
             <p>
                 &copy; ERPNext DocType Inspector. Built with Flask &
@@ -237,9 +234,6 @@
             localStorage.theme === "dark" ||
             (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
         );
-        // localStorage.theme = "light";
-        // localStorage.theme = "dark";
-        // localStorage.removeItem("theme");
     </script>
     {% block extra_js %}{% endblock %}
 </body>
