@@ -7,13 +7,11 @@ from dotenv import load_dotenv
 from ollama import Message
 
 from ai import AIChat, AIChatDB
-from hash import decode, populate_range, setup_db
 
 load_dotenv()
 import requests
 from flask import (Flask, Response, flash, jsonify, redirect, render_template,
                    request, send_from_directory, session, url_for)
-from flask_misaka import Misaka
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import URL, DataRequired
@@ -23,20 +21,8 @@ ERP_API_KEY = os.environ.get("ERP_API_KEY", None)
 ERP_API_SECRET = os.environ.get("ERP_API_SECRET", None)
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "your-secret-key-change-this")
-app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16MB max file upload
-
-Misaka(
-    app,
-    fenced_code=True,
-    tables=True,
-    autolink=True,
-    highlight=True,
-    math=True,
-    strikethrough=True,
-)
-DOCS_FOLDER = os.path.join(app.root_path, "documentation", "docs")
-
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "erpnextinspectorsecretkey")
+app.config["MAX_CONTENT_LENGTH"] = 1 * 1024 * 1024  # 1MB max file upload
 
 class ERPNextConnection:
     """Handles connections and API calls to ERPNext instances"""
@@ -549,11 +535,9 @@ class OpenAPIGenerator:
             },
         }
 
-
 # Flask Forms
 class ConnectionForm(FlaskForm):
     # Read the environment Variables for the variables
-
     base_url = StringField(
         "ERPNext URL",
         validators=[DataRequired(), URL()],
@@ -569,16 +553,6 @@ class ConnectionForm(FlaskForm):
         validators=[DataRequired()],
         render_kw={"placeholder": "Your API Secret"},
     )
-
-
-class HashForm(FlaskForm):
-    hash = StringField(
-        "Hash",
-        validators=[DataRequired(), URL()],
-        render_kw={"placeholder": "MSISDN Code"},
-    )
-    submit = SubmitField("Decode")
-
 
 class OpenAPIGenerateForm(FlaskForm):
     doctypes = StringField(
@@ -863,78 +837,6 @@ def swagger_ui():
     return render_template("swagger_ui.html")
 
 
-@app.route("/docs")
-def docs():
-    """
-    This route scans the documentation folder and lists all .md files.
-    It walks through subdirectories to find all markdown files.
-    """
-    markdown_files = []
-
-    for root, dirs, files in os.walk(DOCS_FOLDER):
-        for file in files:
-            if file.endswith(".md"):
-                full_path = os.path.join(root, file)
-                relative_path = os.path.relpath(full_path, DOCS_FOLDER)
-                url_path = (
-                    relative_path[:-3]
-                    if relative_path.endswith(".md")
-                    else relative_path
-                )
-
-                markdown_files.append(
-                    {
-                        "filename": file,
-                        "label": file.replace("_", " ").capitalize(),
-                        "path": relative_path,
-                        "url": url_path,
-                        "folder": os.path.dirname(relative_path)
-                        if os.path.dirname(relative_path)
-                        else "Root",
-                    }
-                )
-
-    markdown_files.sort(key=lambda x: (x["folder"], x["filename"]))
-
-    return render_template("doc_list.html", files=markdown_files)
-
-
-@app.route("/docs/<path:filename>")
-def doc_content(filename):
-    # Add .md extension if not present
-    if not filename.endswith(".md"):
-        filename += ".md"
-
-    filepath = os.path.join(DOCS_FOLDER, filename)
-
-    # Security check: prevent directory traversal
-    abs_filepath = os.path.abspath(filepath)
-    abs_docs_folder = os.path.abspath(DOCS_FOLDER)
-
-    if not abs_filepath.startswith(abs_docs_folder):
-        flash(f"Security violation: The file could not be found {filename}", "error")
-        return redirect(url_for("docs_list"))  # Redirect instead of continuing
-
-    if not os.path.exists(filepath):
-        flash(f"File not found: {filename}", "error")
-        return redirect(url_for("docs_list"))  # Redirect instead of continuing
-
-    # Read the file
-    try:
-        with open(filepath, "r", encoding="utf-8") as f:
-            content = f.read()
-
-    except Exception as e:
-        flash(f"Error reading file: {str(e)}", "error")
-        return redirect(url_for("docs_list"))
-
-    title = os.path.basename(filename)[:-3].replace("-", " ").replace("_", " ").title()
-
-    return render_template(
-        "doc_viewer.html", content=content, title=title, filename=filename
-    )
-
-
 @app.route("/api/doctype/<doctype_name>/metadata")
 def api_doctype_metadata(doctype_name: str):
     """API endpoint to get DocType metadata as JSON"""
@@ -984,24 +886,6 @@ def not_found(error):
 @app.errorhandler(500)
 def internal_error(error):
     return render_template("500.html"), 500
-
-
-@app.route("/hash", methods=["GET", "POST"])
-def decode_mpesa_hash():
-    hashform = HashForm()
-
-    # Example: Populate Safaricom 0722 range
-    if hashform.validate_on_submit():
-        hashtext = hashform.hash.data
-        if not hashtext:
-            flash("Provided Code is not a Hash Code", "error")
-            return render_template("hash.html", form=hashform)
-        decode(hashtext)
-    # except Exception as e:
-    #     flash(f"Could not find Error: {str(e)}", "error")
-
-    # Get the code from the input
-    return render_template("hash.html", form=hashform), 500
 
 
 if __name__ == "__main__":
