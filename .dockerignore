@@ -1,0 +1,85 @@
+# Git
+
+.git
+.gitignore
+.gitattributes
+
+# Python
+
+**pycache**/
+_.py[cod]
+_$py.class
+_.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+_.egg-info/
+dist/
+build/
+
+# IDEs and Editors
+
+.vscode/
+.idea/
+.zed/
+.ropeproject/
+_.swp
+_.swo
+\*~
+
+# macOS
+
+.DS_Store
+.AppleDouble
+.LSOverride
+\_\_MACOSX/
+
+# Environment files
+.flaskenv
+
+# Documentation and readme
+
+README.md
+todo.md
+
+# Database files (don't include in image)
+
+_.db
+_.sqlite
+\*.sqlite3
+
+# Logs
+
+\*.log
+
+# Docker
+
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Testing
+
+tests/
+test\__.py
+_\_test.py
+
+# TypeScript source (if you build separately)
+
+static/typescript/\*.ts
+static/typescript/tsconfig.json
+
+# Node modules (if any)
+
+node_modules/
+package-lock.json
+yarn.lock
+
+# Lingering JSON files
+\*.json
