@@ -1,0 +1,35 @@
+# Production-only dependencies — no Jupyter/IPython/dev packages
+# Direct app dependencies
+Flask
+Flask-WTF
+WTForms
+gunicorn
+gevent
+requests
+python-dotenv
+ollama
+Pygments
+misaka
+
+# Transitive dependencies (pinned for reproducibility)
+annotated-types
+anyio
+blinker
+certifi
+charset-normalizer
+click
+exceptiongroup
+h11
+httpcore
+httpx
+idna
+itsdangerous
+Jinja2
+MarkupSafe
+pydantic
+pydantic_core
+rpds-py
+typing-inspection
+typing_extensions
+urllib3
+Werkzeug
