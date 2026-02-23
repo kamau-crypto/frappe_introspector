@@ -19,7 +19,9 @@
 
                 <div>
                     {{ form.base_url.label(class="block font-semibold mb-1") }}
-                    {{ form.base_url(class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none
+                    {{ form.base_url(class="w-full border border-gray-300 rounded dark:border-gray-700
+                    dark:bg-dark-muted
+                    px-4 py-2 focus:outline-none
                     focus:ring-2 focus:ring-blue-500" + (" border-red-500" if form.base_url.errors else "")) }}
                     {% if form.base_url.errors %}
                     <div class="text-red-600 text-sm mt-1">
@@ -35,7 +37,8 @@
 
                 <div>
                     {{ form.api_key.label(class="block font-semibold mb-1") }}
-                    {{ form.api_key(class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none
+                    {{ form.api_key(class="w-full border border-gray-300 dark:border-gray-700 dark:bg-dark-muted rounded
+                    px-4 py-2 focus:outline-none
                     focus:ring-2 focus:ring-blue-500" + (" border-red-500" if form.api_key.errors else "")) }}
                     {% if form.api_key.errors %}
                     <div class="text-red-600 text-sm mt-1">
@@ -48,8 +51,9 @@
 
                 <div>
                     {{ form.api_secret.label(class="block font-semibold mb-1") }}
-                    {{ form.api_secret(class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none
-                    focus:ring-2 focus:ring-blue-500" + (" border-red-500" if form.api_secret.errors else "")) }}
+                    {{ form.api_secret(class="w-full border border-gray-300 dark:bg-dark-muted rounded
+                    px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" + (" border-red-500" if
+                    form.api_secret.errors else "")) }}
                     {% if form.api_secret.errors %}
                     <div class="text-red-600 text-sm mt-1">
                         {% for error in form.api_secret.errors %}
