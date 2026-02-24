@@ -6,15 +6,19 @@ from typing import Any, Dict, List, Optional
 from dotenv import load_dotenv
 from ollama import Message
 
-from ai import AIChat, AIChatDB
+from ai import AIChat
+from db import AIChatDB
 
 load_dotenv()
 import requests
 from flask import (Flask, Response, flash, jsonify, redirect, render_template,
-                   request, send_from_directory, session, url_for)
+                   request, send_from_directory, session, stream_with_context,
+                   url_for)
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, SubmitField, TextAreaField
 from wtforms.validators import URL, DataRequired
+
+from auth import SessionExpiredError, validate_session
 
 ERPNEXT_URL = os.environ.get("ERPNEXT_URL", "http://127.0.0.1:8000")
 ERP_API_KEY = os.environ.get("ERP_API_KEY", None)
@@ -36,26 +40,35 @@ class ERPNextConnection:
         }
 
 
-    def save_session(self):
-        """ Save the current session via the document's headers for some sort of authentication mechanism for the user """    
-        try:
-            # Get the session cookies from the current connection
-            cookie = self.headers.get("Cookie")
-        except Exception as e:
-            return {"success": False, "message": f"Error saving session: {str(e)}"}
-        
+    def _check_response(self, response: requests.Response) -> requests.Response:
+        """
+        Inspect every Frappe response.
+        Raises SessionExpiredError on 401/403 so the middleware can catch it
+        and redirect the user back to /connect with a clear message.
+        """
+        if response.status_code in (401, 403):
+            raise SessionExpiredError(
+                "Your Frappe session has expired or the API token was revoked. "
+                "Please reconnect."
+            )
+        return response
+
     def test_connection(self) -> Dict[str, Any]:
         """Test the connection to ERPNext"""
         try:
-            response = requests.get(
-                f"{self.base_url}/api/method/frappe.handler.ping",
-                headers=self.headers,
-                timeout=10,
+            response = self._check_response(
+                requests.get(
+                    f"{self.base_url}/api/method/frappe.handler.ping",
+                    headers=self.headers,
+                    timeout=10,
+                )
             )
             if response.status_code == 200:
                 return {"success": True, "message": "Connection successful"}
             else:
                 return {"success": False, "message": f"HTTP {response.status_code}"}
+        except SessionExpiredError:
+            raise
         except Exception as e:
             return {"success": False, "message": str(e)}
 
@@ -567,8 +580,72 @@ class OpenAPIGenerateForm(FlaskForm):
     )
 
 
-# Global connection object
-current_connection = None
+# Global connection object (rebuilt from session on each request via before_request)
+current_connection: Optional["ERPNextConnection"] = None
+
+_NO_AUTH_ROUTES = {"connect", "index", "static", "disconnect"}
+
+
+@app.before_request
+def restore_or_validate_session():
+    """
+    Before every request (except connect / static):
+    1. Rebuild ERPNextConnection from the Flask session if the global is missing.
+    2. Validate the stored credentials are still accepted by Frappe.
+    3. If expired or missing, flash a message and redirect to /connect.
+    """
+    global current_connection
+
+    # Skip routes that don't need an active connection
+    if request.endpoint in _NO_AUTH_ROUTES or request.endpoint is None:
+        return
+
+    base_url  = str(session.get("erpnext_url"))
+    api_key   = str(session.get("erpnext_api_key"))
+    api_secret = str(session.get("erpnext_api_secret"))
+
+    # No credentials in session → send to connect
+    if not all([base_url, api_key, api_secret]):
+        flash("Please connect to ERPNext first.", "warning")
+        return redirect(url_for("connect"))
+
+    # Rebuild connection object if lost (e.g. worker restart)
+    if current_connection is None:
+        current_connection = ERPNextConnection(base_url, api_key, api_secret)
+
+    # Validate credentials are still accepted by Frappe
+    result = validate_session(base_url, api_key, api_secret)
+    print("result", result)
+    if not result["valid"]:
+        current_connection = None
+        session.clear()
+        reason = result["reason"]
+        if reason == "expired":
+            flash("Your ERPNext session has expired. Please reconnect.", "warning")
+        elif reason == "unreachable":
+            flash("ERPNext is unreachable. Please check the URL and reconnect.", "error")
+        else:
+            flash(f"Connection lost ({reason}). Please reconnect.", "error")
+        return redirect(url_for("connect"))
+
+@app.errorhandler(SessionExpiredError)
+def handle_session_expired(e):
+    """Catch SessionExpiredError raised inside any route and redirect gracefully."""
+    global current_connection
+    current_connection = None
+    session.clear()
+    flash(str(e), "warning")
+    return redirect(url_for("connect"))
+
+
+@app.route("/disconnect")
+def disconnect():
+    """Clear the stored session and return to the connect page."""
+    global current_connection
+    current_connection = None
+    session.clear()
+    flash("Disconnected successfully.", "success")
+    return redirect(url_for("connect"))
 
 
 @app.route("/")
@@ -581,42 +658,39 @@ def index():
 def connect():
     """Connection setup page"""
     form = ConnectionForm()
-    # Load the environment variables
-    form.base_url.data = ERPNEXT_URL
-    form.api_key.data = ERP_API_KEY
+    # Pre-fill from environment vars or existing session
+    form.base_url.data = session.get("erpnext_url") or ERPNEXT_URL
+    form.api_key.data  = session.get("erpnext_api_key") or ERP_API_KEY
+    form.api_secret.data = session.get("erpnext_api_secret") or ERP_API_SECRET
 
     if form.validate_on_submit():
         global current_connection
 
-        try:
-            # Test connection
-            conn = ERPNextConnection(
-                (form.base_url.data or "").strip(),
-                (form.api_key.data or "").strip(),
-                (form.api_secret.data or "").strip(),
-            )
+        base_url   = (form.base_url.data or "").strip()
+        api_key    = (form.api_key.data or "").strip()
+        api_secret = (form.api_secret.data or "").strip()
 
+        try:
+            conn = ERPNextConnection(base_url, api_key, api_secret)
             result = conn.test_connection()
+
             if result["success"]:
+                # Persist credentials in the signed Flask session cookie
+                session["erpnext_url"]        = base_url
+                session["erpnext_api_key"]    = api_key
+                session["erpnext_api_secret"] = api_secret
                 current_connection = conn
                 flash("Connected successfully!", "success")
                 return redirect(url_for("doctypes"))
             else:
                 flash(f"Connection failed: {result['message']}", "error")
 
+        except SessionExpiredError as e:
+            flash(str(e), "warning")
         except Exception as e:
             flash(f"Connection error: {str(e)}", "error")
 
     return render_template("connect.html", form=form)
-
-
-@app.context_processor
-def inject_pygments_css():
-    from pygments.formatters import HtmlFormatter
-
-    return {
-        "pygments_css": HtmlFormatter(style="monokai").get_style_defs(".codehilite")
-    }
 
 
 @app.route("/doctypes")
@@ -706,6 +780,7 @@ def chat():
         if not message:
             return jsonify({"error": "No message provided"}), 400
         
+        
         # Initialize session data for new conversations
         if "conversation_id" not in session:
             session["conversation_id"] = str(uuid.uuid4())
@@ -722,7 +797,7 @@ def chat():
         
         # Store user message in database
         db = AIChatDB()
-        db.store_message(user_id=user_id, role="user", content=message)
+        db.store_message(session_id=conversation_id, role="user", content=message)
         
         # Convert history to Message objects for Ollama
         messages = [Message(role=msg["role"], content=msg["content"]) for msg in conversation_history]
@@ -750,20 +825,43 @@ def chat():
                 db.store_message(user_id=user_id, role="assistant", content=accumulated_response)
         
         # Return the response as a stream
-        response = Response(event_stream(), mimetype='text/event-stream')
+        response = Response(stream_with_context(event_stream()), mimetype='text/event-stream')
         response.headers['X-Accel-Buffering'] = 'no'
         response.headers['Cache-Control'] = 'no-cache'
         return response
     
     return jsonify({"error": "Invalid request method"}), 405
 
+@app.route("/conversation_history", methods=["GET"])
+def conversation_history():
+    """Retrieve conversation history for the current session"""
+    user_id = session.get("user_id")
+    
+    if not user_id:
+        return jsonify({"error": "User not authenticated"}), 401
+    
+    db = AIChatDB()
+    conversations = db.retrieve_conversations(user_id=user_id)
+    
+    return jsonify({"conversations": conversations})
 
-@app.route("/get_messages", methods=["GET"])
+@app.route("/get_message", methods=["GET"])
 def get_messages():
     """Retrieve conversation history from database"""
+    # Get the conversation_id unique to this conversation
+    conversation_id = request.args.get("conversation_id")
+    # Check if the current user is active and if not, then return a proper error
     user_id = session.get("user_id", "guest")
+    if user_id == "guest":
+        return jsonify({"error": "User not authenticated"}), 401
+    if not conversation_id:
+        return jsonify({"error": "Conversation ID is required"}), 400
+    
     db = AIChatDB()
-    messages = db.retrieve_messages(user_id=user_id)
+    messages = db.retrieve_conversation_messages(conversation_id=conversation_id)
+    
+    if isinstance(messages, bool):
+        return jsonify({"error": "No messages found for this session"}), 404
     
     # Format messages for frontend consumption
     formatted_messages = [
@@ -776,7 +874,7 @@ def get_messages():
         for msg in messages
     ]
     
-    return jsonify({"messages": formatted_messages})
+    return jsonify({"messages": formatted_messages, "user": user_id})
 
 
 @app.route("/clear_history", methods=["POST"])
@@ -889,4 +987,5 @@ def internal_error(error):
 
 
 if __name__ == "__main__":
+    app.run()
     app.run()
