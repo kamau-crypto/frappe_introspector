@@ -4,8 +4,12 @@ declare const showdown: any;
 //
 export class Chat {
 	private processing_response_flag = false;
+	private chat_messages: HTMLDivElement | null = null;
 	constructor() {
 		this.toggle_chat();
+		(async () => {
+			await this.get_conversations();
+		})();
 		this.chat_message();
 		this.setup_clear_history();
 	}
@@ -21,13 +25,17 @@ export class Chat {
 		const toggleIcon = <SVGElement | null>(
 			document.getElementById("toggle-icon")
 		);
+		const chatMessages = <HTMLDivElement | null>(
+			document.getElementById("chat_messages")
+		);
 
-		if (!chatToggle || !chatBody || !toggleIcon) {
+		if (!chatToggle || !chatBody || !toggleIcon || !chatMessages) {
 			const textMsg = () => {
 				return (
 					(!chatToggle && "Chat Toggle Button") ||
 					(!chatBody && "Chat Body") ||
-					(!toggleIcon && "Toggle Icon")
+					(!toggleIcon && "Toggle Icon") ||
+					(!chatMessages && "Chat Messages")
 				);
 			};
 			throw new AIChatError(`${textMsg()} not found`);
@@ -40,6 +48,7 @@ export class Chat {
 				chatBody.style.display = "flex";
 				toggleIcon.classList.remove("rotate-0");
 				toggleIcon.classList.add("rotate-180");
+				this.chat_messages = chatMessages;
 			} else {
 				// Hide the chat body and reset the icon rotation
 				chatBody.style.display = "none";
@@ -47,6 +56,13 @@ export class Chat {
 				toggleIcon.classList.add("rotate-0");
 			}
 		});
+	}
+
+	/**
+	 *  Display the login redirect if the user is not logged in and tries to send a message. This is triggered by a 401 response from the server.
+	 */
+	private async display_login_error() {
+		//
 	}
 
 	/**
@@ -67,6 +83,34 @@ export class Chat {
 				await this.clear_conversation_history();
 			}
 		});
+	}
+
+	/**
+	 * Get the conversation history from server and UI
+	 */
+	private async get_conversations() {
+		try {
+			const response = await fetch("/conversation_history", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (response.status === 401) {
+				this.display_login_error();
+				return;
+			}
+			if (response.ok) {
+				const data = await response.json();
+				return data.history || [];
+			} else {
+				throw new AIChatError("Failed to retrieve conversation history");
+			}
+		} catch (error) {
+			console.error("Error fetching history:", error);
+			throw new AIChatError("Failed to retrieve conversation history");
+		}
 	}
 
 	/**
