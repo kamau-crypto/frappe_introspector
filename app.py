@@ -24,7 +24,7 @@ from auth import SessionExpiredError, validate_session
 ERPNEXT_URL = os.environ.get("ERPNEXT_URL", "http://127.0.0.1:8000")
 ERP_API_KEY = os.environ.get("ERP_API_KEY", None)
 ERP_API_SECRET = os.environ.get("ERP_API_SECRET", None)
-APP_MODE = os.environ.get("MODE", "production")  # "erpnext" or "production"
+APP_MODE = os.environ.get("MODE", "erpnext")  # "erpnext" or "production"
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "erpnextinspectorsecretkey")
@@ -759,7 +759,7 @@ def connect():
 @app.route("/doctypes")
 def doctypes():
     """DocTypes listing page"""
-    if APP_MODE == "erpnext":
+    if APP_MODE == "production":
          # In production mode, read from the static file instead of making API calls
         if os.path.exists("./public/doctypes_list.json"):
             with open("./public/doctypes_list.json", "r") as f:
@@ -772,6 +772,7 @@ def doctypes():
         flash("Please connect to ERPNext first", "warning")
         return redirect(url_for("connect"))
 
+    print(f"Fetching list of DocTypes..., {APP_MODE}")   
     doctypes_list = current_connection.get_all_doctypes()
     # Cleanup unnecessary properties fromt the metadata
     return render_template("doctypes.html", doctypes=doctypes_list)
@@ -816,10 +817,8 @@ def doctype_detail(doctype_name):
         f
         for f in fields
         if f.get("fieldname")
-        and f.get("fieldtype") not in ["Section Break", "Column Break", "HTML"]
+        and f.get("fieldtype") not in ["Section Break", "Column Break", "HTML","Tab Break"]
     ]
-    with open(f"./public/doctype/{doctype_name}.json","w") as f:
-        json.dump(metadata, f, indent=2) 
     # Categorize fields
     required_fields = [f for f in actual_fields if f.get("reqd")]
     readonly_fields = [f for f in actual_fields if f.get("read_only")]
