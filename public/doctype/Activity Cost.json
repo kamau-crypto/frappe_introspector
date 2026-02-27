@@ -1,9 +1,5 @@
 {
   "name": "Activity Cost",
-  "owner": "Administrator",
-  "creation": "2015-03-23 02:00:21.861546",
-  "modified": "2024-03-27 13:05:57.800347",
-  "modified_by": "Administrator",
   "docstatus": 0,
   "idx": 0,
   "read_only": 0,
@@ -54,11 +50,7 @@
   "doctype": "DocType",
   "fields": [
     {
-      "name": "dne0smcom1",
-      "owner": "Administrator",
-      "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
-      "modified_by": "Administrator",
+      "name": "5iouck67i9",
       "docstatus": 0,
       "idx": 1,
       "label": "Activity Type",
@@ -110,11 +102,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "dne1ecj564",
-      "owner": "Administrator",
-      "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
-      "modified_by": "Administrator",
+      "name": "5io8nin8e4",
       "docstatus": 0,
       "idx": 2,
       "label": "Employee",
@@ -166,11 +154,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "dne4vnt1to",
-      "owner": "Administrator",
-      "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
-      "modified_by": "Administrator",
+      "name": "5iou7pbknr",
       "docstatus": 0,
       "idx": 3,
       "fieldtype": "Column Break",
@@ -220,11 +204,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "dneqs04827",
-      "owner": "Administrator",
-      "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
-      "modified_by": "Administrator",
+      "name": "5ioheirqqc",
       "docstatus": 0,
       "idx": 4,
       "label": "Employee Name",
@@ -275,11 +255,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "dnekkfjd68",
-      "owner": "Administrator",
-      "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
-      "modified_by": "Administrator",
+      "name": "5ioabir6i6",
       "docstatus": 0,
       "idx": 5,
       "label": "Department",
@@ -332,11 +308,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "dne0arlnr4",
-      "owner": "Administrator",
-      "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
-      "modified_by": "Administrator",
+      "name": "5iolsls13r",
       "docstatus": 0,
       "idx": 6,
       "fieldtype": "Section Break",
@@ -386,11 +358,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "dnejvh9bg6",
-      "owner": "Administrator",
-      "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
-      "modified_by": "Administrator",
+      "name": "5iomlk3udn",
       "docstatus": 0,
       "idx": 7,
       "label": "Billing Rate",
@@ -443,11 +411,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "dne775mtu4",
-      "owner": "Administrator",
-      "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
-      "modified_by": "Administrator",
+      "name": "5iopfue2ae",
       "docstatus": 0,
       "idx": 8,
       "fieldtype": "Column Break",
@@ -497,11 +461,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "dnemodctme",
-      "owner": "Administrator",
-      "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
-      "modified_by": "Administrator",
+      "name": "5io0ag2jei",
       "docstatus": 0,
       "idx": 9,
       "label": "Costing Rate",
@@ -554,11 +514,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "dnekpog43u",
-      "owner": "Administrator",
-      "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
-      "modified_by": "Administrator",
+      "name": "5ioffv39ph",
       "docstatus": 0,
       "idx": 10,
       "label": "title",
@@ -611,10 +567,10 @@
   ],
   "permissions": [
     {
-      "name": "dne8p78q93",
+      "name": "5io2bv1pqj",
       "owner": "Administrator",
       "creation": "2015-03-23 02:00:21.861546",
-      "modified": "2025-08-14 01:17:48.682569",
+      "modified": "2025-04-15 16:55:48.069681",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 1,

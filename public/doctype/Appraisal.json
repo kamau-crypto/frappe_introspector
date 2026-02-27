@@ -1,9 +1,5 @@
 {
   "name": "Appraisal",
-  "owner": "Administrator",
-  "creation": "2022-08-26 05:55:37.571091",
-  "modified": "2025-02-18 15:03:49.932773",
-  "modified_by": "Administrator",
   "docstatus": 0,
   "idx": 0,
   "read_only": 0,
@@ -59,11 +55,7 @@
   "doctype": "DocType",
   "fields": [
     {
-      "name": "eurgqof8kv",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ilbrg0lt",
       "docstatus": 0,
       "idx": 1,
       "label": "Overview",
@@ -115,11 +107,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur4d104eo",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i7bb13mo",
       "docstatus": 0,
       "idx": 2,
       "label": "Series",
@@ -171,11 +159,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur3hff271",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i3201a9r",
       "docstatus": 0,
       "idx": 3,
       "label": "Employee",
@@ -229,11 +213,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurj2ebbdc",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ir70f6vp",
       "docstatus": 0,
       "idx": 4,
       "label": "Employee Name",
@@ -287,11 +267,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurvfp88o6",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i7p6cmaa",
       "docstatus": 0,
       "idx": 5,
       "label": "Department",
@@ -344,11 +320,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur48uavlm",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1inpqe6mh",
       "docstatus": 0,
       "idx": 6,
       "label": "Designation",
@@ -401,11 +373,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur6liqd8d",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1if56db4h",
       "docstatus": 0,
       "idx": 7,
       "label": "Employee Image",
@@ -457,11 +425,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurt9g6rgr",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i5657d6c",
       "docstatus": 0,
       "idx": 8,
       "fieldtype": "Column Break",
@@ -513,11 +477,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eursq9i9fj",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i4rfenmq",
       "docstatus": 0,
       "idx": 9,
       "label": "Company",
@@ -571,11 +531,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur0nerfbm",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1iv3ugert",
       "docstatus": 0,
       "idx": 10,
       "label": "Appraisal Cycle",
@@ -627,11 +583,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eureij48d8",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ibuljar3",
       "docstatus": 0,
       "idx": 11,
       "label": "Start Date",
@@ -682,11 +634,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurs6r37sl",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ipluv3tq",
       "docstatus": 0,
       "idx": 12,
       "label": "End Date",
@@ -737,11 +685,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurd4doqr4",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1io1no0qb",
       "docstatus": 0,
       "idx": 13,
       "fieldtype": "Section Break",
@@ -791,11 +735,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurrdb9h6o",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ivbugf7j",
       "docstatus": 0,
       "idx": 14,
       "label": "Final Score",
@@ -848,11 +788,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurjnjuf9o",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ivhv4e8m",
       "docstatus": 0,
       "idx": 15,
       "label": "KRAs",
@@ -904,11 +840,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "euraqbbt1o",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i34imble",
       "docstatus": 0,
       "idx": 16,
       "label": "Appraisal Template",
@@ -963,11 +895,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurgljfd8l",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ie354ulb",
       "docstatus": 0,
       "idx": 17,
       "label": "Rate Goals Manually",
@@ -1019,11 +947,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur0phei14",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ivf9ev4i",
       "docstatus": 0,
       "idx": 18,
       "fieldtype": "Section Break",
@@ -1073,11 +997,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurk9s6ofc",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1incbq6mk",
       "docstatus": 0,
       "idx": 19,
       "label": "KRA vs Goals",
@@ -1132,11 +1052,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurlvi9d81",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i8dpfagf",
       "docstatus": 0,
       "idx": 20,
       "label": "Goal Score (%)",
@@ -1188,11 +1104,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur5qes0gl",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1it4m6h8m",
       "docstatus": 0,
       "idx": 21,
       "fieldtype": "Section Break",
@@ -1242,11 +1154,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur0sfkps5",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ilnkdup1",
       "docstatus": 0,
       "idx": 22,
       "label": "Goals",
@@ -1299,11 +1207,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurnqjt677",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ivivrrfi",
       "docstatus": 0,
       "idx": 23,
       "label": "Remarks",
@@ -1356,11 +1260,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurm8cmhg8",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ipn2m798",
       "docstatus": 0,
       "idx": 24,
       "fieldtype": "Section Break",
@@ -1410,11 +1310,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurpsu6qdb",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ic5qibvn",
       "docstatus": 0,
       "idx": 25,
       "label": "Total Goal Score",
@@ -1468,11 +1364,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "euruvjk1q7",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1iefjo08o",
       "docstatus": 0,
       "idx": 26,
       "label": "Feedback",
@@ -1523,11 +1415,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur08tccp8",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i7ae2qj3",
       "docstatus": 0,
       "idx": 27,
       "label": "Feedback HTML",
@@ -1578,11 +1466,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur2sq88rn",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i281s70d",
       "docstatus": 0,
       "idx": 28,
       "fieldtype": "Section Break",
@@ -1632,11 +1516,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur3vjtm3a",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1ig334vk7",
       "docstatus": 0,
       "idx": 29,
       "label": "Average Feedback Score",
@@ -1687,11 +1567,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurn8itpg2",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1iv3qr191",
       "docstatus": 0,
       "idx": 30,
       "label": "Self Appraisal",
@@ -1742,11 +1618,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur9is8irr",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1imsjhkoq",
       "docstatus": 0,
       "idx": 31,
       "label": "Ratings",
@@ -1797,11 +1669,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurfnsvg9v",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1iue76u2k",
       "docstatus": 0,
       "idx": 32,
       "fieldtype": "Table",
@@ -1852,11 +1720,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurjlnt3a8",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i4438h0d",
       "docstatus": 0,
       "idx": 33,
       "label": "Total Self Score",
@@ -1907,11 +1771,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eurpb8m3r1",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1icccdg9d",
       "docstatus": 0,
       "idx": 34,
       "label": "Reflections",
@@ -1962,11 +1822,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur3mq5nv6",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1infjdmj9",
       "docstatus": 0,
       "idx": 35,
       "fieldtype": "Text Editor",
@@ -2016,11 +1872,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "eur00m3mf9",
-      "owner": "Administrator",
-      "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
-      "modified_by": "Administrator",
+      "name": "v1i8ricrku",
       "docstatus": 0,
       "idx": 36,
       "label": "Amended From",
@@ -2074,10 +1926,10 @@
   ],
   "permissions": [
     {
-      "name": "eurlfke6eh",
+      "name": "v1i11lobss",
       "owner": "Administrator",
       "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
+      "modified": "2026-02-25 11:29:05.819549",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 1,
@@ -2104,10 +1956,10 @@
       "doctype": "DocPerm"
     },
     {
-      "name": "eur0du00ud",
+      "name": "v1i92flv82",
       "owner": "Administrator",
       "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
+      "modified": "2026-02-25 11:29:05.819549",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 2,
@@ -2134,10 +1986,10 @@
       "doctype": "DocPerm"
     },
     {
-      "name": "eures5tsor",
+      "name": "v1i56fhstt",
       "owner": "Administrator",
       "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
+      "modified": "2026-02-25 11:29:05.819549",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 3,
@@ -2164,10 +2016,10 @@
       "doctype": "DocPerm"
     },
     {
-      "name": "eur0mcos6b",
+      "name": "v1ijkuqdc5",
       "owner": "Administrator",
       "creation": "2022-08-26 05:55:37.571091",
-      "modified": "2025-08-14 01:19:54.797194",
+      "modified": "2026-02-25 11:29:05.819549",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 4,

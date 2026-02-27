@@ -1,9 +1,5 @@
 {
   "name": "About Us Settings",
-  "owner": "Administrator",
-  "creation": "2013-03-19 12:02:15",
-  "modified": "2024-03-23 16:01:26.370657",
-  "modified_by": "Administrator",
   "docstatus": 0,
   "idx": 1,
   "read_only": 0,
@@ -54,11 +50,7 @@
   "doctype": "DocType",
   "fields": [
     {
-      "name": "atuv58r8ti",
-      "owner": "Administrator",
-      "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
-      "modified_by": "Administrator",
+      "name": "2qtq32abau",
       "docstatus": 0,
       "idx": 1,
       "label": "Page Title",
@@ -109,11 +101,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "atutf7cedn",
-      "owner": "Administrator",
-      "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
-      "modified_by": "Administrator",
+      "name": "2qta9gm2q6",
       "docstatus": 0,
       "idx": 2,
       "label": "Company Introduction",
@@ -165,11 +153,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "atuhflm5ho",
-      "owner": "Administrator",
-      "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
-      "modified_by": "Administrator",
+      "name": "2qtcv00bm9",
       "docstatus": 0,
       "idx": 3,
       "label": "Org History",
@@ -220,11 +204,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "atuatfbd3b",
-      "owner": "Administrator",
-      "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
-      "modified_by": "Administrator",
+      "name": "2qtv1mmaqm",
       "docstatus": 0,
       "idx": 4,
       "label": "Org History Heading",
@@ -276,11 +256,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "atupr37nt2",
-      "owner": "Administrator",
-      "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
-      "modified_by": "Administrator",
+      "name": "2qtlcd3mns",
       "docstatus": 0,
       "idx": 5,
       "label": "Org History",
@@ -332,11 +308,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "atuf3a2v00",
-      "owner": "Administrator",
-      "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
-      "modified_by": "Administrator",
+      "name": "2qthsppejd",
       "docstatus": 0,
       "idx": 6,
       "label": "Team Members",
@@ -387,11 +359,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "atu9ishi7q",
-      "owner": "Administrator",
-      "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
-      "modified_by": "Administrator",
+      "name": "2qt3g1g5ip",
       "docstatus": 0,
       "idx": 7,
       "label": "Team Members Heading",
@@ -443,11 +411,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "atukrvc7q9",
-      "owner": "Administrator",
-      "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
-      "modified_by": "Administrator",
+      "name": "2qt7t3ujrh",
       "docstatus": 0,
       "idx": 8,
       "label": "Team Members Subtitle",
@@ -498,11 +462,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "atugilocnk",
-      "owner": "Administrator",
-      "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
-      "modified_by": "Administrator",
+      "name": "2qtp1pqia5",
       "docstatus": 0,
       "idx": 9,
       "label": "Team Members",
@@ -554,11 +514,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "atu1n5rgj0",
-      "owner": "Administrator",
-      "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
-      "modified_by": "Administrator",
+      "name": "2qtp27sq0j",
       "docstatus": 0,
       "idx": 10,
       "label": "Footer",
@@ -612,10 +568,10 @@
   ],
   "permissions": [
     {
-      "name": "atuua4q2f2",
+      "name": "2qt8kiuc03",
       "owner": "Administrator",
       "creation": "2013-03-19 12:02:15",
-      "modified": "2025-08-14 01:13:02.274253",
+      "modified": "2025-04-15 16:51:06.972253",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 1,

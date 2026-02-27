@@ -1,9 +1,5 @@
 {
   "name": "Delivery Note",
-  "owner": "Administrator",
-  "creation": "2013-05-24 19:29:09",
-  "modified": "2025-08-04 19:20:47.724218",
-  "modified_by": "Administrator",
   "docstatus": 0,
   "idx": 146,
   "read_only": 0,
@@ -58,11 +54,7 @@
   "doctype": "DocType",
   "fields": [
     {
-      "name": "t84viabi2f",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ur026rq8",
       "docstatus": 0,
       "idx": 1,
       "label": "Series",
@@ -116,11 +108,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84a7ph3e9",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u1bs0mo0",
       "docstatus": 0,
       "idx": 2,
       "label": "Customer",
@@ -174,11 +162,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84jhjc99k",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9us6mi61p",
       "docstatus": 0,
       "idx": 3,
       "label": "Tax Id",
@@ -229,11 +213,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84k5o2o28",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u7uo3dvf",
       "docstatus": 0,
       "idx": 4,
       "label": "Customer Name",
@@ -286,11 +266,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84vb0odqp",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uu4715uc",
       "docstatus": 0,
       "idx": 5,
       "fieldtype": "Column Break",
@@ -341,11 +317,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ujo7slb",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u2mmdgbv",
       "docstatus": 0,
       "idx": 6,
       "label": "Date",
@@ -401,11 +373,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84tk7538h",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9usvha6pn",
       "docstatus": 0,
       "idx": 7,
       "label": "Posting Time",
@@ -461,11 +429,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ac9ot6g",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ujfhtavd",
       "docstatus": 0,
       "idx": 8,
       "label": "Edit Posting Date and Time",
@@ -518,11 +482,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84lcj2b87",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u6iba4vc",
       "docstatus": 0,
       "idx": 9,
       "fieldtype": "Column Break",
@@ -572,11 +532,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84s0s6fvg",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ud65gusq",
       "docstatus": 0,
       "idx": 10,
       "label": "Company",
@@ -632,11 +588,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t841spjdjp",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ut237a0j",
       "docstatus": 0,
       "idx": 11,
       "label": "Amended From",
@@ -692,11 +644,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t843ttq27r",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u7qd5vqp",
       "docstatus": 0,
       "idx": 12,
       "label": "Is Return",
@@ -748,11 +696,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84th34bqi",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u8btsejk",
       "docstatus": 0,
       "idx": 13,
       "label": "Issue Credit Note",
@@ -805,11 +749,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84uinirtt",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u9mc0m6f",
       "docstatus": 0,
       "idx": 14,
       "label": "Return Against Delivery Note",
@@ -862,11 +802,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t847d7bskg",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ujjhsqcu",
       "docstatus": 0,
       "idx": 15,
       "label": "Accounting Dimensions",
@@ -917,11 +853,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t848ldjr6b",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uigqe8g1",
       "docstatus": 0,
       "idx": 16,
       "label": "Cost Center",
@@ -973,11 +905,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84thim00i",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9up6704nh",
       "docstatus": 0,
       "idx": 17,
       "fieldtype": "Column Break",
@@ -1027,11 +955,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84t7cuskd",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uu98u82r",
       "docstatus": 0,
       "idx": 18,
       "label": "Project",
@@ -1085,11 +1009,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84j5l0b3g",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uskptf26",
       "docstatus": 0,
       "idx": 19,
       "fieldtype": "Column Break",
@@ -1139,11 +1059,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t848k1q1nc",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uel7g8dg",
       "docstatus": 0,
       "idx": 20,
       "label": "Currency and Price List",
@@ -1195,11 +1111,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84t8d2k13",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u7oph6d0",
       "docstatus": 0,
       "idx": 21,
       "label": "Currency",
@@ -1253,11 +1165,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84r4b9ktr",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u9h9j6qj",
       "docstatus": 0,
       "idx": 22,
       "label": "Exchange Rate",
@@ -1312,11 +1220,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84gdp5tt4",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u3tbjh8k",
       "docstatus": 0,
       "idx": 23,
       "fieldtype": "Column Break",
@@ -1366,11 +1270,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84o8b9q8q",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ua0jhbp5",
       "docstatus": 0,
       "idx": 24,
       "label": "Price List",
@@ -1424,11 +1324,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84cc3kia8",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9udfq06r0",
       "docstatus": 0,
       "idx": 25,
       "label": "Price List Currency",
@@ -1480,11 +1376,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84cjqhir5",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uq8f5579",
       "docstatus": 0,
       "idx": 26,
       "label": "Price List Exchange Rate",
@@ -1537,11 +1429,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84p8la2t8",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9urlc1uo3",
       "docstatus": 0,
       "idx": 27,
       "label": "Ignore Pricing Rule",
@@ -1593,11 +1481,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84jpc6fa0",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uvfhij7v",
       "docstatus": 0,
       "idx": 28,
       "label": "Items",
@@ -1650,11 +1534,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t8496p8lof",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u98j9c8o",
       "docstatus": 0,
       "idx": 29,
       "label": "Scan Barcode",
@@ -1706,11 +1586,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84rdtkj3s",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u7oc4pj1",
       "docstatus": 0,
       "idx": 30,
       "label": "Last Scanned Warehouse",
@@ -1762,11 +1638,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t8407c49n2",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uppd1nco",
       "docstatus": 0,
       "idx": 31,
       "fieldtype": "Column Break",
@@ -1816,11 +1688,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t8494622ug",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9unqmkpfj",
       "docstatus": 0,
       "idx": 32,
       "label": "Set Source Warehouse",
@@ -1872,11 +1740,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84kedvn99",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uqi0a2iv",
       "docstatus": 0,
       "idx": 33,
       "label": "Set Target Warehouse",
@@ -1931,11 +1795,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84pga2bvv",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9utmejcuf",
       "docstatus": 0,
       "idx": 34,
       "fieldtype": "Section Break",
@@ -1985,11 +1845,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84kftqk2o",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ueltt7hf",
       "docstatus": 0,
       "idx": 35,
       "label": "Delivery Note Item",
@@ -2043,11 +1899,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t8474n87ne",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uhupagrs",
       "docstatus": 0,
       "idx": 36,
       "fieldtype": "Section Break",
@@ -2097,11 +1949,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t849c6v6id",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ue121r3e",
       "docstatus": 0,
       "idx": 37,
       "label": "Total Quantity",
@@ -2152,11 +2000,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84eof69q1",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uc6h6g1t",
       "docstatus": 0,
       "idx": 38,
       "label": "Total Net Weight",
@@ -2208,11 +2052,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t845f4a1he",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u6vas610",
       "docstatus": 0,
       "idx": 39,
       "fieldtype": "Column Break",
@@ -2262,11 +2102,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84caaa7kg",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9umajsouc",
       "docstatus": 0,
       "idx": 40,
       "label": "Total (Company Currency)",
@@ -2318,11 +2154,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84mrrqdq5",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uv4r3kep",
       "docstatus": 0,
       "idx": 41,
       "label": "Net Total (Company Currency)",
@@ -2378,11 +2210,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84b8ndakf",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uvav13af",
       "docstatus": 0,
       "idx": 42,
       "fieldtype": "Column Break",
@@ -2432,11 +2260,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t840j8i83o",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uhocog9l",
       "docstatus": 0,
       "idx": 43,
       "label": "Total",
@@ -2488,11 +2312,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84dsnjhlj",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9utcrdorv",
       "docstatus": 0,
       "idx": 44,
       "label": "Net Total",
@@ -2544,11 +2364,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84pmisa8f",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ueas406f",
       "docstatus": 0,
       "idx": 45,
       "label": "Taxes and Charges",
@@ -2601,11 +2417,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t8421mhm0t",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9un59jp95",
       "docstatus": 0,
       "idx": 46,
       "label": "Tax Category",
@@ -2657,11 +2469,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t842hi1has",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ukhkfngn",
       "docstatus": 0,
       "idx": 47,
       "label": "Sales Taxes and Charges Template",
@@ -2715,11 +2523,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84gfnh4cl",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ua10r45a",
       "docstatus": 0,
       "idx": 48,
       "fieldtype": "Column Break",
@@ -2769,11 +2573,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84u57pv8v",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u8nafpvp",
       "docstatus": 0,
       "idx": 49,
       "label": "Shipping Rule",
@@ -2826,11 +2626,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84vp6r330",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u883km40",
       "docstatus": 0,
       "idx": 50,
       "fieldtype": "Column Break",
@@ -2880,11 +2676,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t840jjr79c",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ucoc07ej",
       "docstatus": 0,
       "idx": 51,
       "label": "Incoterm",
@@ -2936,11 +2728,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84uf4a92q",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9usu8pffa",
       "docstatus": 0,
       "idx": 52,
       "label": "Named Place",
@@ -2992,11 +2780,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84u4qr38k",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u0ooifit",
       "docstatus": 0,
       "idx": 53,
       "fieldtype": "Section Break",
@@ -3046,11 +2830,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ngatjcc",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uhni6q66",
       "docstatus": 0,
       "idx": 54,
       "label": "Sales Taxes and Charges",
@@ -3104,11 +2884,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t8427j2n1m",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u22joal5",
       "docstatus": 0,
       "idx": 55,
       "fieldtype": "Section Break",
@@ -3158,11 +2934,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84o97rv3k",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uqlgdugc",
       "docstatus": 0,
       "idx": 56,
       "label": "Total Taxes and Charges (Company Currency)",
@@ -3218,11 +2990,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ihr35gr",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ubmveu5v",
       "docstatus": 0,
       "idx": 57,
       "fieldtype": "Column Break",
@@ -3272,11 +3040,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t8471cljh0",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u3h3c1hm",
       "docstatus": 0,
       "idx": 58,
       "label": "Total Taxes and Charges",
@@ -3328,11 +3092,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t841luo6i4",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uqfglc48",
       "docstatus": 0,
       "idx": 59,
       "label": "Totals",
@@ -3385,11 +3145,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84lvfjuhr",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ujhsv7im",
       "docstatus": 0,
       "idx": 60,
       "label": "Grand Total (Company Currency)",
@@ -3445,11 +3201,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t849mr49pr",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9us6mh6k0",
       "docstatus": 0,
       "idx": 61,
       "label": "Rounding Adjustment (Company Currency)",
@@ -3502,11 +3254,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84uam1v1j",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9umq1qm50",
       "docstatus": 0,
       "idx": 62,
       "label": "Rounded Total (Company Currency)",
@@ -3563,11 +3311,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84g5pog62",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9unl8me3q",
       "docstatus": 0,
       "idx": 63,
       "label": "In Words (Company Currency)",
@@ -3623,11 +3367,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84auio3b0",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uqi8me47",
       "docstatus": 0,
       "idx": 64,
       "fieldtype": "Column Break",
@@ -3678,11 +3418,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84001nta6",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ugkmj66r",
       "docstatus": 0,
       "idx": 65,
       "label": "Grand Total",
@@ -3738,11 +3474,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84nl3c4q3",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uoss47v6",
       "docstatus": 0,
       "idx": 66,
       "label": "Rounding Adjustment",
@@ -3795,11 +3527,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t844uc1vou",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ud7elcs4",
       "docstatus": 0,
       "idx": 67,
       "label": "Rounded Total",
@@ -3856,11 +3584,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84u5vtecu",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9umici471",
       "docstatus": 0,
       "idx": 68,
       "label": "In Words",
@@ -3916,11 +3640,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84s3jh10e",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ubok6id3",
       "docstatus": 0,
       "idx": 69,
       "label": "Disable Rounded Total",
@@ -3973,11 +3693,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84evbt6sn",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uv77e385",
       "docstatus": 0,
       "idx": 70,
       "label": "Additional Discount",
@@ -4028,11 +3744,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t848vuidja",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ucnjt5aq",
       "docstatus": 0,
       "idx": 71,
       "label": "Apply Additional Discount On",
@@ -4085,11 +3797,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84fbe2vc8",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u3eas6hq",
       "docstatus": 0,
       "idx": 72,
       "label": "Additional Discount Amount (Company Currency)",
@@ -4141,11 +3849,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ushn2af",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u5q0njk2",
       "docstatus": 0,
       "idx": 73,
       "fieldtype": "Column Break",
@@ -4195,11 +3899,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84u9f84te",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uo6arkc6",
       "docstatus": 0,
       "idx": 74,
       "label": "Additional Discount Percentage",
@@ -4250,11 +3950,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t845c75076",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uffu8pjv",
       "docstatus": 0,
       "idx": 75,
       "label": "Additional Discount Amount",
@@ -4306,11 +4002,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84v28nlp2",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uo6j8sr3",
       "docstatus": 0,
       "idx": 76,
       "label": "Tax Breakup",
@@ -4361,11 +4053,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84nqr2gc4",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uq0emup3",
       "docstatus": 0,
       "idx": 77,
       "label": "Taxes and Charges Calculation",
@@ -4417,11 +4105,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84l47ipqc",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9utl41u2p",
       "docstatus": 0,
       "idx": 78,
       "label": "Packing List",
@@ -4476,11 +4160,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84gqcm3q6",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u8kspk94",
       "docstatus": 0,
       "idx": 79,
       "label": "Packed Items",
@@ -4535,11 +4215,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t845kpsvfd",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u58r3dcb",
       "docstatus": 0,
       "idx": 80,
       "label": "Product Bundle Help",
@@ -4590,11 +4266,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t841c7fij5",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9utggaced",
       "docstatus": 0,
       "idx": 81,
       "label": "Pricing Rules",
@@ -4645,11 +4317,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t841jbrhkq",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uqfca51q",
       "docstatus": 0,
       "idx": 82,
       "label": "Pricing Rule Detail",
@@ -4701,11 +4369,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t847skc9pv",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u4h832ka",
       "docstatus": 0,
       "idx": 83,
       "label": "Address & Contact",
@@ -4756,11 +4420,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84j2a00n5",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9usqt64c1",
       "docstatus": 0,
       "idx": 84,
       "label": "Billing Address",
@@ -4813,11 +4473,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t841ju2vs2",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ul08f5m7",
       "docstatus": 0,
       "idx": 85,
       "label": "Billing Address Name",
@@ -4870,11 +4526,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84kf190ot",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uqn7h12r",
       "docstatus": 0,
       "idx": 86,
       "label": "Billing Address",
@@ -4925,11 +4577,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84e7rm1i9",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ufjd9hau",
       "docstatus": 0,
       "idx": 87,
       "fieldtype": "Column Break",
@@ -4981,11 +4629,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84605oubn",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ur4b84a8",
       "docstatus": 0,
       "idx": 88,
       "label": "Contact Person",
@@ -5037,11 +4681,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84g1ed493",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ugkluj1r",
       "docstatus": 0,
       "idx": 89,
       "label": "Contact",
@@ -5092,11 +4732,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84vub107r",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u324susr",
       "docstatus": 0,
       "idx": 90,
       "label": "Mobile No",
@@ -5148,11 +4784,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84d22g8i2",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uomj5m2k",
       "docstatus": 0,
       "idx": 91,
       "label": "Contact Email",
@@ -5204,11 +4836,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t848hgm11n",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9un294otg",
       "docstatus": 0,
       "idx": 92,
       "label": "Shipping Address",
@@ -5259,11 +4887,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t840krjkrk",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ufu9qh30",
       "docstatus": 0,
       "idx": 93,
       "label": "Shipping Address",
@@ -5315,11 +4939,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84n4abt59",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uim1dip3",
       "docstatus": 0,
       "idx": 94,
       "label": "Shipping Address",
@@ -5370,11 +4990,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84v7f97o0",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u34jol92",
       "docstatus": 0,
       "idx": 95,
       "fieldtype": "Column Break",
@@ -5424,11 +5040,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84kip55cp",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u0mo75eh",
       "docstatus": 0,
       "idx": 96,
       "label": "Dispatch Address Name",
@@ -5480,11 +5092,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84msjqo19",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ufbknbr1",
       "docstatus": 0,
       "idx": 97,
       "label": "Dispatch Address",
@@ -5536,11 +5144,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t8468lvojg",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uc5h7g6a",
       "docstatus": 0,
       "idx": 98,
       "label": "Company Address",
@@ -5591,11 +5195,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84gob52s8",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9utq0fh7p",
       "docstatus": 0,
       "idx": 99,
       "label": "Company Address Name",
@@ -5647,11 +5247,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84sgv7q7t",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9up5cfmec",
       "docstatus": 0,
       "idx": 100,
       "label": "Company Address",
@@ -5702,11 +5298,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84nro24vl",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u9fdjen9",
       "docstatus": 0,
       "idx": 101,
       "fieldtype": "Column Break",
@@ -5756,11 +5348,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84cmfdqaq",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u6jlfhen",
       "docstatus": 0,
       "idx": 102,
       "label": "Company Contact Person",
@@ -5812,11 +5400,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84c112b4i",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u6jourec",
       "docstatus": 0,
       "idx": 103,
       "label": "Terms",
@@ -5867,11 +5451,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84jvtr82v",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uij36onv",
       "docstatus": 0,
       "idx": 104,
       "label": "Terms",
@@ -5925,11 +5505,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84713sr1t",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u15mmp5b",
       "docstatus": 0,
       "idx": 105,
       "label": "Terms and Conditions Details",
@@ -5982,11 +5558,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t847oq426q",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9und38f2h",
       "docstatus": 0,
       "idx": 106,
       "label": "More Info",
@@ -6037,11 +5609,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84sngb27n",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uu8hes1i",
       "docstatus": 0,
       "idx": 107,
       "label": "Status",
@@ -6092,11 +5660,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t843hjssk1",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u2bodou1",
       "docstatus": 0,
       "idx": 108,
       "label": "% Amount Billed",
@@ -6147,11 +5711,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84vrjnvat",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u60n3omp",
       "docstatus": 0,
       "idx": 109,
       "label": "Status",
@@ -6208,11 +5768,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ie3s3m9",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uimhobcb",
       "docstatus": 0,
       "idx": 110,
       "fieldtype": "Column Break",
@@ -6262,11 +5818,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ijo0ctq",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ufeetens",
       "docstatus": 0,
       "idx": 111,
       "label": "% Installed",
@@ -6320,11 +5872,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84l2ihked",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9usc1jm3a",
       "docstatus": 0,
       "idx": 112,
       "label": "Installation Status",
@@ -6375,11 +5923,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84sihulcd",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u64n6bli",
       "docstatus": 0,
       "idx": 113,
       "fieldtype": "Column Break",
@@ -6429,11 +5973,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84gmr7h4d",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ug86mibd",
       "docstatus": 0,
       "idx": 114,
       "label": "% Returned",
@@ -6485,11 +6025,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84q219v78",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ufni41r6",
       "docstatus": 0,
       "idx": 115,
       "label": "Transporter Info",
@@ -6542,11 +6078,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84cogh0hd",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uhre9jjb",
       "docstatus": 0,
       "idx": 116,
       "label": "Transporter",
@@ -6600,11 +6132,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84delet9o",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ug5td6pl",
       "docstatus": 0,
       "idx": 117,
       "label": "Transport Receipt No",
@@ -6659,11 +6187,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84lri72eu",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u3t4glro",
       "docstatus": 0,
       "idx": 118,
       "label": "Delivery Trip",
@@ -6715,11 +6239,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t843pb1dbg",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9unrbbr58",
       "docstatus": 0,
       "idx": 119,
       "label": "Driver",
@@ -6771,11 +6291,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84u1ek97b",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ugcke8uj",
       "docstatus": 0,
       "idx": 120,
       "fieldtype": "Column Break",
@@ -6827,11 +6343,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t843bcifbj",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9urdeovdh",
       "docstatus": 0,
       "idx": 121,
       "label": "Transporter Name",
@@ -6883,11 +6395,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ub56ej2",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uu9f6f9p",
       "docstatus": 0,
       "idx": 122,
       "label": "Transport Receipt Date",
@@ -6943,11 +6451,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84r8enclm",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ujjg9f6l",
       "docstatus": 0,
       "idx": 123,
       "label": "Vehicle No",
@@ -6998,11 +6502,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84nrjsigc",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9udl5l06c",
       "docstatus": 0,
       "idx": 124,
       "label": "Driver Name",
@@ -7054,11 +6554,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84rona7ia",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ulkd3pon",
       "docstatus": 0,
       "idx": 125,
       "label": "Customer PO Details",
@@ -7109,11 +6605,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t845detsjp",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u631pg59",
       "docstatus": 0,
       "idx": 126,
       "label": "Customer's Purchase Order No",
@@ -7168,11 +6660,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84lgl4e4h",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uili2pjf",
       "docstatus": 0,
       "idx": 127,
       "fieldtype": "Column Break",
@@ -7222,11 +6710,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ghrccgp",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9urm36pgl",
       "docstatus": 0,
       "idx": 128,
       "label": "Customer's Purchase Order Date",
@@ -7281,11 +6765,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84l72rf3n",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ur0kcfpb",
       "docstatus": 0,
       "idx": 129,
       "label": "Commission",
@@ -7339,11 +6819,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84c55tjjl",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u94usj5v",
       "docstatus": 0,
       "idx": 130,
       "label": "Sales Partner",
@@ -7399,11 +6875,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84r854127",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u133h1ba",
       "docstatus": 0,
       "idx": 131,
       "label": "Amount Eligible for Commission",
@@ -7454,11 +6926,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84a0qhlh6",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uqnk2iqb",
       "docstatus": 0,
       "idx": 132,
       "fieldtype": "Column Break",
@@ -7510,11 +6978,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84bku4hki",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9urvq33bo",
       "docstatus": 0,
       "idx": 133,
       "label": "Commission Rate (%)",
@@ -7570,11 +7034,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84tik5bt2",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uh03kcvd",
       "docstatus": 0,
       "idx": 134,
       "label": "Total Commission",
@@ -7628,11 +7088,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84dkhu7ff",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ulglftnj",
       "docstatus": 0,
       "idx": 135,
       "label": "Sales Team",
@@ -7684,11 +7140,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84q7i0340",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9umvf30uf",
       "docstatus": 0,
       "idx": 136,
       "label": "Sales Team",
@@ -7742,11 +7194,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ko0n0ec",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9upp1hdr4",
       "docstatus": 0,
       "idx": 137,
       "label": "Subscription Section",
@@ -7797,11 +7245,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84tb9bios",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uejh6qf0",
       "docstatus": 0,
       "idx": 138,
       "label": "Auto Repeat",
@@ -7853,11 +7297,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84r2j4lqq",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u54e6u5h",
       "docstatus": 0,
       "idx": 139,
       "label": "Print Settings",
@@ -7908,11 +7348,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84r42nd32",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9um0nu0cr",
       "docstatus": 0,
       "idx": 140,
       "label": "Letter Head",
@@ -7966,11 +7402,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84em52ugh",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u39641go",
       "docstatus": 0,
       "idx": 141,
       "label": "Print Without Amount",
@@ -8024,11 +7456,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84qjjfs5r",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uv0bjsad",
       "docstatus": 0,
       "idx": 142,
       "label": "Group same items",
@@ -8080,11 +7508,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84o2kro1p",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9upfb1rt5",
       "docstatus": 0,
       "idx": 143,
       "fieldtype": "Column Break",
@@ -8134,11 +7558,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ut6es99",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u0d53ckj",
       "docstatus": 0,
       "idx": 144,
       "label": "Print Heading",
@@ -8192,11 +7612,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84v600dei",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uecd9sfk",
       "docstatus": 0,
       "idx": 145,
       "label": "Print Language",
@@ -8249,11 +7665,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84fcvp9ui",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u27lu7tg",
       "docstatus": 0,
       "idx": 146,
       "label": "Additional Info",
@@ -8306,11 +7718,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t847ti70a4",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ur7huuuc",
       "docstatus": 0,
       "idx": 147,
       "label": "Is Internal Customer",
@@ -8363,11 +7771,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84vsuk5rc",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9usv4d1dq",
       "docstatus": 0,
       "idx": 148,
       "label": "Represents Company",
@@ -8421,11 +7825,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t8404lcqmh",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u6pbrtlp",
       "docstatus": 0,
       "idx": 149,
       "label": "Inter Company Reference",
@@ -8477,11 +7877,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84n1ssug5",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uacfddi7",
       "docstatus": 0,
       "idx": 150,
       "label": "Customer Group",
@@ -8533,11 +7929,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t847rh98nf",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9usis7p0k",
       "docstatus": 0,
       "idx": 151,
       "label": "Territory",
@@ -8589,11 +7981,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84opasq76",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ugt5gpjd",
       "docstatus": 0,
       "idx": 152,
       "fieldtype": "Column Break",
@@ -8643,11 +8031,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84p779lpp",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u7ka6emq",
       "docstatus": 0,
       "idx": 153,
       "label": "Source",
@@ -8701,11 +8085,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84iipi2c1",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ulp9fm68",
       "docstatus": 0,
       "idx": 154,
       "label": "Campaign",
@@ -8759,11 +8139,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t8433vjgtm",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9um3rogce",
       "docstatus": 0,
       "idx": 155,
       "label": "Medium",
@@ -8815,11 +8191,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84ppork42",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9u3olct7v",
       "docstatus": 0,
       "idx": 156,
       "label": "Content",
@@ -8870,11 +8242,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84uhrb718",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ua6fanl0",
       "docstatus": 0,
       "idx": 157,
       "fieldtype": "Column Break",
@@ -8927,11 +8295,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84re5co96",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ut5gpr7f",
       "docstatus": 0,
       "idx": 158,
       "label": "Excise Page Number",
@@ -8984,11 +8348,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84hspmabk",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9ukoc6giv",
       "docstatus": 0,
       "idx": 159,
       "label": "Instructions",
@@ -9041,11 +8401,7 @@
       "doctype": "DocField"
     },
     {
-      "name": "t84hqpivdm",
-      "owner": "Administrator",
-      "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
-      "modified_by": "Administrator",
+      "name": "u9uki2s8rs",
       "docstatus": 0,
       "idx": 160,
       "label": "Connections",
@@ -9094,74 +8450,14 @@
       "parentfield": "fields",
       "parenttype": "DocType",
       "doctype": "DocField"
-    },
-    {
-      "name": "Delivery Note-custom_delivery_signature",
-      "owner": "Administrator",
-      "creation": "2025-12-09 22:43:11.758846",
-      "modified": "2025-12-09 22:44:15.706118",
-      "modified_by": "Administrator",
-      "docstatus": 0,
-      "idx": 44,
-      "is_system_generated": 0,
-      "dt": "Delivery Note",
-      "module": null,
-      "label": "Delivery Signature",
-      "placeholder": null,
-      "fieldname": "delivery_signature",
-      "insert_after": "net_total",
-      "length": 0,
-      "link_filters": null,
-      "fieldtype": "Signature",
-      "precision": "",
-      "hide_seconds": 0,
-      "hide_days": 0,
-      "options": null,
-      "sort_options": 0,
-      "fetch_from": null,
-      "fetch_if_empty": 0,
-      "collapsible": 0,
-      "collapsible_depends_on": null,
-      "default": null,
-      "depends_on": null,
-      "mandatory_depends_on": null,
-      "read_only_depends_on": null,
-      "non_negative": 0,
-      "reqd": 0,
-      "unique": 0,
-      "is_virtual": 0,
-      "read_only": 0,
-      "ignore_user_permissions": 0,
-      "hidden": 0,
-      "print_hide": 0,
-      "print_hide_if_no_value": 0,
-      "print_width": null,
-      "no_copy": 0,
-      "allow_on_submit": 0,
-      "in_list_view": 0,
-      "in_standard_filter": 0,
-      "in_global_search": 0,
-      "in_preview": 0,
-      "bold": 0,
-      "report_hide": 0,
-      "search_index": 0,
-      "allow_in_quick_entry": 0,
-      "ignore_xss_filter": 0,
-      "translatable": 0,
-      "hide_border": 0,
-      "show_dashboard": 0,
-      "description": null,
-      "permlevel": 0,
-      "width": null,
-      "columns": 0
     }
   ],
   "permissions": [
     {
-      "name": "t84vif34vj",
+      "name": "u9u052hlib",
       "owner": "Administrator",
       "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
+      "modified": "2025-09-11 15:09:56.670494",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 1,
@@ -9188,10 +8484,10 @@
       "doctype": "DocPerm"
     },
     {
-      "name": "t84esklvrc",
+      "name": "u9us82gnou",
       "owner": "Administrator",
       "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
+      "modified": "2025-09-11 15:09:56.670494",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 2,
@@ -9218,10 +8514,10 @@
       "doctype": "DocPerm"
     },
     {
-      "name": "t84uuktb5o",
+      "name": "u9u7qsckn6",
       "owner": "Administrator",
       "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
+      "modified": "2025-09-11 15:09:56.670494",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 3,
@@ -9248,10 +8544,10 @@
       "doctype": "DocPerm"
     },
     {
-      "name": "t84aijstk3",
+      "name": "u9u317reth",
       "owner": "Administrator",
       "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
+      "modified": "2025-09-11 15:09:56.670494",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 4,
@@ -9278,10 +8574,10 @@
       "doctype": "DocPerm"
     },
     {
-      "name": "t843a2jini",
+      "name": "u9umsaoda6",
       "owner": "Administrator",
       "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
+      "modified": "2025-09-11 15:09:56.670494",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 5,
@@ -9308,10 +8604,10 @@
       "doctype": "DocPerm"
     },
     {
-      "name": "t84a12jen1",
+      "name": "u9ua6adu24",
       "owner": "Administrator",
       "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
+      "modified": "2025-09-11 15:09:56.670494",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 6,
@@ -9338,10 +8634,10 @@
       "doctype": "DocPerm"
     },
     {
-      "name": "t84vp6ltbc",
+      "name": "u9uh8hb5r8",
       "owner": "Administrator",
       "creation": "2013-05-24 19:29:09",
-      "modified": "2025-09-11 12:38:08.429506",
+      "modified": "2025-09-11 15:09:56.670494",
       "modified_by": "Administrator",
       "docstatus": 0,
       "idx": 7,
