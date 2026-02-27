@@ -1,5 +1,6 @@
 import json
 import os
+import time
 import uuid
 from typing import Any, Dict, List, Optional
 
@@ -23,6 +24,7 @@ from auth import SessionExpiredError, validate_session
 ERPNEXT_URL = os.environ.get("ERPNEXT_URL", "http://127.0.0.1:8000")
 ERP_API_KEY = os.environ.get("ERP_API_KEY", None)
 ERP_API_SECRET = os.environ.get("ERP_API_SECRET", None)
+APP_MODE = os.environ.get("MODE", "production")  # "erpnext" or "production"
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "erpnextinspectorsecretkey")
@@ -109,10 +111,14 @@ class ERPNextConnection:
 
             if response.status_code == 200:
                 data = response.json()
-                # Added a Static file for listing all doctypes
-                # with open("./public/doctypes_list.json", "w") as f:
-                #     json.dump(data.get("data", []), f, indent=2)
-                return data.get("data", [])
+                list_data = data.get("data", [])
+                if APP_MODE != "erpnext":
+                    # Remove custom doctypes in production mode
+                    non_custom = lambda list_data: [d for d in list_data if not d.get("custom")]
+                    # If there is a file present, then open it, otherwise read from the file
+                    with open("./public/doctypes_list.json", "w") as f:
+                        json.dump(non_custom(list_data), f, indent=2)
+                return list_data
             return []
         except Exception as _e:
             return []
@@ -132,15 +138,14 @@ class ERPNextConnection:
                 headers=self.headers,
                 timeout=30,
             )
-            # Log responses for debugging
-            # [ ] Assuming the doctype has some property Setters
+            #
+            # [ ] Currently not working, Fix for future tests cases
             property_setter= requests.get(
                 f'{self.base_url}/api/resource/Property Setter?filters=[["doctype","=","{doctype}"]]',
                 headers=self.headers,
                 timeout=30
             )
             # There are edge cases whereby the the client's uses the export fixtures. and the fixtures are in the fixtures.json file...
-            # [ ] Refine this for use cases where the user uses bench export --fixtures.
             all= self.get_doctype_meta(doctype)
             if response.status_code == 200 or custom_fields.status_code == 200:
                 # Convert the response to a JSON
@@ -148,14 +153,15 @@ class ERPNextConnection:
                 #
                 data_tables = data.get("data")
                 # Customizations to append to the list of files
-                customization = custom_fields.json().get(
-                    "data",
-                )
-                # Append the customizations to the application
-                for custom in customization:
-                    data_tables.get("fields").append(custom)
+                if APP_MODE == "erpnext":
+                    customization = custom_fields.json().get(
+                        "data",
+                    )
+                    # Append the customizations to the application
+                    for custom in customization:
+                        data_tables.get("fields").append(custom)
                 # Check property setters and append to the data tables
-                if property_setter.status_code == 200:
+                if APP_MODE== "erpnext" and property_setter.status_code == 200:
                     property_setters = property_setter.json().get("data", [])
                     data_tables.get("fields").extend(property_setters)
                 return data_tables
@@ -163,7 +169,47 @@ class ERPNextConnection:
         except Exception as e:
             print(f"Exception getting DocType definition for {doctype}: {e}")
             return None
+    
+    def generate_doctypes_list_file(self):
+        """Generate a JSON file with the list of DocTypes for production mode"""
+        # with open("./public/doctypes_list.json", "r") as f:
+        #     # All doctype lists
+        #     for doctype in json.load(f):
+        #         doctype_name = doctype.get("name")
+        #         # Add a timeout to avoid overwhelming the server with requests
+        #         # time.sleep(0.)
+        #         if doctype_name:
+        #             metadata = self.get_doctype_definition(doctype_name)
+        #             if metadata:
+        #                 with open(f"./public/doctype/{doctype_name}.json","w") as f:
+        #                     json.dump(metadata, f, indent=2)
+        #                     print(f"Saved metadata for {doctype_name}")
 
+    def cleanup_unncessary_properties(self):
+        """ Cleanup unnecessary properties from the Docttype Metadata to reduce file size and improve performance.
+            - Some of the fields trimmed are:-
+            1. creation,
+            2. modified,
+            3. modified_by,
+            4. owner.
+        """
+        with open("./public/doctypes_list.json", "r") as f:
+            for doctype in json.load(f):
+                doctype_name= doctype.get("name")
+                
+                if doctype_name:
+                    with open(f"./public/doctype/{doctype_name}.json","r") as f:
+                        metadata = json.load(f)
+                        # Remove unnecessary properties
+                        for prop in ["creation", "modified", "modified_by", "owner"]:
+                            metadata.pop(prop, None)
+                        if metadata.get("fields"):
+                            for field in metadata["fields"]:
+                                for prop in ["creation", "modified", "modified_by", "owner"]:
+                                    field.pop(prop, None)
+                    with open(f"./public/doctype/{doctype_name}.json","w") as f:
+                        json.dump(metadata, f, indent=2)
+                        print(f"Cleaned up metadata for {doctype_name}")
 
 class OpenAPIGenerator:
     def json_schema_to_typescript_interface(
@@ -239,8 +285,8 @@ class OpenAPIGenerator:
 
     """Generates OpenAPI specifications from ERPNext DocTypes"""
 
-    def __init__(self, erpnext_conn: ERPNextConnection):
-        self.conn = erpnext_conn
+    def __init__(self, connection: ERPNextConnection| None = None):
+        self.conn = connection
 
     def map_frappe_field_to_openapi(self, field: Dict) -> Dict:
         """Map Frappe field types to OpenAPI schema properties"""
@@ -366,7 +412,7 @@ class OpenAPIGenerator:
                 ),
                 "version": info.get("version", "1.0.0"),
             },
-            "servers": [{"url": self.conn.base_url, "description": "ERPNext Server"}],
+            "servers": [{"url": self.conn.base_url if self.conn else "http://127.0.0.1:8000", "description": "ERPNext Server"}],
             "components": {
                 "securitySchemes": {
                     "ApiKeyAuth": {
@@ -384,7 +430,7 @@ class OpenAPIGenerator:
 
         for doctype in doctypes:
             print(f"Processing DocType: {doctype}")
-            metadata = self.conn.get_doctype_meta(doctype)
+            metadata = self.conn.get_doctype_meta(doctype) if self.conn else self.get_doctype_static_metadata(doctype)
             if metadata:
                 schema = self.generate_doctype_schema(doctype, metadata)
                 if schema:
@@ -392,6 +438,17 @@ class OpenAPIGenerator:
                     self._add_crud_paths(spec, doctype)
 
         return spec
+    
+    def get_doctype_static_metadata(self, doctype: str) -> Optional[Dict]:
+        """Get DocType metadata from the static file for production mode"""
+        try:
+            with open(f"./public/doctype/{doctype}.json", "r") as f:
+                metadata = json.load(f)
+                return metadata
+        except Exception as e:
+            print(f"Error loading static metadata for {doctype}: {e}")
+            return None
+        
 
     def _add_crud_paths(self, spec: Dict, doctype: str):
         """Add CRUD paths for a DocType to the OpenAPI spec"""
@@ -594,6 +651,10 @@ def restore_or_validate_session():
     2. Validate the stored credentials are still accepted by Frappe.
     3. If expired or missing, flash a message and redirect to /connect.
     """
+    
+    if APP_MODE == "production":
+        # In production mode, skip all the authentication and session checks
+        return
     global current_connection
 
     # Skip routes that don't need an active connection
@@ -631,6 +692,8 @@ def restore_or_validate_session():
 @app.errorhandler(SessionExpiredError)
 def handle_session_expired(e):
     """Catch SessionExpiredError raised inside any route and redirect gracefully."""
+    if APP_MODE == "production":
+        return redirect(url_for("index"))
     global current_connection
     current_connection = None
     session.clear()
@@ -641,18 +704,19 @@ def handle_session_expired(e):
 @app.route("/disconnect")
 def disconnect():
     """Clear the stored session and return to the connect page."""
+    if APP_MODE == "production":
+        return redirect(url_for("index"))
+    
     global current_connection
     current_connection = None
     session.clear()
     flash("Disconnected successfully.", "success")
     return redirect(url_for("connect"))
 
-
 @app.route("/")
 def index():
     """Home page"""
     return render_template("index.html")
-
 
 @app.route("/connect", methods=["GET", "POST"])
 def connect():
@@ -692,29 +756,47 @@ def connect():
 
     return render_template("connect.html", form=form)
 
-
 @app.route("/doctypes")
 def doctypes():
     """DocTypes listing page"""
+    if APP_MODE == "erpnext":
+         # In production mode, read from the static file instead of making API calls
+        if os.path.exists("./public/doctypes_list.json"):
+            with open("./public/doctypes_list.json", "r") as f:
+                list_data = json.load(f)
+                return render_template("doctypes.html", doctypes = list_data)
+        else:
+            flash("Invalid Operations.", "warning")
+            return redirect(url_for("index"))
     if not current_connection:
         flash("Please connect to ERPNext first", "warning")
         return redirect(url_for("connect"))
 
     doctypes_list = current_connection.get_all_doctypes()
+    # Cleanup unnecessary properties fromt the metadata
     return render_template("doctypes.html", doctypes=doctypes_list)
-
 
 @app.route("/doctype/<doctype_name>")
 def doctype_detail(doctype_name):
     """DocType detail page"""
-    if not current_connection:
-        flash("Please connect to ERPNext first", "warning")
-        return redirect(url_for("connect"))
+    metadata = None
+    if APP_MODE == "production":
+        # In production mode, read from the static file instead of making API calls
+        if os.path.exists(f"./public/doctype/{doctype_name}.json"):
+            with open(f"./public/doctype/{doctype_name}.json", "r") as f:
+                metadata = json.load(f)
+        else:
+            flash("DocType {doctype_name} not found", "warning")
+            return redirect(url_for("index"))
+    else:
+        if not current_connection:
+            flash("Please connect to ERPNext first", "warning")
+            return redirect(url_for("connect"))
 
-    metadata = current_connection.get_doctype_definition(doctype_name)
-    if not metadata:
-        flash(f"Could not load DocType: {doctype_name}", "error")
-        return redirect(url_for("doctypes"))
+        metadata = current_connection.get_doctype_definition(doctype_name)
+        if not metadata:
+            flash(f"Could not load DocType: {doctype_name}", "error")
+            return redirect(url_for("doctypes"))
 
     # Extract the fields objects
     fields = metadata.get("fields", [])
@@ -768,12 +850,11 @@ def doctype_detail(doctype_name):
         field_stats=field_stats,
     )
 
-
-
 @app.route("/chat", methods=["POST"])
 def chat():
     """Handle chat requests with conversation history context"""
-    if request.method == "POST":
+    if request.method == "POST" and APP_MODE != "production":
+        
         data = request.get_json()
         message: str = data.get("message", "")
         
@@ -822,7 +903,7 @@ def chat():
                 session["conversation_history"] = conversation_history
                 # Current session Id, plus the conversation history
                 print(f"Conversation ID: {conversation_id}, History: {conversation_history}")
-                db.store_message(user_id=user_id, role="assistant", content=accumulated_response)
+                db.store_message(role="assistant", content=accumulated_response, session_id=conversation_id)
         
         # Return the response as a stream
         response = Response(stream_with_context(event_stream()), mimetype='text/event-stream')
@@ -835,6 +916,9 @@ def chat():
 @app.route("/conversation_history", methods=["GET"])
 def conversation_history():
     """Retrieve conversation history for the current session"""
+    
+    if APP_MODE == "production":
+        return jsonify({"error": "Conversation history is not available"}), 404
     user_id = session.get("user_id")
     
     if not user_id:
@@ -848,6 +932,8 @@ def conversation_history():
 @app.route("/get_message", methods=["GET"])
 def get_messages():
     """Retrieve conversation history from database"""
+    if APP_MODE == "production":
+        return jsonify({"error": "Conversation history is not available"}), 404
     # Get the conversation_id unique to this conversation
     conversation_id = request.args.get("conversation_id")
     # Check if the current user is active and if not, then return a proper error
@@ -880,6 +966,8 @@ def get_messages():
 @app.route("/clear_history", methods=["POST"])
 def clear_history():
     """Clear conversation history for current session"""
+    if APP_MODE == "production":
+        return jsonify({"error": "Conversation history is not available"}), 404
     if "conversation_history" in session:
         session["conversation_history"] = []
     if "conversation_id" in session:
@@ -891,6 +979,9 @@ def clear_history():
 @app.route("/generate-openapi", methods=["GET", "POST"])
 def generate_openapi():
     """Generate OpenAPI specification"""
+    if APP_MODE == "production":
+        flash("OpenAPI generation is not available in production mode.", "warning")
+        return redirect(url_for("index"))
     if not current_connection:
         flash("Please connect to ERPNext first", "warning")
         return redirect(url_for("connect"))
@@ -938,6 +1029,8 @@ def swagger_ui():
 @app.route("/api/doctype/<doctype_name>/metadata")
 def api_doctype_metadata(doctype_name: str):
     """API endpoint to get DocType metadata as JSON"""
+    if APP_MODE == "production":
+        return jsonify({"error": "API access is not available"}), 404
     if not current_connection:
         return jsonify({"error": "No connection established"}), 400
 
@@ -952,6 +1045,8 @@ def api_doctype_metadata(doctype_name: str):
 @app.route("/api/doctype/<doctype_name>/fields")
 def api_doctype_fields(doctype_name):
     """API endpoint to get DocType fields as JSON"""
+    if APP_MODE == "production":
+        return jsonify({"error": "API access is not available"}), 404
     if not current_connection:
         return jsonify({"error": "No connection established"}), 400
 
@@ -972,6 +1067,8 @@ def api_doctype_fields(doctype_name):
 
 @app.route("/static/swagger/<path:filename>")
 def swagger_static(filename):
+    if APP_MODE == "production":
+        return jsonify({"error": "Not currently available"}), 404
     """Serve swagger static files from swagger"""
     return send_from_directory("static/swagger", filename)
 
