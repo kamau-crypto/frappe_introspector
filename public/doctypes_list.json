@@ -112,14 +112,6 @@
     "description": null
   },
   {
-    "name": "Additional Salary External Data",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
     "name": "Address",
     "module": "Contacts",
     "custom": 0,
@@ -864,6 +856,14 @@
     "description": null
   },
   {
+    "name": "Bulk Repayment Log",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
     "name": "Bulk Salary Structure Assignment",
     "module": "Payroll",
     "custom": 0,
@@ -892,14 +892,6 @@
     "module": "Desk",
     "custom": 0,
     "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Bulk WhatsApp Message",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 1,
     "is_tree": 0,
     "description": null
   },
@@ -1002,6 +994,14 @@
   {
     "name": "Closed Document",
     "module": "Accounts",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Co-Lender Schedule",
+    "module": "Loan Management",
     "custom": 0,
     "is_submittable": 0,
     "is_tree": 0,
@@ -1482,6 +1482,14 @@
   {
     "name": "Data Import Log",
     "module": "Core",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Days Past Due Log",
+    "module": "Loan Management",
     "custom": 0,
     "is_submittable": 0,
     "is_tree": 0,
@@ -2128,14 +2136,6 @@
     "description": null
   },
   {
-    "name": "Employee Salary Component",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
     "name": "Employee Separation",
     "module": "HR",
     "custom": 0,
@@ -2235,30 +2235,6 @@
     "name": "Employment Type",
     "module": "HR",
     "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Equity",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Equity Profiles",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Equity Settings",
-    "module": "Leofresh",
-    "custom": 1,
     "is_submittable": 0,
     "is_tree": 0,
     "description": null
@@ -2482,14 +2458,6 @@
   {
     "name": "Global Search Settings",
     "module": "Desk",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Gmail Credentials",
-    "module": "LeoFresh",
     "custom": 0,
     "is_submittable": 0,
     "is_tree": 0,
@@ -3376,14 +3344,6 @@
     "description": null
   },
   {
-    "name": "Leofresh Batch",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
     "name": "Letter Head",
     "module": "Printing",
     "custom": 0,
@@ -3412,6 +3372,406 @@
     "module": "Desk",
     "custom": 0,
     "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Accrual Repost",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Accrual Repost Detail",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Adjustment",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Adjustment Detail",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Application",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Application Document",
+    "module": "Loan Origination",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Balance Adjustment",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Category",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Charge Reference",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Charges",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Classification",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Classification Range",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Demand",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Demand Offset Detail",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Demand Offset Order",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Disbursement",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Disbursement Charge",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Freeze Log",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Interest Accrual",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan IRAC Provisioning Configuration",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Limit Change Log",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan NPA Log",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Origination Settings",
+    "module": "Loan Origination",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Partner",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Partner Address",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Partner Adhoc Charges Shared",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Partner Shareable",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Product",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Product Loan Partner",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Refund",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Repayment",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Repayment Charges",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Repayment Detail",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Repayment Repost",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Repayment Repost Cancel Detail",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Repayment Repost Detail",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Repayment Schedule",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Restructure",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Restructure Limit Log",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Security",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Security Assignment",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Security Deposit",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Security Price",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Security Release",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Security Shortfall",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Security Type",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Transfer",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Transfer Detail",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Loan Write Off",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
     "is_tree": 0,
     "description": null
   },
@@ -3592,14 +3952,6 @@
     "description": null
   },
   {
-    "name": "Meter Reading",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
     "name": "Milestone",
     "module": "Automation",
     "custom": 0,
@@ -3666,22 +4018,6 @@
   {
     "name": "Monthly Distribution Percentage",
     "module": "Accounts",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "MPESA Callback Log",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "MPESA Transactions",
-    "module": "Leofresh",
     "custom": 0,
     "is_submittable": 0,
     "is_tree": 0,
@@ -4256,22 +4592,6 @@
     "description": null
   },
   {
-    "name": "Payroll Summary",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Payroll Summary Earnings",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
     "name": "Pegged Currencies",
     "module": "Accounts",
     "custom": 0,
@@ -4362,6 +4682,14 @@
   {
     "name": "Plant Floor",
     "module": "Manufacturing",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Pledge",
+    "module": "Loan Management",
     "custom": 0,
     "is_submittable": 0,
     "is_tree": 0,
@@ -4536,6 +4864,14 @@
     "description": null
   },
   {
+    "name": "Prepayment Charges",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
     "name": "Price List",
     "module": "Stock",
     "custom": 0,
@@ -4640,6 +4976,46 @@
     "description": null
   },
   {
+    "name": "Process Loan Classification",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Process Loan Demand",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Process Loan Interest Accrual",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Process Loan Restructure Limit",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Process Loan Security Shortfall",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 1,
+    "is_tree": 0,
+    "description": null
+  },
+  {
     "name": "Process Payment Reconciliation",
     "module": "Accounts",
     "custom": 0,
@@ -4706,22 +5082,6 @@
   {
     "name": "Product Bundle Item",
     "module": "Selling",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Production Item",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": "A production template for items within the systems. These are products that need to undergo production."
-  },
-  {
-    "name": "Production Item Materials",
-    "module": "Leofresh",
     "custom": 0,
     "is_submittable": 0,
     "is_tree": 0,
@@ -4870,6 +5230,14 @@
     "is_submittable": 0,
     "is_tree": 0,
     "description": "Property Setter overrides a standard DocType or Field property"
+  },
+  {
+    "name": "Proposed Pledge",
+    "module": "Loan Management",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
   },
   {
     "name": "Prospect",
@@ -5272,56 +5640,16 @@
     "description": null
   },
   {
-    "name": "Remittance",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Remittance Line",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Remittance Line Additional Info",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Remittee",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Remittee Api Settings",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Remittee Salary Component",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
     "name": "Rename Tool",
     "module": "Utilities",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Repayment Schedule",
+    "module": "Loan Management",
     "custom": 0,
     "is_submittable": 0,
     "is_tree": 0,
@@ -5504,22 +5832,6 @@
     "description": null
   },
   {
-    "name": "Sacco",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Sacco Settings",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
     "name": "Salary Component",
     "module": "Payroll",
     "custom": 0,
@@ -5539,22 +5851,6 @@
     "name": "Salary Detail",
     "module": "Payroll",
     "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Salary Item",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Salary Item Extra Data",
-    "module": "Leofresh",
-    "custom": 1,
     "is_submittable": 0,
     "is_tree": 0,
     "description": null
@@ -5754,6 +6050,14 @@
   {
     "name": "Salutation",
     "module": "Contacts",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Sanctioned Loan Amount",
+    "module": "Loan Management",
     "custom": 0,
     "is_submittable": 0,
     "is_tree": 0,
@@ -6002,30 +6306,6 @@
   {
     "name": "Shipping Rule Country",
     "module": "Accounts",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Simulate Payroll Employee Detail",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Simulate Payroll Run",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Simulation Summary",
-    "module": "Leofresh",
     "custom": 0,
     "is_submittable": 0,
     "is_tree": 0,
@@ -6576,22 +6856,6 @@
     "description": null
   },
   {
-    "name": "Tank",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Tank Reading",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
     "name": "Target Detail",
     "module": "Setup",
     "custom": 0,
@@ -6707,38 +6971,6 @@
     "name": "Territory Item",
     "module": "Accounts",
     "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Test Blog Category",
-    "module": "Custom",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Test Blog Post",
-    "module": "Custom",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Test Blogger",
-    "module": "Custom",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "Test For Attachment",
-    "module": "Custom",
-    "custom": 1,
     "is_submittable": 0,
     "is_tree": 0,
     "description": null
@@ -6906,6 +7138,14 @@
   {
     "name": "Unhandled Email",
     "module": "Email",
+    "custom": 0,
+    "is_submittable": 0,
+    "is_tree": 0,
+    "description": null
+  },
+  {
+    "name": "Unpledge",
+    "module": "Loan Management",
     "custom": 0,
     "is_submittable": 0,
     "is_tree": 0,
@@ -7408,94 +7648,6 @@
     "description": null
   },
   {
-    "name": "WhatsApp Account",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "WhatsApp Button",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "WhatsApp Message",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "WhatsApp Message Fields",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "WhatsApp Notification",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "WhatsApp Notification Log",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "WhatsApp Profiles",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "WhatsApp Recipient",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "WhatsApp Recipient List",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "WhatsApp Settings",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "WhatsApp Templates",
-    "module": "Frappe Whatsapp",
-    "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
     "name": "Work Order",
     "module": "Manufacturing",
     "custom": 0,
@@ -7699,30 +7851,6 @@
     "name": "Workstation Working Hour",
     "module": "Manufacturing",
     "custom": 0,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "ZPayment",
-    "module": "Leofresh",
-    "custom": 0,
-    "is_submittable": 1,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "ZPayment Invoice",
-    "module": "Leofresh",
-    "custom": 1,
-    "is_submittable": 0,
-    "is_tree": 0,
-    "description": null
-  },
-  {
-    "name": "ZPayment Settings",
-    "module": "Leofresh",
-    "custom": 1,
     "is_submittable": 0,
     "is_tree": 0,
     "description": null
