@@ -1,11 +1,12 @@
 # Multi-stage Dockerfile for Python Flask application optimized for Google Cloud Run
-FROM python:3.12-alpine AS builder
+FROM python:3.12-alpine3.21 AS builder
 
 # Set working directory
 WORKDIR /app
 
 # Install build dependencies in single layer
-RUN apk add --no-cache \
+RUN apk add --no-cache build-base \
+    && apk add --no-cache \
     gcc \
     g++ \
     make \
@@ -39,7 +40,7 @@ RUN find /opt/venv -name "*.so" -exec strip --strip-all {} + 2>/dev/null || true
 # ============================================
 # Stage 2: Runtime - Minimal production image
 # ============================================
-FROM python:3.12-alpine AS runtime
+FROM python:3.12-alpine3.21 AS runtime
 
 # Install only essential runtime dependencies (libev, not libev-dev — no headers needed)
 RUN apk add --no-cache \
@@ -64,17 +65,20 @@ ENV PATH="/opt/venv/bin:$PATH" \
     FLASK_APP=app.py \
     FLASK_ENV=production \
     PORT=5000 \
+    MODE=production \
     WEB_CONCURRENCY=4
 
-# Copy application code with proper ownership
+# Pre-create directories with correct ownership BEFORE COPY to avoid a
+# redundant chown/chmod pass over all copied files (which doubles layer size).
+RUN mkdir -p static/swagger static/dist static/css static/typescript templates documentation __pycache__ && \
+    chown -R appuser:appuser /app
+
+# Copy application code with proper ownership — --chown sets ownership in one pass,
+# no follow-up chown/chmod needed so files are only written to a single layer.
 COPY --chown=appuser:appuser . .
 
-# Create necessary directories and set permissions in single layer
-RUN mkdir -p static/swagger static/dist static/css static/typescript templates documentation __pycache__ && \
-    chown -R appuser:appuser /app && \
-    chmod -R 755 /app && \
-    # Remove any development files
-    rm -rf .git .gitignore .dockerignore .env.example *.md 2>/dev/null || true
+# Remove development files without touching other files (avoids copy-on-write cost)
+RUN rm -rf .git .gitignore .dockerignore .env.example *.md 2>/dev/null || true
 
 # Switch to non-root user
 USER appuser
