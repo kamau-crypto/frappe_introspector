@@ -29,6 +29,7 @@ APP_MODE = os.environ.get("MODE", "erpnext")  # "erpnext" or "production"
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "erpnextinspectorsecretkey")
 app.config["MAX_CONTENT_LENGTH"] = 1 * 1024 * 1024  # 1MB max file upload
+app.config["APP_MODE"] = APP_MODE
 
 class ERPNextConnection:
     """Handles connections and API calls to ERPNext instances"""
