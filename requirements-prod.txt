@@ -9,8 +9,6 @@ requests
 python-dotenv
 ollama
 Pygments
-misaka
-
 # Transitive dependencies (pinned for reproducibility)
 annotated-types
 anyio
