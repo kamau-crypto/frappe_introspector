@@ -91,12 +91,14 @@
                 <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('index') }}">
                     <i class="fas fa-home"></i> Home
                 </a>
-                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('connect') }}">
-                    <i class="fas fa-plug"></i> Connect
-                </a>
                 <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('doctypes') }}">
                     <i class="fas fa-list"></i> DocTypes
                 </a>
+                {% if config.APP_MODE == "erpnext" %}
+                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('connect') }}">
+                    <i class="fas fa-plug"></i> Connect
+                </a>
+                {% endif %}
                 <a class="hover:text-blue-200 transition flex items-center gap-1"
                     href="{{ url_for('generate_openapi') }}">
                     <i class="fas fa-code"></i> Generate API
@@ -104,7 +106,7 @@
                 <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('swagger_ui') }}">
                     <i class="fas fa-book"></i> Swagger UI
                 </a>
-                {% if session.get('erpnext_url') %}
+                {% if config.APP_MODE == "erpnext" and session.get('erpnext_url') %}
                 <a href="{{ url_for('disconnect') }}"
                     class="hover:text-red-300 transition flex items-center gap-1 text-sm">
                     <i class="fas fa-sign-out-alt"></i> Disconnect
@@ -140,6 +142,7 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 mt-4 min-h-full">
         {% block content %}{% endblock %}
+        {%if config.APP_MODE == "erpnext" %}
         <!-- Chat Section-->
         <div id="chat-widget" class="fixed bottom-8 right-2">
             <!-- Chat Header/Toggle Button -->
@@ -195,6 +198,7 @@
                 </form>
             </div>
         </div>
+        {% endif %}
     </main>
 
     <!-- Footer -->
@@ -212,35 +216,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
     <script type="module" src="{{url_for('static', filename='typescript/chat.js')}}"></script>
+    <script type="module" src="{{ url_for('static', filename='typescript/base.js') }}"></script>
     <script>
         hljs.highlightAll();
-        const nav = document.getElementsByTagName("nav");
-        const flash_section = document.getElementById("flash_err");
-        const main_section = document.getElementsByTagName("main");
-
-        const navHeight = nav[0].offsetHeight;
-        flash_section.classList.add(`mt-[${navHeight}px]`);
-        main_section[0].classList.add(`mt-[${navHeight + 10}px]`);
-
-        const themeToggle = document.getElementById("theme-toggle");
-        themeToggle.addEventListener("click", () => {
-            document.documentElement.classList.toggle("dark");
-            if (document.documentElement.classList.contains("dark"))
-            {
-                localStorage.theme = "dark";
-                document.documentElement.classList.add("dark");
-            } else
-            {
-                localStorage.theme = "light";
-                document.documentElement.classList.remove("dark");
-            }
-        });
-
-        localStorage.theme === "dark" && document.documentElement.classList.toggle(
-            "dark",
-            localStorage.theme === "dark" ||
-            (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
-        );
     </script>
     {% block extra_js %}{% endblock %}
 </body>
