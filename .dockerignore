@@ -22,6 +22,10 @@ htmlcov/
 _.egg-info/
 dist/
 build/
+__pycache__/
+.pytest_cache/
+.coverage*
+.cache
 
 # IDEs and Editors
 
@@ -35,7 +39,7 @@ _.swo
 
 # macOS
 
-.DS_Store
+**/*.DS_Store
 .AppleDouble
 .LSOverride
 \_\_MACOSX/
@@ -43,6 +47,8 @@ _.swo
 # Environment files
 .flaskenv
 
+# Typescript files
+**/*.ts
 # Documentation and readme
 
 README.md
@@ -63,6 +69,9 @@ _.sqlite
 Dockerfile
 .dockerignore
 docker-compose.yml
+
+# Remove the .env file if it exists, as it may contain sensitive information
+.env
 
 # Testing
 
