@@ -18,6 +18,16 @@ Inspector{% endblock %} {% block content %}
         {% endif %}
     </div>
     <div class="flex gap-2">
+        <!-- Add the chat with AI buttons here... -->
+        <select id="aiChatType"
+            class="border border-gray-300 dark:border-dark-border dark:text-dark-text dark:bg-dark-muted rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="general" selected>Copy /option>
+            <option value="gemini"> Gemini</option>
+            <option value="claude"> Claude</option>
+            <option value="chatgpt"> ChatGPT</option>
+            <option value="deepseek"> Deep Seek</option>
+            <option value="qwen"> Qwen</option>
+        </select>
         <button type="button"
             class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded font-semibold hover:bg-blue-600 hover:text-white transition"
             onclick="openRawDataModal()">
@@ -282,6 +292,7 @@ Inspector{% endblock %} {% block content %}
         </div>
     </div>
 </div>
+<script type="module" src="{{url_for('static', filename='typescript/prompt.js')}}"></script>
 {% endblock %} {% block extra_js %}
 <script>
     // Field filtering functionality
