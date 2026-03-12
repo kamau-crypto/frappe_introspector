@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Rate Limit Exceeded - DocType Inspector{% endblock %}
+{% block extra_head %}
+<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block content %}
+<h1>Rate Limit Exceeded</h1>
+<p>You have exceeded your rate limit of {{ request_limit.limit }}. Please try again later.</p>
+{% endblock %}
