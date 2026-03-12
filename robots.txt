@@ -1,0 +1,169 @@
+# robots.txt
+# Best practices: explicitly name each AI bot rather than relying on wildcard
+# blocks, so well-behaved crawlers that publish their user agents respect the
+# directives. robots.txt is an honor system; pair it with network-level blocking
+# for bots that don't comply (see Cloudflare AI Audit).
+# Reference: https://blog.cloudflare.com/control-content-use-for-ai-training/
+# Standard: RFC 9309 (most-specific-match rule applies)
+
+# -----------------------------------------------------------------------
+# Allow all legitimate crawlers (search engines, link checkers, etc.)
+# -----------------------------------------------------------------------
+User-agent: *
+Disallow:
+
+# -----------------------------------------------------------------------
+# AI Training & Scraping Crawlers — blocked paths:
+#   /doctype          — individual doctype detail views
+#   /doctypes         — doctype listing/index
+#   /swagger-ui       — API documentation UI
+#   /generate-openapi — OpenAPI spec generation tool
+#   /connect          — ERPNext connection credentials page
+#
+# Per RFC 9309 prefix-matching, each path also covers all its subpaths.
+# Multiple Disallow lines under one User-agent are all honoured.
+# -----------------------------------------------------------------------
+
+# OpenAI — model training crawler
+User-agent: GPTBot
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# OpenAI — ChatGPT browsing plugin
+User-agent: ChatGPT-User
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# OpenAI — search indexing bot
+User-agent: OAI-SearchBot
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Anthropic — Claude training crawler
+User-agent: ClaudeBot
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Anthropic — direct token used alongside ClaudeBot
+User-agent: anthropic-ai
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Google — explicit AI training opt-out (distinct from Googlebot/SEO)
+User-agent: Google-Extended
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# ByteDance / TikTok — AI training crawler
+User-agent: Bytespider
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Meta — external agent used for AI training
+User-agent: Meta-ExternalAgent
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Meta — external fetch variant
+User-agent: Meta-ExternalFetcher
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Amazon — AI and Alexa training crawler
+User-agent: Amazonbot
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Apple — AI training opt-out (distinct from Applebot/SEO)
+User-agent: Applebot-Extended
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Common Crawl — primary source dataset for many LLM training runs
+User-agent: CCBot
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Perplexity — AI-powered search crawler
+User-agent: PerplexityBot
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Cohere — AI training crawler
+User-agent: cohere-ai
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Diffbot — web data extraction / AI knowledge graph
+User-agent: Diffbot
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# ImageSiftBot — AI image-data crawler
+User-agent: ImageSiftBot
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# Allen Institute for AI
+User-agent: AI2Bot
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
+
+# You.com — AI search crawler
+User-agent: YouBot
+Disallow: /doctype
+Disallow: /doctypes
+Disallow: /swagger-ui
+Disallow: /generate-openapi
+Disallow: /connect
