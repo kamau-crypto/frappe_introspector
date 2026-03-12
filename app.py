@@ -1,25 +1,26 @@
 import json
 import os
-import time
 import uuid
-from typing import Any, Dict, List, Optional
+from typing import Optional
 
 from dotenv import load_dotenv
-from ollama import Message
-
-from ai import AIChat
-from db import AIChatDB
-
-load_dotenv()
-import requests
-from flask import (Flask, Response, flash, jsonify, redirect, render_template,
-                   request, send_from_directory, session, stream_with_context,
-                   url_for)
+from flask import (Flask, Response, flash, jsonify, make_response, redirect,
+                   render_template, request, send_from_directory, session,
+                   stream_with_context, url_for)
+from flask_limiter import Limiter, RequestLimit
+from flask_limiter.util import get_remote_address
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField, TextAreaField
+from ollama import Message
+from wtforms import PasswordField, StringField, TextAreaField
 from wtforms.validators import URL, DataRequired
 
-from auth import SessionExpiredError, validate_session
+from model.ai import AIChat
+from model.auth import SessionExpiredError, validate_session
+from model.db import AIChatDB
+from model.erpnext import ERPNextConnection
+from model.open_api import OpenAPIGenerator
+
+load_dotenv()
 
 ERPNEXT_URL = os.environ.get("ERPNEXT_URL", "http://127.0.0.1:8000")
 ERP_API_KEY = os.environ.get("ERP_API_KEY", None)
@@ -31,580 +32,6 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "erpnextinspectorsecretk
 app.config["MAX_CONTENT_LENGTH"] = 1 * 1024 * 1024  # 1MB max file upload
 app.config["APP_MODE"] = APP_MODE
 
-class ERPNextConnection:
-    """Handles connections and API calls to ERPNext instances"""
-
-    def __init__(self, base_url: str, api_key: str, api_secret: str):
-        self.base_url = base_url.rstrip("/")
-        self.headers = {
-            "Authorization": f"token {api_key}:{api_secret}",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        }
-
-
-    def _check_response(self, response: requests.Response) -> requests.Response:
-        """
-        Inspect every Frappe response.
-        Raises SessionExpiredError on 401/403 so the middleware can catch it
-        and redirect the user back to /connect with a clear message.
-        """
-        if response.status_code in (401, 403):
-            raise SessionExpiredError(
-                "Your Frappe session has expired or the API token was revoked. "
-                "Please reconnect."
-            )
-        return response
-
-    def test_connection(self) -> Dict[str, Any]:
-        """Test the connection to ERPNext"""
-        try:
-            response = self._check_response(
-                requests.get(
-                    f"{self.base_url}/api/method/frappe.handler.ping",
-                    headers=self.headers,
-                    timeout=10,
-                )
-            )
-            if response.status_code == 200:
-                return {"success": True, "message": "Connection successful"}
-            else:
-                return {"success": False, "message": f"HTTP {response.status_code}"}
-        except SessionExpiredError:
-            raise
-        except Exception as e:
-            return {"success": False, "message": str(e)}
-
-    def get_doctype_meta(self, doctype: str) -> List[Dict[str,Any]]|None:
-        """Get DocType metadata using the working whitelisted method"""
-        try:
-            response = requests.get(
-                f"{self.base_url}/api/method/frappe.desk.form.load.getdoctype",
-                params={"doctype": doctype},
-                headers=self.headers,
-                timeout=30,
-            )
-
-            if response.status_code == 200:
-                data = response.json()
-                return data.get("message", {})
-            else:
-                print(
-                    f"Error getting metadata for {doctype}: HTTP {response.status_code}"
-                )
-                return None
-        except Exception as e:
-            print(f"Exception getting metadata for {doctype}: {e}")
-            return None
-
-    def get_all_doctypes(self) -> List[Dict]:
-        """Get all available DocTypes"""
-        try:
-            response = requests.get(
-                f"{self.base_url}/api/resource/DocType",
-                params={
-                    "fields": '["name","module","custom","is_submittable","is_tree","description"]',
-                    "limit_page_length": 0,
-                },
-                headers=self.headers,
-                timeout=30,
-            )
-
-            if response.status_code == 200:
-                data = response.json()
-                list_data = data.get("data", [])
-                if APP_MODE != "erpnext":
-                    # Remove custom doctypes in production mode
-                    non_custom = lambda list_data: [d for d in list_data if not d.get("custom")]
-                    # If there is a file present, then open it, otherwise read from the file
-                    with open("./public/doctypes_list.json", "w") as f:
-                        json.dump(non_custom(list_data), f, indent=2)
-                return list_data
-            return []
-        except Exception as _e:
-            return []
-
-    def get_doctype_definition(self, doctype: str) -> Optional[Dict]:
-        """Get the raw DocType definition"""
-        try:
-            response = requests.get(
-                f"{self.base_url}/api/resource/DocType/{doctype}",
-                headers=self.headers,
-                timeout=30,
-            )
-            # Extract custom fields for the DocType per documentation
-            custom_fields = requests.get(
-                f"{self.base_url}/api/resource/Custom Field",
-                params={"filters": f'[["dt","=","{doctype}"]]', "fields": '["*"]'},
-                headers=self.headers,
-                timeout=30,
-            )
-            #
-            # [ ] Currently not working, Fix for future tests cases
-            property_setter= requests.get(
-                f'{self.base_url}/api/resource/Property Setter?filters=[["doctype","=","{doctype}"]]',
-                headers=self.headers,
-                timeout=30
-            )
-            # There are edge cases whereby the the client's uses the export fixtures. and the fixtures are in the fixtures.json file...
-            all= self.get_doctype_meta(doctype)
-            if response.status_code == 200 or custom_fields.status_code == 200:
-                # Convert the response to a JSON
-                data = response.json()
-                #
-                data_tables = data.get("data")
-                # Customizations to append to the list of files
-                if APP_MODE == "erpnext":
-                    customization = custom_fields.json().get(
-                        "data",
-                    )
-                    # Append the customizations to the application
-                    for custom in customization:
-                        data_tables.get("fields").append(custom)
-                # Check property setters and append to the data tables
-                if APP_MODE== "erpnext" and property_setter.status_code == 200:
-                    property_setters = property_setter.json().get("data", [])
-                    data_tables.get("fields").extend(property_setters)
-                return data_tables
-            return None
-        except Exception as e:
-            print(f"Exception getting DocType definition for {doctype}: {e}")
-            return None
-    
-    def generate_doctypes_list_file(self):
-        """Generate a JSON file with the list of DocTypes for production mode"""
-        # with open("./public/doctypes_list.json", "r") as f:
-        #     # All doctype lists
-        #     for doctype in json.load(f):
-        #         doctype_name = doctype.get("name")
-        #         # Add a timeout to avoid overwhelming the server with requests
-        #         # time.sleep(0.)
-        #         if doctype_name:
-        #             metadata = self.get_doctype_definition(doctype_name)
-        #             if metadata:
-        #                 with open(f"./public/doctype/{doctype_name}.json","w") as f:
-        #                     json.dump(metadata, f, indent=2)
-        #                     print(f"Saved metadata for {doctype_name}")
-
-    def cleanup_unncessary_properties(self):
-        """ Cleanup unnecessary properties from the Docttype Metadata to reduce file size and improve performance.
-            - Some of the fields trimmed are:-
-            1. creation,
-            2. modified,
-            3. modified_by,
-            4. owner.
-        """
-        with open("./public/doctypes_list.json", "r") as f:
-            for doctype in json.load(f):
-                doctype_name= doctype.get("name")
-                
-                if doctype_name:
-                    with open(f"./public/doctype/{doctype_name}.json","r") as f:
-                        metadata = json.load(f)
-                        # Remove unnecessary properties
-                        for prop in ["creation", "modified", "modified_by", "owner"]:
-                            metadata.pop(prop, None)
-                        if metadata.get("fields"):
-                            for field in metadata["fields"]:
-                                for prop in ["creation", "modified", "modified_by", "owner"]:
-                                    field.pop(prop, None)
-                    with open(f"./public/doctype/{doctype_name}.json","w") as f:
-                        json.dump(metadata, f, indent=2)
-                        print(f"Cleaned up metadata for {doctype_name}")
-
-class OpenAPIGenerator:
-    def json_schema_to_typescript_interface(
-        self, schema: Dict, interface_name: str = "DocTypeSchema"
-    ) -> str:
-        """Generate TypeScript interface from JSON schema, formatted for display"""
-        properties = schema.get("properties", {})
-        required = set(schema.get("required", []))
-        enums = []
-        enum_order = []
-        lines = [f"export interface {interface_name} {{"]
-        for prop, details in properties.items():
-            ts_type = "any"
-            if details.get("type") == "string":
-                ts_type = "string"
-            elif details.get("type") == "integer":
-                ts_type = "number"
-            elif details.get("type") == "number":
-                ts_type = "number"
-            elif details.get("type") == "boolean":
-                ts_type = "boolean"
-            elif details.get("type") == "array":
-                item_type = "any"
-                if details.get("items", {}).get("type"):
-                    if details["items"]["type"] == "object":
-                        item_type = "Record<string, any>"
-                    else:
-                        item_type = details["items"]["type"]
-                ts_type = f"{item_type}[]"
-            elif details.get("type") == "object":
-                ts_type = "Record<string, any>"
-
-            # Handle enums
-            if "enum" in details:
-                enum_name = f"{prop[0].upper() + prop[1:]}Enum"
-                enum_values = details["enum"]
-                formatted_values = []
-                for v in enum_values:
-                    if isinstance(v, str):
-                        formatted_values.append(f"'{v}'")
-                    else:
-                        formatted_values.append(str(v))
-                enum_def = (
-                    f"export enum {enum_name} {{ " + ", ".join(formatted_values) + " }"
-                )
-                enums.append(enum_def)
-                enum_order.append(enum_name)
-                ts_type = enum_name
-
-            # Optional if not required
-            optional = "?" if prop not in required else ""
-            lines.append(f"  {prop}{optional}: {ts_type};")
-        lines.append("}")
-        # Add enums above interface, separated by two newlines
-        return "\n\n".join(enums + ["\n".join(lines)])
-
-    def frappe_fields_to_typescript_json_schema(self, fields: List[Dict]) -> Dict:
-        """Generate a TypeScript-compatible JSON schema from Frappe fields"""
-        schema = {"type": "object", "properties": {}, "required": []}
-        for field in fields:
-            if not field.get("fieldname") or field.get("fieldtype") in [
-                "Section Break",
-                "Column Break",
-                "HTML",
-            ]:
-                continue
-            fieldname = field["fieldname"]
-            property_def = self.map_frappe_field_to_openapi(field)
-            schema["properties"][fieldname] = property_def
-            if field.get("reqd"):
-                schema["required"].append(fieldname)
-        return schema
-
-    """Generates OpenAPI specifications from ERPNext DocTypes"""
-
-    def __init__(self, connection: ERPNextConnection| None = None):
-        self.conn = connection
-
-    def map_frappe_field_to_openapi(self, field: Dict) -> Dict:
-        """Map Frappe field types to OpenAPI schema properties"""
-        property_def = {"description": field.get("label", field.get("fieldname", ""))}
-
-        # Add read-only flag
-        if field.get("read_only"):
-            property_def["readOnly"] = True
-
-        # Add default value
-        if field.get("default"):
-            property_def["default"] = field["default"]
-
-        # Map field types
-        fieldtype = field.get("fieldtype", "Data")
-
-        field_type_mapping = {
-            "Data": {"type": "string"},
-            "Small Text": {"type": "string"},
-            "Long Text": {"type": "string"},
-            "Text Editor": {"type": "string"},
-            "Text": {"type": "string", "maxLength": 65535},
-            "Code": {"type": "string"},
-            "Int": {"type": "integer"},
-            "Float": {"type": "number", "format": "float"},
-            "Currency": {"type": "number", "format": "float"},
-            "Percent": {"type": "number", "format": "float"},
-            "Check": {"type": "integer", "enum": [0, 1]},
-            "Select": {"type": "string"},
-            "Link": {"type": "string"},
-            "Date": {"type": "string", "format": "date"},
-            "Datetime": {"type": "string", "format": "date-time"},
-            "Time": {"type": "string", "format": "time"},
-            "Password": {"type": "string", "format": "password", "writeOnly": True},
-            "Attach": {"type": "string", "format": "uri"},
-            "Attach Image": {"type": "string", "format": "uri"},
-            "Table": {"type": "array", "items": {"type": "object"}},
-            "JSON": {"type": "object"},
-            "HTML": {"type": "string"},
-            "Signature": {"type": "string"},
-            "Color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
-            "Barcode": {"type": "string"},
-            "Geolocation": {"type": "string"},
-        }
-
-        property_def.update(field_type_mapping.get(fieldtype, {"type": "string"}))
-
-        # Handle Select options
-        if fieldtype == "Select" and field.get("options"):
-            options = [
-                opt.strip() for opt in field["options"].split("\n") if opt.strip()
-            ]
-            if options:
-                property_def["enum"] = options
-
-        # Handle Link field description
-        if fieldtype == "Link" and field.get("options"):
-            property_def["description"] += f" (Links to {field['options']})"
-
-        return property_def
-
-    def generate_doctype_schema(self, doctype: str, metadata: List[Dict[str,Any]]| Dict [str, Any]) -> Dict:
-        """Generate OpenAPI schema for a DocType"""
-        if isinstance(metadata, list):
-            return {}
-        docs = metadata.get("docs", [])
-        if not docs:
-            return {}
-
-        doctype_doc = docs[0]  # Main DocType document
-        fields = doctype_doc.get("fields", [])
-
-        schema = {
-            "type": "object",
-            "properties": {
-                # Standard Frappe document properties
-                "name": {
-                    "type": "string",
-                    "description": "Document ID/name",
-                    "readOnly": True,
-                },
-                "owner": {
-                    "type": "string",
-                    "description": "Document owner",
-                    "readOnly": True,
-                },
-                "creation": {"type": "string", "format": "date-time", "readOnly": True},
-                "modified": {"type": "string", "format": "date-time", "readOnly": True},
-                "modified_by": {"type": "string", "readOnly": True},
-                "docstatus": {"type": "integer", "enum": [0, 1, 2], "readOnly": True},
-                "doctype": {"type": "string", "readOnly": True},
-            },
-            "required": [],
-        }
-
-        # Process fields
-        for field in fields:
-            if not field.get("fieldname") or field.get("fieldtype") in [
-                "Section Break",
-                "Column Break",
-                "HTML",
-            ]:
-                continue
-
-            fieldname = field["fieldname"]
-            property_def = self.map_frappe_field_to_openapi(field)
-            schema["properties"][fieldname] = property_def
-
-            # Add to required fields if mandatory
-            if field.get("reqd"):
-                schema["required"].append(fieldname)
-
-        return schema
-
-    def generate_openapi_spec(self, doctypes: List[str], info: Dict = {}) -> Dict:
-        """Generate complete OpenAPI specification"""
-        spec = {
-            "openapi": "3.0.3",
-            "info": {
-                "title": info.get("title", "ERPNext API"),
-                "description": info.get(
-                    "description", "Auto-generated OpenAPI specification for ERPNext"
-                ),
-                "version": info.get("version", "1.0.0"),
-            },
-            "servers": [{"url": self.conn.base_url if self.conn else "http://127.0.0.1:8000", "description": "ERPNext Server"}],
-            "components": {
-                "securitySchemes": {
-                    "ApiKeyAuth": {
-                        "type": "apiKey",
-                        "in": "header",
-                        "name": "Authorization",
-                        "description": 'Use "token api_key:api_secret"',
-                    }
-                },
-                "schemas": {},
-            },
-            "security": [{"ApiKeyAuth": []}],
-            "paths": {},
-        }
-
-        for doctype in doctypes:
-            print(f"Processing DocType: {doctype}")
-            metadata = self.conn.get_doctype_meta(doctype) if self.conn else self.get_doctype_static_metadata(doctype)
-            if metadata:
-                schema = self.generate_doctype_schema(doctype, metadata)
-                if schema:
-                    spec["components"]["schemas"][doctype] = schema
-                    self._add_crud_paths(spec, doctype)
-
-        return spec
-    
-    def get_doctype_static_metadata(self, doctype: str) -> Optional[Dict]:
-        """Get DocType metadata from the static file for production mode"""
-        try:
-            with open(f"./public/doctype/{doctype}.json", "r") as f:
-                metadata = json.load(f)
-                return metadata
-        except Exception as e:
-            print(f"Error loading static metadata for {doctype}: {e}")
-            return None
-        
-
-    def _add_crud_paths(self, spec: Dict, doctype: str):
-        """Add CRUD paths for a DocType to the OpenAPI spec"""
-        collection_path = f"/api/resource/{doctype}"
-        item_path = f"/api/resource/{doctype}/{{name}}"
-
-        # Collection endpoints (GET, POST)
-        spec["paths"][collection_path] = {
-            "get": {
-                "summary": f"List {doctype} documents",
-                "tags": [doctype],
-                "parameters": [
-                    {
-                        "name": "fields",
-                        "in": "query",
-                        "schema": {"type": "string"},
-                        "description": "Comma-separated list of fields",
-                    },
-                    {
-                        "name": "filters",
-                        "in": "query",
-                        "schema": {"type": "string"},
-                        "description": "JSON string of filters",
-                    },
-                    {
-                        "name": "limit_start",
-                        "in": "query",
-                        "schema": {"type": "integer"},
-                        "description": "Starting index",
-                    },
-                    {
-                        "name": "limit_page_length",
-                        "in": "query",
-                        "schema": {"type": "integer"},
-                        "description": "Page size",
-                    },
-                ],
-                "responses": {
-                    "200": {
-                        "description": f"List of {doctype} documents",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": f"#/components/schemas/{doctype}"
-                                            },
-                                        }
-                                    },
-                                }
-                            }
-                        },
-                    }
-                },
-            },
-            "post": {
-                "summary": f"Create {doctype} document",
-                "tags": [doctype],
-                "requestBody": {
-                    "required": True,
-                    "content": {
-                        "application/json": {
-                            "schema": {"$ref": f"#/components/schemas/{doctype}"}
-                        }
-                    },
-                },
-                "responses": {
-                    "200": {
-                        "description": f"{doctype} document created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": f"#/components/schemas/{doctype}"
-                                        }
-                                    },
-                                }
-                            }
-                        },
-                    }
-                },
-            },
-        }
-
-        # Item endpoints (GET, PUT, DELETE)
-        spec["paths"][item_path] = {
-            "get": {
-                "summary": f"Get {doctype} document",
-                "tags": [doctype],
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "required": True,
-                        "schema": {"type": "string"},
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": f"{doctype} document",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": f"#/components/schemas/{doctype}"
-                                        }
-                                    },
-                                }
-                            }
-                        },
-                    }
-                },
-            },
-            "put": {
-                "summary": f"Update {doctype} document",
-                "tags": [doctype],
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "required": True,
-                        "schema": {"type": "string"},
-                    }
-                ],
-                "requestBody": {
-                    "required": True,
-                    "content": {
-                        "application/json": {
-                            "schema": {"$ref": f"#/components/schemas/{doctype}"}
-                        }
-                    },
-                },
-                "responses": {"200": {"description": f"{doctype} document updated"}},
-            },
-            "delete": {
-                "summary": f"Delete {doctype} document",
-                "tags": [doctype],
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "required": True,
-                        "schema": {"type": "string"},
-                    }
-                ],
-                "responses": {"202": {"description": f"{doctype} document deleted"}},
-            },
-        }
 
 # Flask Forms
 class ConnectionForm(FlaskForm):
@@ -639,10 +66,26 @@ class OpenAPIGenerateForm(FlaskForm):
 
 
 # Global connection object (rebuilt from session on each request via before_request)
+#  Replace this with a redis consistent cache in the future if needed for scalability across multiple workers or instances.
 current_connection: Optional["ERPNextConnection"] = None
 
 _NO_AUTH_ROUTES = {"connect", "index", "static", "disconnect"}
 
+
+def default_error_responder(request_limit: RequestLimit):
+    return make_response(
+        render_template("ratelimit.html", request_limit=request_limit),
+        429
+    )
+    
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["2000 per day", "60 per hour"],
+    storage_uri="memory://",
+    strategy="sliding-window-counter",
+    on_breach=default_error_responder
+)
 
 @app.before_request
 def restore_or_validate_session():
@@ -722,6 +165,9 @@ def index():
 @app.route("/connect", methods=["GET", "POST"])
 def connect():
     """Connection setup page"""
+    if APP_MODE == "production":
+        flash("Connection setup is not available in production mode.", "warning")
+        return redirect(url_for("index"))
     form = ConnectionForm()
     # Pre-fill from environment vars or existing session
     form.base_url.data = session.get("erpnext_url") or ERPNEXT_URL
@@ -757,7 +203,10 @@ def connect():
 
     return render_template("connect.html", form=form)
 
+
+
 @app.route("/doctypes")
+@limiter.limit("10/minute", override_defaults=False)
 def doctypes():
     """DocTypes listing page"""
     if APP_MODE == "production":
@@ -779,6 +228,7 @@ def doctypes():
     return render_template("doctypes.html", doctypes=doctypes_list)
 
 @app.route("/doctype/<doctype_name>")
+@limiter.limit("20/minute", override_defaults= True)
 def doctype_detail(doctype_name):
     """DocType detail page"""
     metadata = None
@@ -1043,6 +493,7 @@ def api_doctype_metadata(doctype_name: str):
 
 # New endpoint: Return DocType fields as JSON
 @app.route("/api/doctype/<doctype_name>/fields")
+@limiter.limit("0/minute", override_defaults=False)
 def api_doctype_fields(doctype_name):
     """API endpoint to get DocType fields as JSON"""
     if APP_MODE == "production":
@@ -1077,6 +528,12 @@ def swagger_static(filename):
 def not_found(error):
     return render_template("404.html"), 404
 
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return make_response(
+            jsonify(error=f"ratelimit exceeded {e.description}")
+            , 429
+    )
 
 @app.errorhandler(500)
 def internal_error(error):
