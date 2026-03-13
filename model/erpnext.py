@@ -2,21 +2,21 @@ import json
 from typing import Any, Dict, List, Optional
 
 import requests
-from auth import SessionExpiredError
 
-from app import APP_MODE
+from model.auth import SessionExpiredError
 
 
 class ERPNextConnection:
     """Handles connections and API calls to ERPNext instances"""
 
-    def __init__(self, base_url: str, api_key: str, api_secret: str):
+    def __init__(self, base_url: str, api_key: str, api_secret: str, APP_MODE: str):
         self.base_url = base_url.rstrip("/")
         self.headers = {
             "Authorization": f"token {api_key}:{api_secret}",
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
+        self.APP_MODE = APP_MODE
 
 
     def _check_response(self, response: requests.Response) -> requests.Response:
@@ -89,7 +89,7 @@ class ERPNextConnection:
             if response.status_code == 200:
                 data = response.json()
                 list_data = data.get("data", [])
-                if APP_MODE != "erpnext":
+                if self.APP_MODE != "erpnext":
                     # Remove custom doctypes in production mode
                     non_custom = lambda list_data: [d for d in list_data if not d.get("custom")]
                     # If there is a file present, then open it, otherwise read from the file
@@ -130,7 +130,7 @@ class ERPNextConnection:
                 #
                 data_tables = data.get("data")
                 # Customizations to append to the list of files
-                if APP_MODE == "erpnext":
+                if self.APP_MODE == "erpnext":
                     customization = custom_fields.json().get(
                         "data",
                     )
@@ -138,7 +138,7 @@ class ERPNextConnection:
                     for custom in customization:
                         data_tables.get("fields").append(custom)
                 # Check property setters and append to the data tables
-                if APP_MODE== "erpnext" and property_setter.status_code == 200:
+                if self.APP_MODE== "erpnext" and property_setter.status_code == 200:
                     property_setters = property_setter.json().get("data", [])
                     data_tables.get("fields").extend(property_setters)
                 return data_tables
