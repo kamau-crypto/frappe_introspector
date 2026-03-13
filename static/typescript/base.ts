@@ -8,7 +8,7 @@ if (!flash_section) {
 		"Flash section not found. Please ensure there is an element with id 'flash_err' in the HTML.",
 	);
 } else {
-	flash_section.classList.add(`mt-[${navHeight}px]`);
+	flash_section.classList.add(`mt-[${navHeight/4}px]`);
 }
 main_section![0].classList.add(`mt-[${navHeight + 10}px]`);
 
