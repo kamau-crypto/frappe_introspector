@@ -26,7 +26,6 @@ Disallow:
 
 # OpenAI — model training crawler
 User-agent: GPTBot
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -34,7 +33,6 @@ Disallow: /connect
 
 # OpenAI — ChatGPT browsing plugin
 User-agent: ChatGPT-User
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -42,7 +40,6 @@ Disallow: /connect
 
 # OpenAI — search indexing bot
 User-agent: OAI-SearchBot
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -50,7 +47,6 @@ Disallow: /connect
 
 # Anthropic — Claude training crawler
 User-agent: ClaudeBot
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -58,7 +54,6 @@ Disallow: /connect
 
 # Anthropic — direct token used alongside ClaudeBot
 User-agent: anthropic-ai
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -66,7 +61,6 @@ Disallow: /connect
 
 # Google — explicit AI training opt-out (distinct from Googlebot/SEO)
 User-agent: Google-Extended
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -74,7 +68,6 @@ Disallow: /connect
 
 # ByteDance / TikTok — AI training crawler
 User-agent: Bytespider
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -82,7 +75,6 @@ Disallow: /connect
 
 # Meta — external agent used for AI training
 User-agent: Meta-ExternalAgent
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -90,7 +82,6 @@ Disallow: /connect
 
 # Meta — external fetch variant
 User-agent: Meta-ExternalFetcher
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -98,7 +89,6 @@ Disallow: /connect
 
 # Amazon — AI and Alexa training crawler
 User-agent: Amazonbot
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -106,7 +96,6 @@ Disallow: /connect
 
 # Apple — AI training opt-out (distinct from Applebot/SEO)
 User-agent: Applebot-Extended
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -114,7 +103,6 @@ Disallow: /connect
 
 # Common Crawl — primary source dataset for many LLM training runs
 User-agent: CCBot
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -122,7 +110,6 @@ Disallow: /connect
 
 # Perplexity — AI-powered search crawler
 User-agent: PerplexityBot
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -130,7 +117,6 @@ Disallow: /connect
 
 # Cohere — AI training crawler
 User-agent: cohere-ai
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -138,7 +124,6 @@ Disallow: /connect
 
 # Diffbot — web data extraction / AI knowledge graph
 User-agent: Diffbot
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -146,7 +131,6 @@ Disallow: /connect
 
 # ImageSiftBot — AI image-data crawler
 User-agent: ImageSiftBot
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -154,7 +138,6 @@ Disallow: /connect
 
 # Allen Institute for AI
 User-agent: AI2Bot
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
@@ -162,7 +145,6 @@ Disallow: /connect
 
 # You.com — AI search crawler
 User-agent: YouBot
-Disallow: /doctype
 Disallow: /doctypes
 Disallow: /swagger-ui
 Disallow: /generate-openapi
