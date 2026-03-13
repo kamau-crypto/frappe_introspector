@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Rate Limit Exceeded - DocType Inspector{% endblock %}
+{% block title %}Too Many Requests- DocType Inspector{% endblock %}
 {% block extra_head %}
 <meta name="robots" content="noindex, nofollow">{% endblock %}
 {% block content %}
-<h1>Rate Limit Exceeded</h1>
-<p>You have exceeded your rate limit of {{ request_limit.limit }}. Please try again later.</p>
+<div class="max-w-xl mx-auto mt-20 p-8 bg-white border border-gray-200 rounded-lg shadow-sm text-center">
+    <div class="text-red-500 mb-4">
+        <i class="fa-solid fa-hand text-5xl"></i>
+    </div>
+    <h1 class="text-2xl font-bold text-gray-800 mb-3">Too Many Requests</h1>
+    <p class="text-gray-600 mb-8">You've exceeded the rate limit for this action. Please wait a moment before trying
+        again.</p>
+    <a href="/"
+        class="inline-flex items-center px-5 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors">
+        <i class="fa-solid fa-arrow-left mr-2"></i> Return to Homepage
+    </a>
+</div>
 {% endblock %}
