@@ -23,16 +23,55 @@ Inspector{% endblock %}
         {% endif %}
     </div>
     <div class="flex gap-2">
-        <!-- Add the chat with AI buttons here... -->
-        <select id="aiChatType"
-            class="border border-gray-300 dark:border-dark-border dark:text-dark-text dark:bg-dark-muted rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="general" selected>Copy /option>
-            <option value="gemini"> Gemini</option>
-            <option value="claude"> Claude</option>
-            <option value="chatgpt"> ChatGPT</option>
-            <option value="deepseek"> Deep Seek</option>
-            <option value="qwen"> Qwen</option>
-        </select>
+        <!-- AI Custom Dropdown Picker -->
+        <div class="relative inline-block text-left" id="aiPickerWrapper">
+            <button type="button" id="aiPickerBtn"
+                class="inline-flex items-center justify-between gap-2 px-4 py-2 border border-gray-300 dark:border-dark-border rounded font-semibold bg-white dark:bg-dark-surface text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-muted transition-colors focus:outline-none"
+                aria-expanded="false" aria-haspopup="true">
+                <span class="flex items-center gap-2">
+                    <span id="aiPickerIcon"><i class="fas fa-clipboard text-sm text-gray-500"></i></span>
+                    <span id="aiPickerLabel">Copy from this page</span>
+                </span>
+                <i id="aiPickerChevron"
+                    class="fas fa-chevron-down text-xs text-gray-400 dark:text-gray-500 transition-transform duration-200"></i>
+            </button>
+            <div id="aiPickerMenu"
+                class="hidden absolute left-0 z-50 mt-1 min-w-56 w-fit origin-top-left rounded-md bg-white dark:bg-dark-surface shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden"
+                role="menu" aria-orientation="vertical">
+                <div class="py-1" role="none">
+                    <button type="button"
+                        class="ai-pick w-full text-left px-1 py-1.5 text-sm text-gray-600 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-muted/50 flex items-center gap-2 transition-all font-semibold"
+                        data-ai="general" role="menuitem">
+                        <i class="fas fa-clipboard text-sm text-gray-400 w-7 text-center"></i>
+                        <span class="flex flex-col gap-1">
+                            <span>Copy</span>
+                            <span>Copy page data to clipboard</span>
+                        </span>
+                    </button>
+                    <button type="button"
+                        class="ai-pick w-full text-left px-1 py-1.5 text-sm text-orange-600 dark:text-orange-400 hover:bg-orange-50/60 dark:hover:bg-orange-900/20 flex items-center gap-2 transition-all"
+                        data-ai="claude" role="menuitem">
+                        <img src="{{ url_for('static', filename='img/claude.png') }}" class="w-7 h-7 object-contain"
+                            alt="">
+                        <span class="flex flex-col gap-1">
+                            <span>Claude</span>
+                            <span class="text-xs text-inline text-gray-200 px-2">Ask questions about this page </span>
+                        </span>
+                    </button>
+                    <button type="button"
+                        class="ai-pick w-full text-left px-1 py-1.5 text-sm text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50/60 dark:hover:bg-emerald-900/20 flex items-center gap-2 transition-all"
+                        data-ai="chatgpt" role="menuitem">
+                        <img src="{{ url_for('static', filename='img/openai.png') }}" class="w-7 h-7 object-contain"
+                            alt="">
+                        <span class="flex flex-col gap-1">
+                            <span>OpenAI</span>
+                            <span class="text-xs text-inline text-gray-200 px-2">Ask questions about this page</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <button type="button"
             class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded font-semibold hover:bg-blue-600 hover:text-white transition"
             onclick="openRawDataModal()">
@@ -272,20 +311,6 @@ Inspector{% endblock %}
                 <button class="btn btn-sm btn-outline-primary mb-3" onclick="copyToClipboard('rawJsonData')">
                     <i class="fas fa-copy me-1 dark:text-dark-text"></i>Copy to Clipboard
                 </button>
-                <div class="mr-10 w-1/3">
-                    <select id="codeLanguage"
-                        class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-light-text dark:text-dark-text bg-light-surface dark:bg-dark-surface mb-4">
-                        <option value="typescript" selected>TypeScript</option>
-                        <option value="python">Python</option>
-                        <option value="python">Python (Pydantic)</option>
-                        <option value="go">Go</option>
-                        <option value="csharp">C#</option>
-                        <option value="elixir">Elixir</option>
-                        <option value="json">JSON</option>
-                        <option value="yaml">YAML</option>
-
-                    </select>
-                </div>
                 <div id="clipboardPopup"
                     class="fixed top-10 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white dark:text-dark-text px-4 py-2 rounded shadow-lg text-center hidden">
                     <i class="fas fa-check mr-2"></i>DocType definition copied
@@ -396,5 +421,86 @@ Inspector{% endblock %}
             }, 2000);
         });
     }
+
+    /**
+     * initAiPicker(wrapperId)
+     * ─────────────────────────────────────────────────────────────────────
+     * Reusable AI model picker. Turns a trigger button + <ul> into a
+     * selector-style dropdown: the chosen item updates the trigger display
+     * (icon + label), the chevron rotates open/closed, and the appropriate
+     * action fires (clipboard copy or AI deep-link via window.buildDeepLinkingAction).
+     *
+     * Required IDs inside the wrapper:
+     *   #aiPickerBtn, #aiPickerIcon, #aiPickerLabel, #aiPickerChevron, #aiPickerMenu
+     *   .ai-pick [data-ai]  — each list item
+     */
+    function initAiPicker(wrapperId) {
+        const wrapper = document.getElementById(wrapperId);
+        if (!wrapper) return;
+
+        const btn = document.getElementById("aiPickerBtn");
+        const menu = document.getElementById("aiPickerMenu");
+        const chevron = document.getElementById("aiPickerChevron");
+
+        function openMenu() {
+            menu.classList.remove("hidden");
+            chevron.style.transform = "rotate(180deg)";
+            btn.setAttribute("aria-expanded", "true");
+        }
+        function closeMenu() {
+            menu.classList.add("hidden");
+            chevron.style.transform = "";
+            btn.setAttribute("aria-expanded", "false");
+        }
+
+        btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            menu.classList.contains("hidden") ? openMenu() : closeMenu();
+        });
+
+        wrapper.querySelectorAll(".ai-pick").forEach(function (item) {
+            item.addEventListener("click", function () {
+                const val = this.dataset.ai;
+
+                // Update trigger: selected item's icon + label move to top
+                const iconEl = this.querySelector("img, i");
+                document.getElementById("aiPickerIcon").innerHTML = iconEl.outerHTML;
+                document.getElementById("aiPickerLabel").textContent =
+                    this.querySelector("span").textContent.trim();
+
+                // Mark the active option in the list
+                wrapper.querySelectorAll(".ai-pick").forEach(i =>
+                    i.classList.remove("font-semibold")
+                );
+                this.classList.add("font-semibold");
+                this.setAttribute("aria-selected", "true");
+                closeMenu();
+
+                // Fire the action
+                if (val === "general")
+                {
+                    const code = document.getElementById("rawJsonData");
+                    if (code)
+                    {
+                        navigator.clipboard.writeText(code.textContent).then(function () {
+                            const popup = document.getElementById("clipboardPopup");
+                            popup.classList.remove("hidden");
+                            setTimeout(() => popup.classList.add("hidden"), 2000);
+                        });
+                    }
+                } else
+                {
+                    window.buildDeepLinkingAction(val);
+                }
+            });
+        });
+
+        // Close on outside click
+        document.addEventListener("click", function (e) {
+            if (!wrapper.contains(e.target)) closeMenu();
+        });
+    }
+
+    initAiPicker("aiPickerWrapper");
 </script>
 {% endblock %}

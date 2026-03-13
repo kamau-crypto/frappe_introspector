@@ -1,84 +1,510 @@
 {% extends "base.html" %}
 
+{% block title %}ERPNext DocType Inspector — Explore ERPNext, Frappe & HRMS{% endblock %}
+
+{%block extra_head%}
+<meta name="description"
+    content="Browse 982 DocTypes across ERPNext, Frappe Framework, and HRMS. Generate OpenAPI specs, export type stubs, and deep-link into AI assistants for instant explanations.">
+{% endblock%}
+
 {% block content %}
+
+<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
 <div class="flex flex-col items-center justify-center py-16 bg-light-bg dark:bg-dark-bg">
-    <div class="max-w-2xl w-full text-center">
-        <div class="py-8">
-            <h1
-                class="text-5xl font-bold mb-4 flex items-center justify-center gap-3 text-light-accent dark:text-dark-accent">
-                <i class="fas fa-database"></i>
-                ERPNext DocType Inspector
-            </h1>
-            <p class="text-xl text-gray-600 dark:text-gray-400 mb-6">
-                Explore, analyze, and generate OpenAPI documentation for your ERPNext DocTypes with ease.
+    <div class="max-w-3xl w-full text-center">
+        <h1
+            class="text-5xl font-bold mb-4 flex items-center justify-center gap-3 text-light-accent dark:text-dark-accent">
+            <i class="fas fa-database"></i>
+            ERPNext DocType Inspector
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 mb-2">
+            Explore, analyze, and generate OpenAPI documentation for your ERPNext DocTypes with ease.
+        </p>
+        <p class="text-base text-gray-500 dark:text-gray-500 mb-8">
+            Browse <strong class="text-light-text dark:text-dark-text">DocTypes</strong> across
+            <strong class="text-light-text dark:text-dark-text">ERPNext</strong>,
+            <strong class="text-light-text dark:text-dark-text">Frappe Framework</strong>, and
+            <strong class="text-light-text dark:text-dark-text">HRMS</strong> — or connect your own instance for a live,
+            real-time view.
+        </p>
+        <div class="flex flex-col md:flex-row gap-4 justify-center flex-wrap">
+            <a href="{{ url_for('doctypes') }}"
+                class="inline-flex items-center justify-center px-6 py-3 bg-light-button dark:bg-dark-button text-white rounded text-lg font-semibold hover:bg-blue-700 transition">
+                <i class="fas fa-table mr-2"></i>Browse DocTypes
+            </a>
+            <a href="{{ url_for('connect') }}"
+                class="inline-flex items-center justify-center px-6 py-3 border border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 rounded text-lg font-semibold hover:bg-blue-50 dark:hover:bg-blue-900 transition">
+                <i class="fas fa-plug mr-2"></i>Connect Your Instance
+            </a>
+            <a href="{{ url_for('swagger_ui') }}"
+                class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 dark:text-gray-300 rounded text-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-500 transition">
+                <i class="fas fa-book mr-2"></i>API Docs
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- ── Stats bar ──────────────────────────────────────────────────────────── -->
+<div class="max-w-5xl mx-auto mb-10 px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-lg p-5 text-center shadow">
+            <div class="text-4xl font-bold">982</div>
+            <div class="text-sm mt-1 opacity-90">Total DocTypes</div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-500 to-purple-700 text-white rounded-lg p-5 text-center shadow">
+            <div class="text-4xl font-bold">37</div>
+            <div class="text-sm mt-1 opacity-90">Modules</div>
+        </div>
+        <div class="bg-gradient-to-br from-green-500 to-green-700 text-white rounded-lg p-5 text-center shadow">
+            <div class="text-4xl font-bold">3</div>
+            <div class="text-sm mt-1 opacity-90">Applications</div>
+        </div>
+        <div class="bg-gradient-to-br from-orange-500 to-orange-700 text-white rounded-lg p-5 text-center shadow">
+            <div class="text-4xl font-bold">5+</div>
+            <div class="text-sm mt-1 opacity-90">AI Assistants</div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Browse by Application ──────────────────────────────────────────────── -->
+<div class="max-w-5xl mx-auto mb-12 px-4">
+    <h2 class="text-2xl font-bold mb-1 text-light-text dark:text-dark-text">Browse by Application</h2>
+    <p class="text-gray-500 dark:text-gray-400 mb-6 text-sm">
+        DocTypes are organised across three Frappe-ecosystem apps. Click any module tag to jump straight to that
+        module's DocType list.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- ERPNext -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-blue-500">
+            <div class="flex items-center gap-3 mb-3">
+                <div
+                    class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-building text-blue-600 dark:text-blue-400 text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-light-text dark:text-dark-text">ERPNext</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">553 DocTypes · 20 Modules</p>
+                </div>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                The full ERP suite — accounting, inventory, manufacturing, CRM, purchasing, selling, projects, assets,
+                and more.
             </p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <div class="flex flex-wrap gap-2 mb-5">
+                <a href="{{ url_for('doctypes') }}?module=Accounts"
+                    class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded px-2 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 transition">Accounts
+                    (178)</a>
+                <a href="{{ url_for('doctypes') }}?module=Stock"
+                    class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded px-2 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 transition">Stock
+                    (74)</a>
+                <a href="{{ url_for('doctypes') }}?module=Manufacturing"
+                    class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded px-2 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 transition">Manufacturing
+                    (43)</a>
+                <a href="{{ url_for('doctypes') }}?module=CRM"
+                    class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded px-2 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 transition">CRM
+                    (27)</a>
+                <a href="{{ url_for('doctypes') }}?module=Assets"
+                    class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded px-2 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 transition">Assets
+                    (26)</a>
+                <a href="{{ url_for('doctypes') }}?module=Buying"
+                    class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded px-2 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 transition">Buying
+                    (20)</a>
+                <a href="{{ url_for('doctypes') }}?module=Selling"
+                    class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded px-2 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 transition">Selling
+                    (17)</a>
+                <a href="{{ url_for('doctypes') }}?module=Support"
+                    class="text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded px-2 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 transition">Support
+                    (11)</a>
+                <span class="text-xs text-gray-400 dark:text-gray-500 italic px-1 py-1">+12 more</span>
+            </div>
+            <div class="mt-auto">
+                <a href="{{ url_for('doctypes') }}"
+                    class="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                    Browse all ERPNext DocTypes <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Frappe Framework -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-purple-500">
+            <div class="flex items-center gap-3 mb-3">
+                <div
+                    class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-layer-group text-purple-600 dark:text-purple-400 text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-light-text dark:text-dark-text">Frappe Framework</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">207 DocTypes · 11 Modules</p>
+                </div>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                The low-code web framework powering ERPNext — users, roles, permissions, workflows, email, desk config,
+                and core utilities.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-5">
+                <a href="{{ url_for('doctypes') }}?module=Core"
+                    class="text-xs bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 rounded px-2 py-1 hover:bg-purple-100 dark:hover:bg-purple-900 transition">Core
+                    (92)</a>
+                <a href="{{ url_for('doctypes') }}?module=Desk"
+                    class="text-xs bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 rounded px-2 py-1 hover:bg-purple-100 dark:hover:bg-purple-900 transition">Desk
+                    (52)</a>
+                <a href="{{ url_for('doctypes') }}?module=Email"
+                    class="text-xs bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 rounded px-2 py-1 hover:bg-purple-100 dark:hover:bg-purple-900 transition">Email
+                    (16)</a>
+                <a href="{{ url_for('doctypes') }}?module=Automation"
+                    class="text-xs bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 rounded px-2 py-1 hover:bg-purple-100 dark:hover:bg-purple-900 transition">Automation
+                    (9)</a>
+                <a href="{{ url_for('doctypes') }}?module=Workflow"
+                    class="text-xs bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 rounded px-2 py-1 hover:bg-purple-100 dark:hover:bg-purple-900 transition">Workflow
+                    (9)</a>
+                <a href="{{ url_for('doctypes') }}?module=Custom"
+                    class="text-xs bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 rounded px-2 py-1 hover:bg-purple-100 dark:hover:bg-purple-900 transition">Custom
+                    (7)</a>
+                <a href="{{ url_for('doctypes') }}?module=Printing"
+                    class="text-xs bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 rounded px-2 py-1 hover:bg-purple-100 dark:hover:bg-purple-900 transition">Printing
+                    (7)</a>
+                <span class="text-xs text-gray-400 dark:text-gray-500 italic px-1 py-1">+4 more</span>
+            </div>
+            <div class="mt-auto">
+                <a href="{{ url_for('doctypes') }}?module=Core"
+                    class="inline-flex items-center text-sm text-purple-600 dark:text-purple-400 font-semibold hover:underline">
+                    Browse Frappe DocTypes <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- HRMS -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-green-500">
+            <div class="flex items-center gap-3 mb-3">
+                <div
+                    class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-users text-green-600 dark:text-green-400 text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-light-text dark:text-dark-text">HRMS</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">222 DocTypes · 5 Modules</p>
+                </div>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Frappe's dedicated HR &amp; payroll suite — employees, leaves, attendance, loan management, salary
+                components, and telephony.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-5">
+                <a href="{{ url_for('doctypes') }}?module=HR"
+                    class="text-xs bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300 rounded px-2 py-1 hover:bg-green-100 dark:hover:bg-green-900 transition">HR
+                    (115)</a>
+                <a href="{{ url_for('doctypes') }}?module=Loan+Management"
+                    class="text-xs bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300 rounded px-2 py-1 hover:bg-green-100 dark:hover:bg-green-900 transition">Loan
+                    Management (62)</a>
+                <a href="{{ url_for('doctypes') }}?module=Payroll"
+                    class="text-xs bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300 rounded px-2 py-1 hover:bg-green-100 dark:hover:bg-green-900 transition">Payroll
+                    (38)</a>
+                <a href="{{ url_for('doctypes') }}?module=Telephony"
+                    class="text-xs bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300 rounded px-2 py-1 hover:bg-green-100 dark:hover:bg-green-900 transition">Telephony
+                    (5)</a>
+                <a href="{{ url_for('doctypes') }}?module=Loan+Origination"
+                    class="text-xs bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300 rounded px-2 py-1 hover:bg-green-100 dark:hover:bg-green-900 transition">Loan
+                    Origination (2)</a>
+            </div>
+            <div class="mt-auto">
+                <a href="{{ url_for('doctypes') }}?module=HR"
+                    class="inline-flex items-center text-sm text-green-600 dark:text-green-400 font-semibold hover:underline">
+                    Browse HRMS DocTypes <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ── AI Deep-linking ────────────────────────────────────────────────────── -->
+<div class="max-w-5xl mx-auto mb-12 px-4">
+    <div
+        class="rounded-xl border border-indigo-100 dark:border-indigo-800 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950 p-8">
+        <div class="flex flex-col md:flex-row items-start gap-8">
+            <div class="flex-1">
+                <div class="flex items-center gap-3 mb-3">
+                    <i class="fas fa-robot text-indigo-600 dark:text-indigo-400 text-2xl"></i>
+                    <h2 class="text-xl font-bold text-light-text dark:text-dark-text">AI-Powered DocType Explanations
+                    </h2>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-5">
+                    On every DocType detail page, the inspector generates a structured prompt containing field names,
+                    types, required flags, and relationships. You can copy it or deep-link directly into your preferred
+                    AI assistant — no manual copy-paste flow required.
+                </p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+                    <div
+                        class="flex items-center gap-2 bg-white dark:bg-dark-surface rounded-lg px-3 py-2 shadow-sm border border-gray-100 dark:border-dark-border">
+                        <span class="text-orange-500 font-bold">
+                            <img src="{{ url_for('static', filename='img/claude.png') }}" alt="Claude" class="w-4 h-4">
+                        </span>
+                        <span class="text-sm font-semibold text-light-text dark:text-dark-text">Claude</span>
+                    </div>
+                    <div
+                        class="flex items-center gap-2 bg-white dark:bg-dark-surface rounded-lg px-3 py-2 shadow-sm border border-gray-100 dark:border-dark-border">
+                        <span class="text-green-500 font-bold">
+                            <img src="{{ url_for('static', filename='img/openai.png') }}" alt="ChatGPT" class="w-4 h-4">
+                        </span>
+                        <span class="text-sm font-semibold text-light-text dark:text-dark-text">ChatGPT</span>
+                    </div>
+                    <div
+                        class="flex items-center gap-2 bg-white dark:bg-dark-surface rounded-lg px-3 py-2 shadow-sm border border-gray-100 dark:border-dark-border">
+                        <i class="fas fa-clipboard text-gray-400 text-sm"></i>
+                        <span class="text-sm font-semibold text-light-text dark:text-dark-text">Copy prompt</span>
+                    </div>
+                </div>
+                <a href="{{ url_for('doctypes') }}"
+                    class="inline-flex items-center text-sm text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
+                    Try it on any DocType <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </a>
+            </div>
+            <!-- Example prompt preview -->
+            <div
+                class="w-full md:w-72 flex-shrink-0 bg-white dark:bg-dark-surface rounded-xl shadow border border-gray-100 dark:border-dark-border p-4 text-xs font-mono">
+                <div class="font-sans text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Example
+                    generated prompt</div>
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+                    Explain the <span class="text-blue-600 dark:text-blue-400 font-semibold">Sales Invoice</span>
+                    DocType in ERPNext.<br><br>
+                    It has <span class="text-indigo-600 dark:text-indigo-300">72 fields</span>: 8 required, 12
+                    read-only, 14 Link fields.<br><br>
+                    Key links: Customer → customer, Company → company, Item → items[].item_code...
+                </p>
+                <div class="flex flex-wrap gap-2">
+                    <span
+                        class="bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 rounded px-2 py-1 font-sans">Open
+                        in Claude</span>
+                    <span
+                        class="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 rounded px-2 py-1 font-sans">Open
+                        in Gemini</span>
+                    <span
+                        class="bg-gray-100 dark:bg-dark-muted text-gray-500 dark:text-gray-400 rounded px-2 py-1 font-sans">Copy</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="max-w-5xl mx-auto mb-12 px-4">
+    <h2 class="text-2xl font-bold mb-1 text-light-text dark:text-dark-text">Two Ways to Use</h2>
+    <p class="text-gray-500 dark:text-gray-400 mb-6 text-sm">
+        Use this hosted version for instant, no-setup access, or run the Docker container locally to inspect your own
+        ERPNext instance including custom DocTypes and private apps.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Live / Production -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-blue-500">
+            <div class="flex items-center gap-3 mb-4">
+                <div
+                    class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-cloud text-blue-600 dark:text-blue-400 text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-light-text dark:text-dark-text">Live Version</h3>
+                    <span
+                        class="text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-400 rounded-full px-2 py-0.5 font-semibold">You
+                        are here</span>
+                </div>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Instantly browse <strong>982 pre-indexed DocTypes</strong> from a reference ERPNext v15 instance. No
+                account, no credentials, no setup needed. Perfect for exploring the schema before you build.
+            </p>
+            <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-400 mb-6">
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Browse all ERPNext, Frappe &amp;
+                    HRMS DocTypes</li>
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Filter by module, field type,
+                    required, read-only</li>
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Export OpenAPI / Swagger specs for
+                    any DocType</li>
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Deep-link to AI assistants for
+                    instant explanations</li>
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Generate TypeScript, Python, Go
+                    &amp; C# type stubs</li>
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-times text-gray-300 dark:text-gray-600 mt-0.5 flex-shrink-0"></i><span
+                        class="text-gray-400 dark:text-gray-500">Custom / private DocTypes not available</span></li>
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-times text-gray-300 dark:text-gray-600 mt-0.5 flex-shrink-0"></i><span
+                        class="text-gray-400 dark:text-gray-500">Local AI mode not available</span></li>
+            </ul>
+            <div class="mt-auto">
+                <a href="{{ url_for('doctypes') }}"
+                    class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded font-semibold hover:bg-blue-700 transition text-sm">
+                    <i class="fas fa-table mr-2"></i>Browse DocTypes
+                </a>
+            </div>
+        </div>
+
+        <!-- Local / Docker -->
+        <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-purple-500">
+            <div class="flex items-center gap-3 mb-4">
+                <div
+                    class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center flex-shrink-0">
+                    <i class="fab fa-docker text-purple-600 dark:text-purple-400 text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-light-text dark:text-dark-text">Run Locally with Docker</h3>
+                    <span
+                        class="text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-400 rounded-full px-2 py-0.5 font-semibold">Full
+                        feature set</span>
+                </div>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Point the inspector at your own ERPNext instance to inspect <strong>custom DocTypes, custom fields, and
+                    private apps</strong>. Unlocks live-sync mode and a locally fine-tuned AI via Ollama so your data
+                never leaves your network.
+            </p>
+            <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-400 mb-5">
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Everything in the live version</li>
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Inspect custom &amp; private
+                    DocTypes live</li>
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Always reflects your current schema
+                    (no static cache)</li>
+                <li class="flex items-start gap-2"><i
+                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Fine-tuned local AI mode via Ollama
+                </li>
+                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>No
+                    data leaves your network</li>
+            </ul>
+            <!-- Docker command block -->
+            <div class="bg-gray-950 dark:bg-black rounded-lg p-4 mb-5 overflow-x-auto">
+                <div class="text-gray-500 text-xs mb-2 font-sans"># run against your local instance</div>
+                <pre class="text-green-400 text-xs leading-relaxed font-mono whitespace-pre">
+docker run -p 5000:5000 \
+  -e MODE=erpnext \
+  -e ERPNEXT_URL=http://your-site:8000 \
+  -e ERP_API_KEY=your_api_key \
+  -e ERP_API_SECRET=your_api_secret \
+  doctype-inspector</pre>
+            </div>
+            <div class="mt-auto">
                 <a href="{{ url_for('connect') }}"
-                    class="inline-flex items-center justify-center px-6 py-3 bg-light-button dark:bg-dark-button text-white rounded text-lg font-semibold hover:bg-blue-700 transition">
-                    <i class="fas fa-plug mr-2"></i>Get Started
+                    class="inline-flex items-center px-4 py-2 border border-purple-600 text-purple-600 dark:text-purple-400 dark:border-purple-400 rounded font-semibold hover:bg-purple-50 dark:hover:bg-purple-900 transition text-sm">
+                    <i class="fas fa-plug mr-2"></i>Connect Your Instance
                 </a>
-                <a href="{{ url_for('swagger_ui') }}"
-                    class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 dark:text-gray-300 rounded text-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-100 transition">
-                    <i class="fas fa-book mr-2"></i>View Docs
-                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- ── Local Instance Connection (new) ─────────────────────────────────── -->
+<div class="max-w-5xl mx-auto mb-12 px-4">
+    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 border border-gray-100 dark:border-dark-border">
+        <div class="flex items-center gap-3 mb-4">
+            <i class="fas fa-server text-gray-600 dark:text-gray-400 text-xl"></i>
+            <h2 class="text-xl font-bold text-light-text dark:text-dark-text">How the Local Instance Connection Works
+            </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="font-semibold text-sm mb-3 flex items-center gap-2 text-light-text dark:text-dark-text">
+                    <i class="fas fa-step-forward text-blue-500"></i> Setup Steps
+                </h3>
+                <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700 dark:text-gray-400">
+                    <li><strong>Generate API credentials</strong> in ERPNext under <em>Settings → API Access</em></li>
+                    <li><strong>Open the Connect page</strong> and enter your ERPNext URL, API Key &amp; Secret</li>
+                    <li>The inspector <strong>validates your credentials</strong> against the Frappe REST API on every
+                        request</li>
+                    <li><strong>Browse DocTypes</strong> — the list is fetched live from your instance so custom
+                        doctypes appear immediately</li>
+                    <li><strong>Session expires</strong> gracefully: you'll be prompted to reconnect if the token is
+                        revoked</li>
+                </ol>
+            </div>
+            <div>
+                <h3 class="font-semibold text-sm mb-3 flex items-center gap-2 text-light-text dark:text-dark-text">
+                    <i class="fas fa-key text-green-500"></i> Requirements
+                </h3>
+                <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-400">
+                    <li class="flex items-start gap-2"><i
+                            class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>ERPNext v13+ (v15 recommended)
+                    </li>
+                    <li class="flex items-start gap-2"><i
+                            class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>API Key &amp; API Secret (from
+                        your ERPNext user settings)</li>
+                    <li class="flex items-start gap-2"><i
+                            class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Network access to the ERPNext
+                        server from the Docker container</li>
+                    <li class="flex items-start gap-2"><i
+                            class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>The user account must have
+                        <em>System Manager</em> or DocType read permissions
+                    </li>
+                </ul>
+                <div
+                    class="mt-4 p-3 bg-yellow-50 dark:bg-yellow-950 border border-yellow-200 dark:border-yellow-800 rounded-lg text-xs text-yellow-800 dark:text-yellow-300">
+                    <i class="fas fa-lightbulb mr-1"></i>
+                    <strong>Tip:</strong> Running ERPNext locally with <code class="font-mono">bench start</code>? Use
+                    <code class="font-mono">http://localhost:8000</code> as the URL and set <code
+                        class="font-mono">MODE=erpnext</code> in the Docker run command.
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10 max-w-5xl mx-auto">
-    <div class="bg-white dark:bg-dark-surface rounded shadow p-6 text-center">
-        <div class="text-4xl text-yellow-500 mb-3">
-            <i class="fas fa-book"></i>
-        </div>
-        <h5 class="text-lg font-semibold mb-2 text-light-text dark:text-dark-text">Interactive Documentation</h5>
-        <p class="text-gray-600 dark:text-gray-400">Browse and test your APIs using the built-in Swagger UI
-            documentation interface.</p>
-    </div>
-    <div class="bg-white dark:bg-dark-surface rounded shadow p-6 text-center">
-        <div class="text-4xl text-yellow-500 mb-3">
-            <i class="fas fa-book"></i>
-        </div>
-        <h5 class="text-lg font-semibold mb-2 text-light-text dark:text-dark-text">Interactive Documentation</h5>
-        <p class="text-gray-600 dark:text-gray-400">Browse and test your APIs using the built-in Swagger UI
-            documentation interface.</p>
-    </div>
-</div>
-
-<div class="max-w-5xl mx-auto mt-10">
-    <div class="bg-light-bg dark:bg-dark-bg rounded shadow-md mb-4">
-        <div class="border-b px-6 py-4 ">
+<!-- ── How it Works (original, retained) ─────────────────────────────────── -->
+<div class="max-w-5xl mx-auto mb-10 px-4">
+    <div class="bg-light-bg dark:bg-dark-bg rounded shadow-md">
+        <div class="border-b px-6 py-4">
             <h5 class="text-lg font-semibold mb-0 flex items-center gap-2 text-light-text dark:text-dark-text">
                 <i class="fas fa-info-circle text-light-accent dark:text-dark-accent"></i>How it Works
             </h5>
         </div>
-        <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-                <h6 class="font-semibold mb-2 flex items-center gap-2 text-light-text dark:text-dark-text"><i
-                        class="fas fa-step-forward text-blue-600 dark:text-blue-400"></i>Steps to Get Started:</h6>
-                <ol class="list-decimal list-inside text-gray-700 dark:text-gray-500">
+                <h6 class="font-semibold mb-2 flex items-center gap-2 text-light-text dark:text-dark-text">
+                    <i class="fas fa-step-forward text-blue-600 dark:text-blue-400"></i>Steps to Get Started
+                </h6>
+                <ol class="list-decimal list-inside text-sm text-gray-700 dark:text-gray-500 space-y-1">
                     <li><strong>Connect:</strong> Enter your ERPNext URL and API credentials</li>
-                    <li><strong>Explore:</strong> Browse available DocTypes and their field definitions</li>
-                    <li><strong>Generate:</strong> Create OpenAPI documentation for selected DocTypes</li>
+                    <li><strong>Explore:</strong> Browse DocTypes and their field definitions</li>
+                    <li><strong>Generate:</strong> Export OpenAPI specs for selected DocTypes</li>
                     <li><strong>Document:</strong> Use Swagger UI to interact with your APIs</li>
                 </ol>
             </div>
             <div>
-                <h6 class="font-semibold mb-2 flex items-center gap-2 text-light-text dark:text-dark-text"><i
-                        class="fas fa-key text-green-600 dark:text-green-400"></i>Requirements:</h6>
-                <ul class="list-none text-gray-700 dark:text-gray-500">
+                <h6 class="font-semibold mb-2 flex items-center gap-2 text-light-text dark:text-dark-text">
+                    <i class="fas fa-key text-green-600 dark:text-green-400"></i>Requirements
+                </h6>
+                <ul class="list-none text-sm text-gray-700 dark:text-gray-500 space-y-1">
                     <li class="flex items-center gap-2"><i
-                            class="fas fa-check text-green-600 dark:text-green-400"></i>ERPNext v13+ instance
+                            class="fas fa-check text-green-600 dark:text-green-400"></i>ERPNext v13+ instance</li>
+                    <li class="flex items-center gap-2"><i
+                            class="fas fa-check text-green-600 dark:text-green-400"></i>API Key and Secret</li>
+                    <li class="flex items-center gap-2"><i
+                            class="fas fa-check text-green-600 dark:text-green-400"></i>Network access to your ERPNext
+                        server</li>
+                </ul>
+            </div>
+            <div>
+                <h6 class="font-semibold mb-2 flex items-center gap-2 text-light-text dark:text-dark-text">
+                    <i class="fas fa-code text-indigo-600 dark:text-indigo-400"></i>What You Can Export
+                </h6>
+                <ul class="list-none text-sm text-gray-700 dark:text-gray-500 space-y-1">
+                    <li class="flex items-center gap-2"><i
+                            class="fas fa-check text-indigo-500 dark:text-indigo-400"></i>OpenAPI 3.0 / Swagger spec
                     </li>
                     <li class="flex items-center gap-2"><i
-                            class="fas fa-check text-green-600 dark:text-green-400"></i>API Key and Secret
-                    </li>
+                            class="fas fa-check text-indigo-500 dark:text-indigo-400"></i>TypeScript interfaces</li>
                     <li class="flex items-center gap-2"><i
-                            class="fas fa-check text-green-600 dark:text-green-400"></i>Network access to
-                        your ERPNext server</li>
+                            class="fas fa-check text-indigo-500 dark:text-indigo-400"></i>Python / Pydantic models</li>
+                    <li class="flex items-center gap-2"><i
+                            class="fas fa-check text-indigo-500 dark:text-indigo-400"></i>Go structs, C# classes</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}
