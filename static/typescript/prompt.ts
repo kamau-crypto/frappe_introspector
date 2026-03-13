@@ -8,7 +8,7 @@ type ChatAction =
 	| "convert_json"
 	| "generate_api_docs";
 
-type Provider = "gemini" | "claude" | "chatgpt" | "DeepSeek" | "Qwen";
+type Provider = "gemini" | "claude" | "chatgpt" | "deepseek" | "qwen";
 
 export function buildPrompt(doctype: object): string {
 	const json = JSON.stringify(doctype, null, 2);
@@ -20,17 +20,19 @@ export function buildContextDeeplinking(
 	provider: Provider,
 	prompt: string,
 ): string {
+	const current_url = window.location.href;
+	const structured_url = encodeURIComponent(current_url);
 	switch (provider) {
 		case "gemini":
-			return `https://gemini.google.com/app/new?q=${encodeURIComponent(prompt)}`;
+			return `https://gemini.google.com/app/new?prompt=Read from this url:- ${structured_url} and explain it to me`;
 		case "claude":
-			return `https://claude.ai/chat?input=${encodeURIComponent(prompt)}`;
+			return `https://claude.ai/new?q=Read from this url: -${structured_url} and explain it to me`;
 		case "chatgpt":
-			return `https://chat.openai.com/chat?input=${encodeURIComponent(prompt)}`;
-		case "DeepSeek":
-			return `https://deepseek.ai/?q=${encodeURIComponent(prompt)}`;
-		case "Qwen":
-			return `https://qwen.qq.com/?q=${encodeURIComponent(prompt)}`;
+			return `https://chat.openai.com/?prompt=Read from this url:- ${structured_url} and explain it to me`;
+		case "deepseek":
+			return `https://chat.deepseek.com/chat?q=Read from this url:- ${structured_url} and explain it to me`;
+		case "qwen":
+			return `https://chat.qwen.ai/?q=Read from this url:- ${structured_url} and explain it to me`;
 		default:
 			throw new Error(`Unsupported provider: ${provider}`);
 	}
@@ -43,14 +45,15 @@ export function buildDeepLinkingAction(provider: Provider) {
 	return url;
 }
 
+// Expose for direct calls from non-module inline scripts
+(window as any).buildDeepLinkingAction = buildDeepLinkingAction;
+
 function getAndBuild() {
-	// Get the select element and button
 	const selectElement = document.getElementById(
 		"aiChatType",
-	) as HTMLSelectElement;
-	//
+	) as HTMLSelectElement | null;
+	if (!selectElement) return;
 	selectElement.onchange = () => {
-		console.log("Selected provider:", selectElement.value);
 		const provider = selectElement.value as Provider;
 		buildDeepLinkingAction(provider);
 	};
