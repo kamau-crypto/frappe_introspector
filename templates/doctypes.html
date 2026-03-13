@@ -162,6 +162,21 @@
         moduleFilter.addEventListener('change', filterDocTypes);
         typeFilter.addEventListener('change', filterDocTypes);
         clearButton.addEventListener('click', clearFilters);
+
+        // Apply ?module= query param from homepage deep-links
+        const urlParams = new URLSearchParams(window.location.search);
+        const moduleParam = urlParams.get('module');
+        if (moduleParam)
+        {
+            const matchingOption = Array.from(moduleFilter.options).find(
+                o => o.value === moduleParam
+            );
+            if (matchingOption)
+            {
+                moduleFilter.value = moduleParam;
+                filterDocTypes();
+            }
+        }
     });
 </script>
 {% endblock %}
