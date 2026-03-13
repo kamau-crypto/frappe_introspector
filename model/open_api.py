@@ -1,7 +1,7 @@
 import json
 from typing import Any, Dict, List, Optional
 
-from erpnext import ERPNextConnection
+from model.erpnext import ERPNextConnection
 
 
 class OpenAPIGenerator:
