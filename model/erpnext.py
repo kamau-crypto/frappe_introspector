@@ -73,13 +73,14 @@ class ERPNextConnection:
             print(f"Exception getting metadata for {doctype}: {e}")
             return None
 
-    def get_all_doctypes(self) -> List[Dict]:
+    def get_all_doctypes(self, module: str|None = None) -> List[Dict]:
         """Get all available DocTypes"""
         try:
             response = requests.get(
                 f"{self.base_url}/api/resource/DocType",
                 params={
                     "fields": '["name","module","custom","is_submittable","is_tree","description"]',
+                    "where": f'module="{module}"' if module else None,
                     "limit_page_length": 0,
                 },
                 headers=self.headers,
@@ -116,7 +117,7 @@ class ERPNextConnection:
                 timeout=30,
             )
             #
-            # [ ] Currently not working, Fix for future tests cases
+            # [ ] Currently not working, Fix for future edge cases
             property_setter= requests.get(
                 f'{self.base_url}/api/resource/Property Setter?filters=[["doctype","=","{doctype}"]]',
                 headers=self.headers,
