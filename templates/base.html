@@ -32,9 +32,41 @@
         tailwind.config = {
             darkMode: "class",
             theme: {
+                // Explicit breakpoints — used by all responsive prefixes (sm:, md:, lg:, xl:, 2xl:)
+                screens: {
+                    sm: "640px",
+                    md: "768px",
+                    lg: "1024px",
+                    xl: "1280px",
+                    "2xl": "1536px",
+                },
                 extend: {
                     fontFamily: {
                         sans: ["Nunito", "system-ui", "sans-serif"],
+                    },
+                    // Explicit font-size scale so text-{size} tokens are always available
+                    fontSize: {
+                        xs: ["0.75rem", { lineHeight: "1rem" }],
+                        sm: ["0.875rem", { lineHeight: "1.25rem" }],
+                        base: ["1rem", { lineHeight: "1.5rem" }],
+                        lg: ["1.125rem", { lineHeight: "1.75rem" }],
+                        xl: ["1.25rem", { lineHeight: "1.75rem" }],
+                        "2xl": ["1.5rem", { lineHeight: "2rem" }],
+                        "3xl": ["1.875rem", { lineHeight: "2.25rem" }],
+                        "4xl": ["2.25rem", { lineHeight: "2.5rem" }],
+                        "5xl": ["3rem", { lineHeight: "1" }],
+                    },
+                    // Container: centred with responsive horizontal padding
+                    container: {
+                        center: true,
+                        padding: {
+                            DEFAULT: "1rem",
+                            sm: "1.5rem",
+                            md: "2rem",
+                            lg: "2rem",
+                            xl: "2rem",
+                            "2xl": "2rem",
+                        },
                     },
                     colors: {
                         primary: {
@@ -84,26 +116,46 @@
     <!-- Navigation -->
     <nav class="bg-blue-700 text-light-surface dark:text-dark-text dark:bg-primary-900 fixed top-0 z-10 w-full">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a class="font-bold text-lg flex items-center gap-2" href="{{ url_for('index') }}">
+            <a class="font-bold text-base md:text-lg flex items-center gap-2 shrink-0" href="{{ url_for('index') }}">
                 <i class="fas fa-database"></i>
                 ERPNext DocType Inspector
             </a>
-            <div class="flex gap-8 p-2">
-                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('index') }}">
+            <div class="flex items-center gap-3">
+                <!-- Theme toggle (always visible) -->
+                <span id="theme-toggle"
+                    class="border border-slate-400 rounded-md relative inline-flex h-9 w-11 items-center justify-center overflow-hidden cursor-pointer transition-colors duration-300 shrink-0">
+                    <i
+                        class="fas fa-sun absolute transition-all duration-300 ease-in-out opacity-100 scale-100 rotate-0 dark:opacity-0 dark:scale-75 dark:-rotate-90"></i>
+                    <i
+                        class="fas fa-moon absolute transition-all duration-300 ease-in-out opacity-0 scale-75 rotate-90 dark:opacity-100 dark:scale-100 dark:rotate-0"></i>
+                </span>
+                <!-- Hamburger (mobile only) -->
+                <button id="mobile-menu-btn" type="button"
+                    class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-md border border-slate-400 focus:outline-none"
+                    aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+                    <i class="fas fa-bars text-sm" id="hamburger-icon"></i>
+                </button>
+            </div>
+            <!-- Desktop links -->
+            <div class="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+                <a class="hover:text-blue-200 transition flex items-center gap-1 text-sm" href="{{ url_for('index') }}">
                     <i class="fas fa-home"></i> Home
                 </a>
-                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('doctypes') }}">
+                <a class="hover:text-blue-200 transition flex items-center gap-1 text-sm"
+                    href="{{ url_for('doctypes') }}">
                     <i class="fas fa-list"></i> DocTypes
                 </a>
                 {% if config.APP_MODE == "erpnext" %}
-                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('connect') }}">
+                <a class="hover:text-blue-200 transition flex items-center gap-1 text-sm"
+                    href="{{ url_for('connect') }}">
                     <i class="fas fa-plug"></i> Connect
                 </a>
-                <a class="hover:text-blue-200 transition flex items-center gap-1"
+                <a class="hover:text-blue-200 transition flex items-center gap-1 text-sm"
                     href="{{ url_for('generate_openapi') }}">
                     <i class="fas fa-code"></i> Generate API
                 </a>
-                <a class="hover:text-blue-200 transition flex items-center gap-1" href="{{ url_for('swagger_ui') }}">
+                <a class="hover:text-blue-200 transition flex items-center gap-1 text-sm"
+                    href="{{ url_for('swagger_ui') }}">
                     <i class="fas fa-book"></i> Swagger UI
                 </a>
                 {% endif %}
@@ -113,16 +165,59 @@
                     <i class="fas fa-sign-out-alt"></i> Disconnect
                 </a>
                 {% endif %}
-                <span id="theme-toggle"
-                    class="border border-slate-400 rounded-md relative inline-flex h-9 w-12 items-center justify-center overflow-hidden cursor-pointer transition-colors duration-300">
-                    <i
-                        class="fas fa-sun absolute transition-all duration-300 ease-in-out opacity-100 scale-100 rotate-0 dark:opacity-0 dark:scale-75 dark:-rotate-90"></i>
-                    <i
-                        class="fas fa-moon absolute transition-all duration-300 ease-in-out opacity-0 scale-75 rotate-90 dark:opacity-100 dark:scale-100 dark:rotate-0"></i>
-                </span>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-blue-600 dark:border-primary-800">
+            <div class="flex flex-col px-4 py-2 gap-1">
+                <a class="flex items-center gap-2 px-3 py-2.5 rounded hover:bg-blue-600 dark:hover:bg-primary-800 transition text-sm"
+                    href="{{ url_for('index') }}">
+                    <i class="fas fa-home w-4 text-center"></i> Home
+                </a>
+                <a class="flex items-center gap-2 px-3 py-2.5 rounded hover:bg-blue-600 dark:hover:bg-primary-800 transition text-sm"
+                    href="{{ url_for('doctypes') }}">
+                    <i class="fas fa-list w-4 text-center"></i> DocTypes
+                </a>
+                {% if config.APP_MODE == "erpnext" %}
+                <a class="flex items-center gap-2 px-3 py-2.5 rounded hover:bg-blue-600 dark:hover:bg-primary-800 transition text-sm"
+                    href="{{ url_for('connect') }}">
+                    <i class="fas fa-plug w-4 text-center"></i> Connect
+                </a>
+                <a class="flex items-center gap-2 px-3 py-2.5 rounded hover:bg-blue-600 dark:hover:bg-primary-800 transition text-sm"
+                    href="{{ url_for('generate_openapi') }}">
+                    <i class="fas fa-code w-4 text-center"></i> Generate API
+                </a>
+                <a class="flex items-center gap-2 px-3 py-2.5 rounded hover:bg-blue-600 dark:hover:bg-primary-800 transition text-sm"
+                    href="{{ url_for('swagger_ui') }}">
+                    <i class="fas fa-book w-4 text-center"></i> Swagger UI
+                </a>
+                {% endif %}
+                {% if config.APP_MODE == "erpnext" and session.get('erpnext_url') %}
+                <a href="{{ url_for('disconnect') }}"
+                    class="flex items-center gap-2 px-3 py-2.5 rounded hover:bg-red-600 transition text-sm text-red-300">
+                    <i class="fas fa-sign-out-alt w-4 text-center"></i> Disconnect
+                </a>
+                {% endif %}
             </div>
         </div>
     </nav>
+    <script>
+        (function () {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('hamburger-icon');
+            if (btn && menu)
+            {
+                btn.addEventListener('click', function () {
+                    const isOpen = !menu.classList.contains('hidden');
+                    menu.classList.toggle('hidden', isOpen);
+                    icon.classList.toggle('fa-bars', isOpen);
+                    icon.classList.toggle('fa-times', !isOpen);
+                    btn.setAttribute('aria-expanded', String(!isOpen));
+                });
+            }
+        })();
+    </script>
 
     <!-- Flash Messages -->
     <div class="max-w-7xl mx-auto px-4 mt-3 w-full" id="flash_err">
@@ -141,7 +236,7 @@
     </div>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto flex-grow mt-1 gap-10 w-full">
+    <main class="max-w-7xl mx-auto flex-grow mt-1 gap-10 w-full px-4 sm:px-6 lg:px-8">
         {% block content %}{% endblock %}
         {%if config.APP_MODE == "erpnext" %}
         <!-- Chat Section-->
