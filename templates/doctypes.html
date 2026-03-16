@@ -33,14 +33,17 @@
                 class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-light-text dark:text-dark-text bg-light-surface dark:bg-dark-surface">
                 <option value="">All Modules</option>
                 {% for doctype in doctypes %}
-                <option value="{{ doctype.module }}">{{ doctype.module }}</option>
+                <option value="{{ doctype.module }}" {% if doctype.module==module %}selected{% endif %}>{{
+                    doctype.module }}</option>
                 {% endfor %}
             </select>
             <select id="typeFilter"
                 class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-light-text dark:text-dark-text bg-light-surface dark:bg-dark-surface">
                 <option value="">All Types</option>
                 <option value="standard">Standard</option>
+                {%if config.APP_MODE == "erpnext" %}
                 <option value="custom">Custom</option>
+                {% endif %}
             </select>
             <button id="clearFilters"
                 class="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-light-text dark:text-dark-text rounded font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 transition">Clear</button>
