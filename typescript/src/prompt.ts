@@ -1,13 +1,3 @@
-type ChatAction =
-	| "explain"
-	| "generate_test_data"
-	| "convert_typescript"
-	| "convert_zod"
-	| "convert_sql"
-	| "convert_pydantic"
-	| "convert_json"
-	| "generate_api_docs";
-
 type Provider = "gemini" | "claude" | "chatgpt" | "deepseek" | "qwen";
 
 export function buildContextDeeplinking(provider: Provider): string {

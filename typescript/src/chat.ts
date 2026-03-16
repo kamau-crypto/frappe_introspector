@@ -1,9 +1,9 @@
-import { AIChatError } from "./client_error.js";
+import { AIChatError } from "./client_error";
 
 declare const showdown: any;
 //
 export class Chat {
-	private processing_response_flag = false;
+	private processing_response_flag: boolean = false;
 	private chat_messages: HTMLDivElement | null = null;
 	constructor() {
 		this.toggle_chat();
@@ -127,11 +127,8 @@ export class Chat {
 
 			if (response.ok) {
 				// Clear the chat messages UI
-				const chatMessages = <HTMLDivElement | null>(
-					document.getElementById("chat_messages")
-				);
-				if (chatMessages) {
-					chatMessages.innerHTML = `
+				if (this.chat_messages) {
+					this.chat_messages.innerHTML = `
 						<div class="mb-4">
 							<div class="bg-gray-200 p-3 rounded-lg max-w-xs text-sm text-gray-800">
 								Hello! How can I help you today?
@@ -176,17 +173,13 @@ export class Chat {
 	}
 
 	async send_request(message: string) {
-		const chatMessages = <HTMLDivElement | null>(
-			document.getElementById("chat_messages")
-		);
-
-		if (!chatMessages) {
+		if (!this.chat_messages) {
 			throw new AIChatError("Chat body not found");
 		}
 
-		this.user_message(message, chatMessages);
+		this.user_message(message, this.chat_messages);
 		this.processing_response_flag = true;
-		this.processing_response({ chatMessages });
+		this.processing_response({ chatMessages: this.chat_messages });
 
 		const response = await fetch("/chat", {
 			method: "POST",
@@ -199,10 +192,10 @@ export class Chat {
 			throw new AIChatError("Failed to send message");
 		}
 		this.processing_response_flag = false;
-		this.processing_response({ chatMessages });
+		this.processing_response({ chatMessages: this.chat_messages });
 
 		// Create a bot message container for streaming updates
-		const botMessageId = this.create_bot_message_container(chatMessages);
+		const botMessageId = this.create_bot_message_container(this.chat_messages);
 
 		const reader = response.body!.getReader();
 		const decoder = new TextDecoder();
@@ -214,7 +207,7 @@ export class Chat {
 			chunks += decoder.decode(value);
 
 			// Update the bot message with new content
-			this.update_bot_message(botMessageId, chunks, chatMessages);
+			this.update_bot_message(botMessageId, chunks, this.chat_messages);
 		}
 	}
 
@@ -315,7 +308,7 @@ export class Chat {
 		let match;
 
 		while ((match = linkRegex.exec(text)) !== null) {
-			const [fullMatch, linkText, linkUrl] = match;
+			const [fullMatch, _linkText, linkUrl] = match;
 			const matchStart = match.index;
 			const matchEnd = matchStart + fullMatch.length;
 
@@ -339,7 +332,7 @@ export class Chat {
 		}
 
 		return parts
-			.map((part, i) => {
+			.map((part, _i) => {
 				return part;
 			})
 			.join("");
