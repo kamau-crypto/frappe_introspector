@@ -10,11 +10,10 @@ type ChatAction =
 
 type Provider = "gemini" | "claude" | "chatgpt" | "deepseek" | "qwen";
 
-export function buildContextDeeplinking(
-	provider: Provider,
-): string {
+export function buildContextDeeplinking(provider: Provider): string {
 	const current_url = window.location.href;
 	const structured_url = encodeURIComponent(current_url);
+	//  [ ] When working with the clipboard, we can directly pass the data without needing to encode a URL, which can be more efficient and avoid potential issues with URL length limits or encoding errors.
 	switch (provider) {
 		case "claude":
 			return `https://claude.ai/new?q=Read from this url: -${structured_url} and explain it to me`;
