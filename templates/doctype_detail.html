@@ -5,7 +5,7 @@ Inspector{% endblock %}
     content="Explore the {{ doctype_name }} Doctype. View details, filter by module, and generate API documentation for easier development.">
 {% endblock%}
 {% block content %}
-<div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
     <div>
         <nav class="mb-2" aria-label="breadcrumb">
             <ol class="flex space-x-2 text-sm text-gray-500">
@@ -22,7 +22,7 @@ Inspector{% endblock %}
         <p class="text-gray-500 dark:text-gray-400">Module: {{ doctype_doc.module }}</p>
         {% endif %}
     </div>
-    <div class="flex gap-2">
+    <div class="flex gap-2 flex-wrap">
         <!-- AI Custom Dropdown Picker -->
         <div class="relative inline-block text-left" id="aiPickerWrapper">
             <button type="button" id="aiPickerBtn"
@@ -30,7 +30,7 @@ Inspector{% endblock %}
                 aria-expanded="false" aria-haspopup="true">
                 <span class="flex items-center gap-2">
                     <span id="aiPickerIcon"><i class="fas fa-clipboard text-sm text-gray-500"></i></span>
-                    <span id="aiPickerLabel">Copy from this page</span>
+                    <span id="aiPickerLabel" class="sm:text-sm md:text-base">Copy from this page</span>
                 </span>
                 <i id="aiPickerChevron"
                     class="fas fa-chevron-down text-xs text-gray-400 dark:text-gray-500 transition-transform duration-200"></i>
@@ -73,19 +73,19 @@ Inspector{% endblock %}
         </div>
 
         <button type="button"
-            class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded font-semibold hover:bg-blue-600 hover:text-white transition"
+            class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded font-semibold hover:bg-blue-600 hover:text-white transition text-sm"
             onclick="openRawDataModal()">
             <i class="fas fa-code mr-2"></i>Raw Data
         </button>
         <a href="{{ url_for('generate_openapi') }}?doctypes={{ doctype_name }}"
-            class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 transition">
+            class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 transition text-sm">
             <i class="fas fa-file-export mr-2"></i>Export API
         </a>
     </div>
 </div>
 
 <!-- Stats Cards -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
     <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded shadow text-center p-6">
         <div class="text-3xl font-bold mb-2">{{ field_stats.total }}</div>
         <div class="text-sm">Total Fields</div>
@@ -296,7 +296,7 @@ Inspector{% endblock %}
 
 <!-- Raw Data Modal (Tailwind) -->
 <div id="rawDataModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 max-h-5/6 overflow-y-auto">
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 overflow-y-auto p-4">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 h-4/5 overflow-y-auto bg-light-bg dark:bg-dark-bg">
         <div class="flex justify-between items-center border-b px-6 py-4">
             <h5 class="text-xl font-semibold dark:text-dark-text">Raw DocType Data</h5>
