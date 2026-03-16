@@ -1,21 +1,20 @@
 {% extends "base.html" %}
 {% block title %}API Documentation - DocType Inspector{% endblock %}
 
-{% block extra_head %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block extra_head %}
+<meta name="robots" content="noindex, nofollow">{% endblock %}
 
 {% block extra_css %}
-<link
-    rel="stylesheet"
-    type="text/css"
-    href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css"
-/>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css" />
 <style>
     #swagger-ui {
         margin-top: 20px;
     }
+
     .swagger-ui .topbar {
         display: none;
     }
+
     /* Tailwind overrides for Swagger UI container */
     .swagger-ui {
         font-family: "Nunito", sans-serif;
@@ -36,8 +35,7 @@
     </div>
     <div>
         <a href="{{ url_for('generate_openapi') }}"
-            class="inline-flex items-center px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-        >
+            class="inline-flex items-center px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
             <i class="fas fa-sync-alt mr-2"></i>Regenerate
         </a>
     </div>
@@ -47,11 +45,7 @@
 <div id="swagger-ui"></div>
 
 <!-- No spec message -->
-<div
-    id="no-spec-message"
-    class="flex flex-col items-center justify-center py-16 text-center"
-    style="display: none"
->
+<div id="no-spec-message" class="flex flex-col items-center justify-center py-16 text-center" style="display: none">
     <div class="text-gray-400">
         <i class="fas fa-file-alt fa-4x mb-4"></i>
         <h5 class="text-xl font-semibold mb-2">
@@ -61,10 +55,8 @@
             Generate an OpenAPI specification first to view the interactive
             documentation.
         </p>
-
-            href="{{ url_for('generate_openapi') }}"
-            class="inline-flex items-center px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-        >
+        <a href="{{ url_for('generate_openapi') }}"
+            class="inline-flex items-center px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
             <i class="fas fa-code mr-2"></i>Generate API Documentation
         </a>
     </div>
@@ -73,21 +65,16 @@
 
 {% block extra_js %}
 <!-- IMPORTANT: Load BOTH scripts in correct order -->
-<script
-    src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js"
-    crossorigin
-></script>
-<script
-    src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js"
-    crossorigin
-></script>
+<script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js" crossorigin></script>
+<script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js" crossorigin></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Check if OpenAPI spec exists
         fetch("/static/swagger/openapi.json")
             .then((response) => {
-                if (response.ok) {
+                if (response.ok)
+                {
                     return response.json();
                 }
                 throw new Error("No OpenAPI spec found");
