@@ -107,12 +107,46 @@
         body {
             font-family: "Nunito", sans-serif;
         }
+
+        /* Grid is rendered via ::before so it never affects layout */
+        .main-grid-bg {
+            position: relative;
+        }
+
+        /* Light mode: dashed grid with bottom radial fade */
+        .main-grid-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image:
+                linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+                linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 0;
+            -webkit-mask-image:
+                repeating-linear-gradient(to right, black 0px, black 3px, transparent 3px, transparent 8px),
+                repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 8px);
+            mask-image:
+                repeating-linear-gradient(to right, black 0px, black 3px, transparent 3px, transparent 8px),
+                repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 8px);
+            mask-composite: intersect;
+            -webkit-mask-composite: source-in;
+        }
+
+        /* Dark mode: same mask, dimmer grid lines */
+        .dark .main-grid-bg::before {
+            background-image:
+                linear-gradient(to right, #374151 1px, transparent 1px),
+                linear-gradient(to bottom, #374151 1px, transparent 1px);
+        }
     </style>
     {% block extra_head %}{% endblock %}
     {% block extra_css %}{% endblock %}
 </head>
 
-<body class="bg-light-bg dark:bg-dark-bg min-h-screen flex flex-col">
+<body class="bg-light-bg dark:bg-dark-bg min-h-screen flex flex-col main-grid-bg">
     <!-- Navigation -->
     <nav class="bg-blue-700 text-light-surface dark:text-dark-text dark:bg-primary-900 fixed top-0 z-10 w-full">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -311,8 +345,11 @@
     <!-- Tailwind CSS is loaded via CDN above -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
-    <script type="module" src="{{url_for('static', filename='typescript/chat.js')}}"></script>
-    <script type="module" src="{{ url_for('static', filename='typescript/base.js') }}"></script>
+    {%if config.APP_MODE == "erpnext" %}
+    <script type="module" src="{{url_for('static', filename='typescript/chat-KwZTET1X.js')}}"></script>
+    {% endif %}
+    <script type="module" src="{{ url_for('static', filename='typescript/base-UpimIoeS.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='typescript/client_error-BB_A_EER.js') }}"></script>
     <script>
         hljs.highlightAll();
     </script>
