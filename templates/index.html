@@ -9,14 +9,14 @@
 
 {% block content %}
 
-<div class="flex flex-col items-center justify-center py-10 md:py-16 bg-light-bg dark:bg-dark-bg">
+<div class="flex flex-col items-center justify-center py-10 md:py-16 bg-transparent">
     <div class="max-w-3xl w-full text-center px-4 sm:px-6 lg:px-0">
         <h1
-            class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 flex items-center justify-center gap-3 text-light-accent dark:text-dark-accent">
+            class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 flex items-center justify-center gap-3 text-light-accent dark:text-dark-accent text-shadow-md">
             <i class="fas fa-database"></i>
             ERPNext DocType Inspector
         </h1>
-        <p class="text-base md:text-lg text-center text-wrap text-gray-600 dark:text-gray-400 mb-2">
+        <p class="text-base md:text-lg text-center text-wrap text-gray-600 dark:text-gray-400 mb-2 text-shadow-xl">
             Explore, analyze, and generate OpenAPI documentation for your ERPNext DocTypes with ease.
         </p>
         <p class="text-sm md:text-base text-gray-500 dark:text-gray-500 mb-8">
@@ -28,22 +28,21 @@
         </p>
         <div class="flex flex-col sm:flex-row gap-3 justify-center flex-wrap">
             <a href="{{ url_for('doctypes') }}"
-                class="inline-flex items-center justify-center px-6 py-3 bg-light-button dark:bg-dark-button text-white rounded text-base font-semibold hover:bg-blue-700 transition w-full sm:w-auto">
-                <i class="fas fa-table mr-2"></i>Browse DocTypes
+                class="inline-flex items-center justify-center px-6 py-3 bg-light-button dark:bg-dark-button text-white rounded-full text-base font-semibold hover:bg-blue-700 transition w-full sm:w-auto shadow-xl">
+                <i class="fas fa-table mr-2"></i>Browse DocTypes <i class="fa-solid fa-arrow-right ml-2"></i>
             </a>
             <a href="{{ url_for('connect') }}"
-                class="inline-flex items-center justify-center px-6 py-3 border border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 rounded text-base font-semibold hover:bg-blue-50 dark:hover:bg-blue-900 transition w-full sm:w-auto">
-                <i class="fas fa-plug mr-2"></i>Connect Your Instance
+                class="inline-flex items-center justify-center px-6 py-3 border border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 rounded-full text-base font-semibold hover:bg-blue-50 dark:hover:bg-blue-900 transition w-full sm:w-auto shadow-xl">
+                <i class="fas fa-plug mr-2"></i>Connect Your Instance <i class="fa-solid fa-arrow-right ml-2"></i>
             </a>
             <a href="{{ url_for('swagger_ui') }}"
-                class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 dark:text-gray-300 rounded text-base font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-500 transition w-full sm:w-auto">
-                <i class="fas fa-book mr-2"></i>API Docs
+                class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 dark:text-gray-300 rounded-full text-base font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-500 transition w-full sm:w-auto shadow-xl">
+                <i class="fas fa-book mr-2"></i>API Docs <i class="fa-solid fa-arrow-right ml-2"></i>
             </a>
         </div>
     </div>
 </div>
 
-<!-- ── Stats bar ──────────────────────────────────────────────────────────── -->
 <div class="max-w-5xl mx-auto mb-10 px-4">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-lg p-5 text-center shadow">
@@ -64,8 +63,6 @@
         </div>
     </div>
 </div>
-
-<!-- ── Browse by Application ──────────────────────────────────────────────── -->
 <div class="max-w-5xl mx-auto mb-12 px-4">
     <h2 class="text-2xl font-bold mb-1 text-light-text dark:text-dark-text">Browse by Application</h2>
     <p class="text-gray-500 dark:text-gray-400 mb-6 text-sm">
@@ -73,8 +70,6 @@
         module's DocType list.
     </p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-        <!-- ERPNext -->
         <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-blue-500">
             <div class="flex items-center gap-3 mb-3">
                 <div
@@ -124,8 +119,6 @@
                 </a>
             </div>
         </div>
-
-        <!-- Frappe Framework -->
         <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-purple-500">
             <div class="flex items-center gap-3 mb-3">
                 <div
@@ -172,8 +165,6 @@
                 </a>
             </div>
         </div>
-
-        <!-- HRMS -->
         <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-green-500">
             <div class="flex items-center gap-3 mb-3">
                 <div
@@ -216,8 +207,6 @@
 
     </div>
 </div>
-
-<!-- ── AI Deep-linking ────────────────────────────────────────────────────── -->
 <div class="max-w-5xl mx-auto mb-12 px-4">
     <div
         class="rounded-xl border border-indigo-100 dark:border-indigo-800 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950 p-8">
@@ -375,7 +364,6 @@
                 <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>No
                     data leaves your network</li>
             </ul>
-            <!-- Docker command block -->
             <div class="bg-gray-950 dark:bg-black rounded-lg p-4 mb-5 overflow-x-auto">
                 <div class="text-gray-500 text-xs mb-2 font-sans"># run against your local instance</div>
                 <pre class="text-green-400 text-xs leading-relaxed font-mono whitespace-pre">
@@ -390,7 +378,6 @@ docker run -p 5000:5000 \
 
     </div>
 </div>
-<!-- ── Local Instance Connection (new) ─────────────────────────────────── -->
 <div class="max-w-5xl mx-auto mb-12 px-4">
     <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 border border-gray-100 dark:border-dark-border">
         <div class="flex items-center gap-3 mb-4">
@@ -446,8 +433,6 @@ docker run -p 5000:5000 \
         </div>
     </div>
 </div>
-
-<!-- ── How it Works (original, retained) ─────────────────────────────────── -->
 <div class="max-w-5xl mx-auto mb-10 px-4">
     <div class="bg-light-bg dark:bg-dark-bg rounded shadow-md">
         <div class="border-b px-6 py-4">
