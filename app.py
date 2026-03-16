@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from flask import (Flask, Response, flash, jsonify, make_response, redirect,
                    render_template, request, send_from_directory, session,
                    stream_with_context, url_for)
-from flask_limiter import Limiter, RequestLimit
+from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf import FlaskForm
 from ollama import Message
@@ -72,19 +72,12 @@ current_connection: Optional["ERPNextConnection"] = None
 _NO_AUTH_ROUTES = {"connect", "index", "static", "disconnect"}
 
 
-def default_error_responder(request_limit: RequestLimit):
-    return make_response(
-        render_template("ratelimit.html", request_limit=request_limit),
-        429
-    )
-    
 limiter = Limiter(
     get_remote_address,
     app=app,
     default_limits=["2000 per day", "60 per hour"],
     storage_uri="memory://",
     strategy="sliding-window-counter",
-    on_breach=default_error_responder
 )
 
 @app.before_request
@@ -116,7 +109,7 @@ def restore_or_validate_session():
 
     # Rebuild connection object if lost (e.g. worker restart)
     if current_connection is None:
-        current_connection = ERPNextConnection(base_url, api_key, api_secret)
+        current_connection = ERPNextConnection(base_url, api_key, api_secret, APP_MODE)
 
     # Validate credentials are still accepted by Frappe
     result = validate_session(base_url, api_key, api_secret)
@@ -182,7 +175,7 @@ def connect():
         api_secret = (form.api_secret.data or "").strip()
 
         try:
-            conn = ERPNextConnection(base_url, api_key, api_secret)
+            conn = ERPNextConnection(base_url, api_key, api_secret, APP_MODE)
             result = conn.test_connection()
 
             if result["success"]:
@@ -221,14 +214,13 @@ def doctypes():
     if not current_connection:
         flash("Please connect to ERPNext first", "warning")
         return redirect(url_for("connect"))
-
-    print(f"Fetching list of DocTypes..., {APP_MODE}")   
+    
     doctypes_list = current_connection.get_all_doctypes()
     # Cleanup unnecessary properties fromt the metadata
     return render_template("doctypes.html", doctypes=doctypes_list)
 
 @app.route("/doctype/<doctype_name>")
-@limiter.limit("20/minute", override_defaults= True)
+@limiter.limit("1/second", override_defaults= False)
 def doctype_detail(doctype_name):
     """DocType detail page"""
     metadata = None
@@ -530,10 +522,10 @@ def not_found(error):
 
 @app.errorhandler(429)
 def ratelimit_handler(e):
-    return make_response(
-            jsonify(error=f"ratelimit exceeded {e.description}")
-            , 429
-    )
+    # API routes get a JSON response; page routes get the HTML template.
+    if request.path.startswith("/api/"):
+        return make_response(jsonify(error=f"Too Many Requests"), 429)
+    return make_response(render_template("rate_limit.html", request_limit=e), 429)
 
 @app.errorhandler(500)
 def internal_error(error):
@@ -541,5 +533,4 @@ def internal_error(error):
 
 
 if __name__ == "__main__":
-    app.run()
     app.run()
