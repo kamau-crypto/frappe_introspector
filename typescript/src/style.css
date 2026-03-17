@@ -1,0 +1,42 @@
+@import "tailwindcss";
+@source "../../templates/**/*.html";
+
+/* Dark mode via .dark class (matches your current config) */
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--font-sans: "Nunito", system-ui, sans-serif;
+
+	--color-primary-50: #eff6ff;
+	--color-primary-100: #dbeafe;
+	--color-primary-200: #bfdbfe;
+	--color-primary-300: #93c5fd;
+	--color-primary-400: #60a5fa;
+	--color-primary-500: #3b82f6;
+	--color-primary-600: #2563eb;
+	--color-primary-700: #1d4ed8;
+	--color-primary-800: #1e40af;
+	--color-primary-900: #1e3a8a;
+
+	--color-light-bg: #f8fafc;
+	--color-light-surface: #ffffff;
+	--color-light-muted: #e2e8f0;
+	--color-light-text: #0f172a;
+	--color-light-subtext: #334155;
+	--color-light-border: #cbd5e1;
+	--color-light-accent: #2563eb;
+	--color-light-success: #16a34a;
+	--color-light-warning: #ca8a04;
+	--color-light-danger: #dc2626;
+
+	--color-dark-bg: #0b1120;
+	--color-dark-surface: #111827;
+	--color-dark-muted: #1f2937;
+	--color-dark-text: #e5e7eb;
+	--color-dark-subtext: #9ca3af;
+	--color-dark-border: #374151;
+	--color-dark-accent: #60a5fa;
+	--color-dark-success: #4ade80;
+	--color-dark-warning: #facc15;
+	--color-dark-danger: #f87171;
+}
