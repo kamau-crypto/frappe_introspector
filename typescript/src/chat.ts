@@ -217,7 +217,7 @@ export class Chat {
 		chatMessages: HTMLDivElement;
 	}) {
 		if (this.processing_response_flag) {
-			chatMessages.innerHTML += `<div class="flex justify-start text-sm bg-gray-200 w-fit text-gray-800 p-2 rounded-lg mb-2 w-full animate-pulse">Processing response...</div>`;
+			chatMessages.innerHTML += `<div class="flex justify-start text-sm bg-gray-200 w-fit text-gray-800 p-2 rounded-lg mb-2 animate-pulse">Processing response...</div>`;
 			chatMessages.scrollTop = chatMessages.scrollHeight;
 		}
 		if (!this.processing_response_flag) {
@@ -268,7 +268,7 @@ export class Chat {
 	 */
 	bot_message(message: string, chatMessages: HTMLDivElement) {
 		const htmlContent = this.render_markdown(message);
-		const msg = `<div class="flex flex-col justify-start text-sm bg-gray-200 w-fit text-gray-800 p-2 rounded-lg mb-2 w-full">${htmlContent}</div>`;
+		const msg = `<div class="flex flex-col justify-start text-sm bg-gray-200 w-fit text-gray-800 p-2 rounded-lg mb-2">${htmlContent}</div>`;
 
 		chatMessages.innerHTML += msg;
 		chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -321,7 +321,7 @@ export class Chat {
 				rel='noopener noreferrer'
 				key="${linkUrl}"
 				href="${linkUrl}"
-				class='break-words underline offset-2 text-blue-600 visited:text-purple-600 decoration-blue-600 visited:decoration-purple-600'>
+				class='wrap-break-word underline offset-2 text-blue-600 visited:text-purple-600 decoration-blue-600 visited:decoration-purple-600'>
 				here
 			</a>`,
 			);
