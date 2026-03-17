@@ -22,9 +22,9 @@ htmlcov/
 _.egg-info/
 dist/
 build/
-__pycache__/
+**pycache**/
 .pytest_cache/
-.coverage*
+.coverage\*
 .cache
 
 # IDEs and Editors
@@ -39,16 +39,19 @@ _.swo
 
 # macOS
 
-**/*.DS_Store
+\*_/_.DS_Store
 .AppleDouble
 .LSOverride
 \_\_MACOSX/
 
 # Environment files
+
 .flaskenv
 
 # Typescript files
-**/*.ts
+
+\*_/_.ts
+
 # Documentation and readme
 
 README.md
@@ -71,6 +74,7 @@ Dockerfile
 docker-compose.yml
 
 # Remove the .env file if it exists, as it may contain sensitive information
+
 .env
 
 # Testing
@@ -83,12 +87,20 @@ _\_test.py
 
 static/typescript/\*.ts
 static/typescript/tsconfig.json
+typescript/
 
 # Node modules (if any)
 
 node_modules/
 package-lock.json
 yarn.lock
+bun.lock
 
-# Lingering JSON files
-\*.json
+# All typescript files and directories
+
+typescript/
+\*.ts
+
+# Lingering JSON file for sampling JSON output
+
+sample.json
