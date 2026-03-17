@@ -24,3 +24,6 @@ __MACOSX/
 *.AppleDouble
 
 *.db
+
+# Sample JSON file
+sample.json
