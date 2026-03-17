@@ -28,16 +28,18 @@
         </p>
         <div class="flex flex-col sm:flex-row gap-3 justify-center flex-wrap">
             <a href="{{ url_for('doctypes') }}"
-                class="inline-flex items-center justify-center px-6 py-3 bg-light-button dark:bg-dark-button text-white rounded-full text-base font-semibold hover:bg-blue-700 transition w-full sm:w-auto shadow-xl">
+                class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 dark:bg-dark-button text-white rounded-full text-base font-semibold hover:bg-blue-700 transition w-full sm:w-auto shadow-xl">
                 <i class="fas fa-table mr-2"></i>Browse DocTypes <i class="fa-solid fa-arrow-right ml-2"></i>
             </a>
-            <a href="{{ url_for('connect') }}"
-                class="inline-flex items-center justify-center px-6 py-3 border border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 rounded-full text-base font-semibold hover:bg-blue-50 dark:hover:bg-blue-900 transition w-full sm:w-auto shadow-xl">
+            <a {% if config.APP_MODE=="erpnext" %}href="{{ url_for('connect') }}" {% else %}href="#download" {% endif %}
+                class="feature-badge-anchor inline-flex items-center justify-center px-6 py-3 border border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 rounded-full text-base font-semibold hover:bg-blue-50 dark:hover:bg-blue-900 transition w-full sm:w-auto shadow-xl">
                 <i class="fas fa-plug mr-2"></i>Connect Your Instance <i class="fa-solid fa-arrow-right ml-2"></i>
+                {{ feature_marker("erpnext_mode") | safe }}
             </a>
-            <a href="{{ url_for('swagger_ui') }}"
-                class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 dark:text-gray-300 rounded-full text-base font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-500 transition w-full sm:w-auto shadow-xl">
+            <a {% if config.APP_MODE=="erpnext" %}href="{{ url_for('swagger_ui') }}" {% else %}href="#" {% endif %}
+                class="feature-badge-anchor inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 dark:text-gray-300 rounded-full text-base font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-500 transition w-full sm:w-auto shadow-xl">
                 <i class="fas fa-book mr-2"></i>API Docs <i class="fa-solid fa-arrow-right ml-2"></i>
+                {{feature_marker("coming_soon") | safe}}
             </a>
         </div>
     </div>
@@ -57,10 +59,12 @@
             <div class="text-4xl font-bold">3</div>
             <div class="text-sm mt-1 opacity-90">Applications</div>
         </div>
+        {% if config.FEATURE and config.FEATURE.get("AI_ASSISTANTS") %}
         <div class="bg-gradient-to-br from-orange-500 to-orange-700 text-white rounded-lg p-5 text-center shadow">
-            <div class="text-4xl font-bold">5+</div>
+            <div class="text-4xl font-bold">{{ config.FEATURE.get("AI_ASSISTANTS") | length }}</div>
             <div class="text-sm mt-1 opacity-90">AI Assistants</div>
         </div>
+        {% endif %}
     </div>
 </div>
 <div class="max-w-5xl mx-auto mb-12 px-4">
@@ -73,7 +77,7 @@
         <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-blue-500">
             <div class="flex items-center gap-3 mb-3">
                 <div
-                    class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0">
+                    class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center shrink-0">
                     <i class="fas fa-building text-blue-600 dark:text-blue-400 text-lg"></i>
                 </div>
                 <div>
@@ -122,7 +126,7 @@
         <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-purple-500">
             <div class="flex items-center gap-3 mb-3">
                 <div
-                    class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center flex-shrink-0">
+                    class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center shrink-0">
                     <i class="fas fa-layer-group text-purple-600 dark:text-purple-400 text-lg"></i>
                 </div>
                 <div>
@@ -168,7 +172,7 @@
         <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-green-500">
             <div class="flex items-center gap-3 mb-3">
                 <div
-                    class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center flex-shrink-0">
+                    class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center shrink-0">
                     <i class="fas fa-users text-green-600 dark:text-green-400 text-lg"></i>
                 </div>
                 <div>
@@ -286,7 +290,7 @@
         <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-blue-500">
             <div class="flex items-center gap-3 mb-4">
                 <div
-                    class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0">
+                    class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center shrink-0">
                     <i class="fas fa-cloud text-blue-600 dark:text-blue-400 text-lg"></i>
                 </div>
                 <div>
@@ -301,25 +305,25 @@
                 account, no credentials, no setup needed. Perfect for exploring the schema before you build.
             </p>
             <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-400 mb-6">
-                <li class="flex items-start gap-2"><i
-                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Browse all ERPNext, Frappe &amp;
+                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-0.5 shrink-0"></i>Browse all
+                    ERPNext, Frappe &amp;
                     HRMS DocTypes</li>
-                <li class="flex items-start gap-2"><i
-                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Filter by module, field type,
+                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-0.5 shrink-0"></i>Filter by
+                    module, field type,
                     required, read-only</li>
-                <li class="flex items-start gap-2"><i
-                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Export OpenAPI / Swagger specs for
+                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-0.5 shrink-0"></i>Export
+                    OpenAPI / Swagger specs for
                     any DocType (Coming soon)</li>
-                <li class="flex items-start gap-2"><i
-                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Deep-link to AI assistants for
+                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-0.5 shrink-0"></i>Deep-link
+                    to AI assistants for
                     instant explanations</li>
+                <li class="flex items-start gap-2"><i class="fas fa-check text-green-500 mt-0.5 shrink-0"></i>Generate
+                    TypeScript type stubs</li>
                 <li class="flex items-start gap-2"><i
-                        class="fas fa-check text-green-500 mt-0.5 flex-shrink-0"></i>Generate TypeScript type stubs</li>
-                <li class="flex items-start gap-2"><i
-                        class="fas fa-times text-gray-300 dark:text-gray-600 mt-0.5 flex-shrink-0"></i><span
+                        class="fas fa-times text-gray-300 dark:text-gray-600 mt-0.5 shrink-0"></i><span
                         class="text-gray-400 dark:text-gray-500">Custom / private DocTypes not available</span></li>
                 <li class="flex items-start gap-2"><i
-                        class="fas fa-times text-gray-300 dark:text-gray-600 mt-0.5 flex-shrink-0"></i><span
+                        class="fas fa-times text-gray-300 dark:text-gray-600 mt-0.5 shrink-0"></i><span
                         class="text-gray-400 dark:text-gray-500">Local AI mode not available</span></li>
             </ul>
             <div class="mt-auto">
