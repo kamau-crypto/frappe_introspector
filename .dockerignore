@@ -83,6 +83,14 @@ tests/
 test\__.py
 _\_test.py
 
+# Github
+
+.github/
+
+# Reports
+
+reports/
+
 # TypeScript source (if you build separately)
 
 static/typescript/\*.ts
