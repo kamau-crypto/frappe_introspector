@@ -18,6 +18,7 @@ from model.ai import AIChat
 from model.auth import SessionExpiredError, validate_session
 from model.db import AIChatDB
 from model.erpnext import ERPNextConnection
+from model.features import feature_marker, monitor_features
 from model.open_api import OpenAPIGenerator
 
 load_dotenv()
@@ -28,6 +29,7 @@ ERP_API_SECRET = os.environ.get("ERP_API_SECRET", None)
 APP_MODE = os.environ.get("MODE", "erpnext")  # "erpnext" or "production"
 
 app = Flask(__name__)
+app.jinja_env.globals["feature_marker"] = feature_marker
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "erpnextinspectorsecretkey")
 app.config["MAX_CONTENT_LENGTH"] = 1 * 1024 * 1024  # 1MB max file upload
 app.config["APP_MODE"] = APP_MODE
@@ -91,6 +93,7 @@ def restore_or_validate_session():
     
     if APP_MODE == "production":
         # In production mode, skip all the authentication and session checks
+        app.config["FEATURE"] = monitor_features(APP_MODE)
         return
     global current_connection
 
@@ -198,26 +201,27 @@ def connect():
 
 
 
-@app.route("/doctypes")
+@app.route("/doctypes", methods=["GET"])
 @limiter.limit("10/minute", override_defaults=False)
 def doctypes():
     """DocTypes listing page"""
+    module= request.args.get("module", None)
     if APP_MODE == "production":
          # In production mode, read from the static file instead of making API calls
         if os.path.exists("./public/doctypes_list.json"):
             with open("./public/doctypes_list.json", "r") as f:
                 list_data = json.load(f)
-                return render_template("doctypes.html", doctypes = list_data)
+                return render_template("doctypes.html", doctypes = list_data, module=module)
         else:
             flash("Invalid Operations.", "warning")
             return redirect(url_for("index"))
+    # [ ] THis is where the connection to ERPNext should be cached and reused from cache rather than the global variable.
     if not current_connection:
         flash("Please connect to ERPNext first", "warning")
         return redirect(url_for("connect"))
-    
-    doctypes_list = current_connection.get_all_doctypes()
+    doctypes_list = current_connection.get_all_doctypes(module)
     # Cleanup unnecessary properties fromt the metadata
-    return render_template("doctypes.html", doctypes=doctypes_list)
+    return render_template("doctypes.html", doctypes=doctypes_list, module=module)
 
 @app.route("/doctype/<doctype_name>")
 @limiter.limit("1/second", override_defaults= False)
