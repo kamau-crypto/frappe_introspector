@@ -11,137 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
-
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        const primary = {
-            50: "#eff6ff",
-            100: "#dbeafe",
-            200: "#bfdbfe",
-            300: "#93c5fd",
-            400: "#60a5fa",
-            500: "#3b82f6",
-            600: "#2563eb",
-            700: "#1d4ed8",
-            800: "#1e40af",
-            900: "#1e3a8a",
-        }
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                // Explicit breakpoints — used by all responsive prefixes (sm:, md:, lg:, xl:, 2xl:)
-                screens: {
-                    sm: "640px",
-                    md: "768px",
-                    lg: "1024px",
-                    xl: "1280px",
-                    "2xl": "1536px",
-                },
-                extend: {
-                    fontFamily: {
-                        sans: ["Nunito", "system-ui", "sans-serif"],
-                    },
-                    // Explicit font-size scale so text-{size} tokens are always available
-                    fontSize: {
-                        xs: ["0.75rem", { lineHeight: "1rem" }],
-                        sm: ["0.875rem", { lineHeight: "1.25rem" }],
-                        base: ["1rem", { lineHeight: "1.5rem" }],
-                        lg: ["1.125rem", { lineHeight: "1.75rem" }],
-                        xl: ["1.25rem", { lineHeight: "1.75rem" }],
-                        "2xl": ["1.5rem", { lineHeight: "2rem" }],
-                        "3xl": ["1.875rem", { lineHeight: "2.25rem" }],
-                        "4xl": ["2.25rem", { lineHeight: "2.5rem" }],
-                        "5xl": ["3rem", { lineHeight: "1" }],
-                    },
-                    // Container: centred with responsive horizontal padding
-                    container: {
-                        center: true,
-                        padding: {
-                            DEFAULT: "1rem",
-                            sm: "1.5rem",
-                            md: "2rem",
-                            lg: "2rem",
-                            xl: "2rem",
-                            "2xl": "2rem",
-                        },
-                    },
-                    colors: {
-                        primary: {
-                            ...primary
-                        },
-                        light: {
-                            bg: "#f8fafc",
-                            surface: "#ffffff",
-                            muted: "#e2e8f0",
-                            text: "#0f172a",
-                            subtext: "#334155",
-                            button: primary[700],
-                            border: "#cbd5e1",
-                            accent: primary[600],
-                            success: "#16a34a",
-                            warning: "#ca8a04",
-                            danger: "#dc2626",
-                        },
-                        dark: {
-                            bg: "#0b1120",
-                            surface: "#111827",
-                            muted: "#1f2937",
-                            text: "#e5e7eb",
-                            subtext: "#9ca3af",
-                            border: "#374151",
-                            button: primary[400],
-                            accent: primary[400],
-                            success: "#4ade80",
-                            warning: "#facc15",
-                            danger: "#f87171",
-                        },
-                    },
-                },
-            },
-        };
-    </script>
-    <style>
-        body {
-            font-family: "Nunito", sans-serif;
-        }
-
-        /* Grid is rendered via ::before so it never affects layout */
-        .main-grid-bg {
-            position: relative;
-        }
-
-        /* Light mode: dashed grid with bottom radial fade */
-        .main-grid-bg::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            background-image:
-                linear-gradient(to right, #e2e8f0 1px, transparent 1px),
-                linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
-            background-size: 20px 20px;
-            background-position: 0 0, 0 0;
-            -webkit-mask-image:
-                repeating-linear-gradient(to right, black 0px, black 3px, transparent 3px, transparent 8px),
-                repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 8px);
-            mask-image:
-                repeating-linear-gradient(to right, black 0px, black 3px, transparent 3px, transparent 8px),
-                repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 8px);
-            mask-composite: intersect;
-            -webkit-mask-composite: source-in;
-        }
-
-        /* Dark mode: same mask, dimmer grid lines */
-        .dark .main-grid-bg::before {
-            background-image:
-                linear-gradient(to right, #374151 1px, transparent 1px),
-                linear-gradient(to bottom, #374151 1px, transparent 1px);
-        }
-    </style>
+    <link href="{{ url_for('static', filename='typescript/style.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/app.css')}}" />
     {% block extra_head %}{% endblock %}
     {% block extra_css %}{% endblock %}
 </head>
@@ -172,30 +45,30 @@
             </div>
             <!-- Desktop links -->
             <div class="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
-                <a class="hover:text-blue-200 transition flex items-center gap-1 text-sm" href="{{ url_for('index') }}">
+                <a class="hover:text-blue-200 transition flex items-center gap-1 text-md" href="{{ url_for('index') }}">
                     <i class="fas fa-home"></i> Home
                 </a>
-                <a class="hover:text-blue-200 transition flex items-center gap-1 text-sm"
+                <a class="hover:text-blue-200 transition flex items-center gap-1 text-md"
                     href="{{ url_for('doctypes') }}">
                     <i class="fas fa-list"></i> DocTypes
                 </a>
                 {% if config.APP_MODE == "erpnext" %}
-                <a class="hover:text-blue-200 transition flex items-center gap-1 text-sm"
+                <a class="hover:text-blue-200 transition flex items-center gap-1  text-md"
                     href="{{ url_for('connect') }}">
                     <i class="fas fa-plug"></i> Connect
                 </a>
-                <a class="hover:text-blue-200 transition flex items-center gap-1 text-sm"
+                <a class="hover:text-blue-200 transition flex items-center gap-1 text-md"
                     href="{{ url_for('generate_openapi') }}">
                     <i class="fas fa-code"></i> Generate API
                 </a>
-                <a class="hover:text-blue-200 transition flex items-center gap-1 text-sm"
+                <a class="hover:text-blue-200 transition flex items-center gap-1 text-md"
                     href="{{ url_for('swagger_ui') }}">
                     <i class="fas fa-book"></i> Swagger UI
                 </a>
                 {% endif %}
                 {% if config.APP_MODE == "erpnext" and session.get('erpnext_url') %}
                 <a href="{{ url_for('disconnect') }}"
-                    class="hover:text-red-300 transition flex items-center gap-1 text-sm">
+                    class="hover:text-red-300 transition flex items-center gap-1 text-md">
                     <i class="fas fa-sign-out-alt"></i> Disconnect
                 </a>
                 {% endif %}
@@ -235,26 +108,10 @@
             </div>
         </div>
     </nav>
-    <script>
-        (function () {
-            const btn = document.getElementById('mobile-menu-btn');
-            const menu = document.getElementById('mobile-menu');
-            const icon = document.getElementById('hamburger-icon');
-            if (btn && menu)
-            {
-                btn.addEventListener('click', function () {
-                    const isOpen = !menu.classList.contains('hidden');
-                    menu.classList.toggle('hidden', isOpen);
-                    icon.classList.toggle('fa-bars', isOpen);
-                    icon.classList.toggle('fa-times', !isOpen);
-                    btn.setAttribute('aria-expanded', String(!isOpen));
-                });
-            }
-        })();
-    </script>
+
 
     <!-- Flash Messages -->
-    <div class="max-w-7xl mx-auto px-4 mt-3 w-full" id="flash_err">
+    <div class="max-w-7xl mx-auto px-4 mt-4 w-full" id="flash_err">
         {% with messages = get_flashed_messages(with_categories=true) %} {%
         if messages %} {% for category, message in messages %}
         <div class="rounded px-4 py-3 mb-2 text-white font-semibold flex items-center gap-2 {% if category == 'error' %}bg-red-600{% elif category == 'warning' %}bg-yellow-500 text-black{% else %}bg-green-600{% endif %}"
@@ -270,7 +127,7 @@
     </div>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto flex-grow mt-1 gap-10 w-full px-4 sm:px-6 lg:px-8">
+    <main class="max-w-7xl mx-auto flex-grow gap-10 w-full px-4 sm:px-6 lg:px-8">
         {% block content %}{% endblock %}
         {%if config.APP_MODE == "erpnext" %}
         <!-- Chat Section-->
@@ -346,10 +203,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
     {%if config.APP_MODE == "erpnext" %}
-    <script type="module" src="{{url_for('static', filename='typescript/chat-KwZTET1X.js')}}"></script>
+    <script type="module" src="{{url_for('static', filename='typescript/chat.js')}}"></script>
     {% endif %}
-    <script type="module" src="{{ url_for('static', filename='typescript/base-UpimIoeS.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='typescript/client_error-BB_A_EER.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='typescript/base.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='typescript/client_error.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='typescript/main.js') }}"></script>
     <script>
         hljs.highlightAll();
     </script>
