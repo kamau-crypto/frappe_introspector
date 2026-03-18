@@ -23,14 +23,14 @@ Inspector{% endblock %}
         {% endif %}
     </div>
     <div class="flex gap-2 flex-wrap">
-        <!-- AI Custom Dropdown Picker -->
         <div class="relative inline-block text-left" id="aiPickerWrapper">
             <button type="button" id="aiPickerBtn"
                 class="inline-flex items-center justify-between gap-2 px-4 py-2 border border-gray-300 dark:border-dark-border rounded font-semibold bg-white dark:bg-dark-surface text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-muted transition-colors focus:outline-none"
                 aria-expanded="false" aria-haspopup="true">
                 <span class="flex items-center gap-2">
                     <span id="aiPickerIcon"><i class="fas fa-clipboard text-sm text-gray-500"></i></span>
-                    <span id="aiPickerLabel" class="sm:text-sm md:text-base">Copy from this page</span>
+                    <span id="aiPickerLabel" class="sm:text-sm md:text-base" title="Copy as Markdown">Copy from this
+                        page</span>
                 </span>
                 <i id="aiPickerChevron"
                     class="fas fa-chevron-down text-xs text-gray-400 dark:text-gray-500 transition-transform duration-200"></i>
@@ -61,8 +61,10 @@ Inspector{% endblock %}
                     <button type="button"
                         class="ai-pick w-full text-left px-1 py-1.5 text-sm text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50/60 dark:hover:bg-emerald-900/20 flex items-center gap-2 transition-all"
                         data-ai="chatgpt" role="menuitem">
-                        <img src="{{ url_for('static', filename='img/openai.png') }}" class="w-7 h-7 object-contain"
-                            alt="">
+                        <img src="{{ url_for('static', filename='img/openai-light.png') }}"
+                            class="w-7 h-7 object-contain dark:hidden" alt="chatgpt">
+                        <img src="{{ url_for('static', filename='img/openai-dark.png') }}"
+                            class="w-7 h-7 object-contain hidden dark:block" alt="chatgpt">
                         <span class="flex flex-col gap-1">
                             <span>OpenAI</span>
                             <span class="text-xs text-inline text-gray-200 px-2">Ask questions about this page</span>
@@ -80,31 +82,30 @@ Inspector{% endblock %}
         <a href="{{ url_for('generate_openapi') }}?doctypes={{ doctype_name }}"
             class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 transition text-sm">
             <i class="fas fa-file-export mr-2"></i>Export API
+            {{feature_marker("coming_soon")}}
         </a>
     </div>
 </div>
 
-<!-- Stats Cards -->
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
     <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded shadow text-center p-6">
-        <div class="text-3xl font-bold mb-2">{{ field_stats.total }}</div>
+        <div class="text-3xl font-bold mb-2" title="Total Fields">{{ field_stats.total }}</div>
         <div class="text-sm">Total Fields</div>
     </div>
     <div class="bg-red-600 text-white rounded shadow text-center p-6">
-        <div class="text-3xl font-bold mb-2">{{ field_stats.required }}</div>
+        <div class="text-3xl font-bold mb-2" title="Required Fields">{{ field_stats.required }}</div>
         <div class="text-sm">Required Fields</div>
     </div>
     <div class="bg-gray-600 text-white rounded shadow text-center p-6">
-        <div class="text-3xl font-bold mb-2">{{ field_stats.readonly }}</div>
+        <div class="text-3xl font-bold mb-2" title="Read-only Fields">{{ field_stats.readonly }}</div>
         <div class="text-sm">Read-only Fields</div>
     </div>
     <div class="bg-blue-400 text-white rounded shadow text-center p-6">
-        <div class="text-3xl font-bold mb-2">{{ field_stats.links }}</div>
+        <div class="text-3xl font-bold mb-2" title="Link Fields">{{ field_stats.links }}</div>
         <div class="text-sm">Link Fields</div>
     </div>
 </div>
 
-<!-- DocType Information -->
 {% if doctype_doc.description %}
 <div class="bg-light-bg dark:bg-dark-bg rounded shadow-md mb-6 bg-light-surface dark:bg-dark-surface">
     <div class="px-6 py-4">
@@ -114,7 +115,6 @@ Inspector{% endblock %}
 </div>
 {% endif %}
 
-<!-- Properties Card -->
 <div class="bg-light-bg dark:bg-dark-muted rounded-md shadow-xl mb-6 bg-light-surface dark:bg-dark-surface">
     <div class="border-b px-6 py-4">
         <h6 class="text-lg font-semibold mb-0 text-gray-700 dark:text-gray-400">DocType Properties</h6>
@@ -167,9 +167,6 @@ Inspector{% endblock %}
     </div>
 </div>
 
-<!-- Fields Table -->
-
-<!-- Fields Table (Tailwind, simple format) -->
 <div class="bg-light-surface dark:bg-dark-muted rounded-md shadow-xl mb-8">
     <div class="border-b px-6 py-4 flex justify-between items-center bg-muted dark:bg-dark-muted">
         <h6 class="text-lg font-semibold mb-0 text-light-text dark:text-dark-text">Fields ({{ fields|length }})</h6>
@@ -293,8 +290,6 @@ Inspector{% endblock %}
         </table>
     </div>
 </div>
-
-<!-- Raw Data Modal (Tailwind) -->
 <div id="rawDataModal"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 overflow-y-auto p-4">
     <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 h-4/5 overflow-y-auto bg-light-bg dark:bg-dark-bg">
@@ -323,8 +318,5 @@ Inspector{% endblock %}
     </div>
 </div>
 <script type="module" src="{{url_for('static', filename='typescript/prompt.js')}}"></script>
-{% endblock %} {# Field filter, modal, clipboard, and AI-picker logic has been refactored into
-typescript/src/main.ts → doctype_detail(), openRawDataModal(),
-closeRawDataModal(), copyToClipboard(), and initAiPicker().
-main.js is loaded globally from base.html. #}
+{% endblock %}
 {% block extra_js %}{% endblock %}
