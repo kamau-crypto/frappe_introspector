@@ -237,7 +237,10 @@
                     <div
                         class="flex items-center gap-2 bg-white dark:bg-dark-surface rounded-lg px-3 py-2 shadow-sm border border-gray-100 dark:border-dark-border">
                         <span class="text-green-500 font-bold">
-                            <img src="{{ url_for('static', filename='img/openai.png') }}" alt="ChatGPT" class="w-4 h-4">
+                            <img src="{{ url_for('static', filename='img/openai-light.png') }}" alt="ChatGPT"
+                                class="w-4 h-4 block dark:hidden">
+                            <img src="{{ url_for('static', filename='img/openai-dark.png') }}" alt="ChatGPT"
+                                class="w-4 h-4 hidden dark:block">
                         </span>
                         <span class="text-sm font-semibold text-light-text dark:text-dark-text">ChatGPT</span>
                     </div>
