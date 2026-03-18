@@ -21,8 +21,6 @@
         </a>
     </div>
 </div>
-
-<!-- Filter and Search -->
 <div class="bg-light-bg dark:bg-dark-bg rounded shadow mb-8">
     <div class="px-6 py-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -51,7 +49,6 @@
     </div>
 </div>
 
-<!-- DocTypes Grid -->
 <div id="doctypesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
     {% for doctype in doctypes %}
     <div class="doctype-item" data-name="{{ doctype.name|lower }}" data-module="{{ doctype.module }}"
@@ -69,7 +66,7 @@
                 {% endif %}
             </div>
             <p class="text-light-text dark:text-dark-text text-sm mb-2 flex items-center gap-1">
-                <i class="fas fa-cube"></i>{{ doctype.module }}
+                <i class="fas fa-cube" title="Module"></i>{{ doctype.module }}
             </p>
             {% if doctype.description %}
             <p class="text-light-text dark:text-dark-text text-sm">{{ doctype.description[:80] }}{% if
@@ -94,8 +91,6 @@
     </div>
     {% endfor %}
 </div>
-
-<!-- No results message -->
 <div id="noResults" class="flex flex-col items-center justify-center py-16 text-center hidden">
     <div class="text-gray-400">
         <i class="fas fa-search fa-4x mb-4"></i>
@@ -105,6 +100,4 @@
 </div>
 {% endblock %}
 
-{# Filter/search logic has been refactored into typescript/src/main.ts → doctypes().
-main.js is loaded globally from base.html. #}
 {% block extra_js %}{% endblock %}
