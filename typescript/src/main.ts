@@ -1,19 +1,4 @@
-/**
- * main.ts — TypeScript refactoring of inline JavaScript from HTML templates.
- *
- * Functions map 1-to-1 to the Jinja2 templates that contained the original
- * inline <script> blocks:
- *   base()           ← base.html    (mobile-menu toggle)
- *   doctypes()       ← doctypes.html (filter / search)
- *   doctype_detail() ← doctype_detail.html (field filter)
- *   openRawDataModal / closeRawDataModal / copyToClipboard / initAiPicker
- *                    ← doctype_detail.html (modal, clipboard, AI picker)
- */
-
-// ─── base.html ────────────────────────────────────────────────────────────────
-/**
- * Wires up the mobile hamburger-menu toggle button found in base.html's <nav>.
- */
+// DOM Control and Manipulation logic for the Doctype Inspector, refactored from inline scripts in the HTML templates.
 export function base(): void {
 	const btn = document.getElementById(
 		"mobile-menu-btn",
@@ -356,9 +341,20 @@ type ExtendedWindow = Window & {
 (window as unknown as ExtendedWindow).copyToClipboard = copyToClipboard;
 (window as unknown as ExtendedWindow).initAiPicker = initAiPicker;
 
-// ─── Auto-initialise on module load ──────────────────────────────────────────
+// ─── Route-based initialisation ──────────────────────────────────────────────
 // Module scripts are deferred — the DOM is ready when this runs.
+// Each function is only called on the route(s) it belongs to.
+
+const path = window.location.pathname;
+
+// Runs on every page (base layout)
 base();
-doctypes();
-doctype_detail();
-initAiPicker("aiPickerWrapper");
+
+if (path === "/doctypes") {
+	doctypes();
+}
+
+if (path.startsWith("/doctype/")) {
+	doctype_detail();
+	initAiPicker("aiPickerWrapper");
+}
