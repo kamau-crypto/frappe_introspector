@@ -27,6 +27,11 @@ build/
 .coverage\*
 .cache
 
+# Pytest Files
+
+conftest.py
+pytest.ini
+
 # IDEs and Editors
 
 .vscode/
