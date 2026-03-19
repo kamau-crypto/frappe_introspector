@@ -40,7 +40,7 @@ def monitor_features(app_mode):
         "SWAGGER_UI": False,
         "FAQ_PAGE": False,
         "AI_ASSISTANT":False,
-        "AI_ASSISTANTS": ["Claude", "ChatGPT"],
+        "AI_ASSISTANTS": [],
     }
     
     PRODUCTION_FLAGS={
