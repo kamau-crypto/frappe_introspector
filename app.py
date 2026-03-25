@@ -4,7 +4,7 @@ import uuid
 from typing import Optional
 
 from dotenv import load_dotenv
-from flask import (Flask, Response, flash, jsonify, make_response, redirect,
+from flask import (Flask, Response, flash, g, jsonify, make_response, redirect,
                    render_template, request, send_from_directory, session,
                    stream_with_context, url_for)
 from flask_limiter import Limiter
@@ -17,9 +17,12 @@ from wtforms.validators import URL, DataRequired
 from model.ai import AIChat
 from model.auth import SessionExpiredError, validate_session
 from model.db import AIChatDB
+from model.doctype import _load_doctype_details, _load_doctype_list
 from model.erpnext import ERPNextConnection
 from model.features import feature_marker, monitor_features
 from model.open_api import OpenAPIGenerator
+from model.redis.cache import cache_result
+from model.redis.connect import get_redis_client
 
 load_dotenv()
 
@@ -82,6 +85,8 @@ limiter = Limiter(
     strategy="sliding-window-counter",
 )
 
+
+
 @app.before_request
 def restore_or_validate_session():
     """
@@ -90,7 +95,8 @@ def restore_or_validate_session():
     2. Validate the stored credentials are still accepted by Frappe.
     3. If expired or missing, flash a message and redirect to /connect.
     """
-    
+    # Get the redis client
+    g.redis = get_redis_client()
     if APP_MODE == "production":
         # In production mode, skip all the authentication and session checks
         app.config["FEATURE"] = monitor_features(APP_MODE)
@@ -116,6 +122,7 @@ def restore_or_validate_session():
 
     # Validate credentials are still accepted by Frappe
     result = validate_session(base_url, api_key, api_secret)
+    
     print("result", result)
     if not result["valid"]:
         current_connection = None
@@ -206,46 +213,30 @@ def connect():
 def doctypes():
     """DocTypes listing page"""
     module= request.args.get("module", None)
+    
+    doc_list= _load_doctype_list(APP_MODE, current_connection, module)
     if APP_MODE == "production":
          # In production mode, read from the static file instead of making API calls
-        if os.path.exists("./public/doctypes_list.json"):
-            with open("./public/doctypes_list.json", "r") as f:
-                list_data = json.load(f)
-                return render_template("doctypes.html", doctypes = list_data, module=module)
-        else:
+        if not doc_list:
             flash("Invalid Operations.", "warning")
             return redirect(url_for("index"))
-    # [ ] THis is where the connection to ERPNext should be cached and reused from cache rather than the global variable.
-    if not current_connection:
-        flash("Please connect to ERPNext first", "warning")
-        return redirect(url_for("connect"))
-    doctypes_list = current_connection.get_all_doctypes(module)
-    # Cleanup unnecessary properties fromt the metadata
+    else:
+        if not current_connection and not doc_list:
+            flash("Please connect to ERPNext first", "warning")
+            return redirect(url_for("connect"))
+    print("doc_list", isinstance(doc_list, str))
+    # doctypes_list = doc_list.get("data", []) if doc_list else []
+    doctypes_list = doc_list if doc_list else []
     return render_template("doctypes.html", doctypes=doctypes_list, module=module)
 
 @app.route("/doctype/<doctype_name>")
 @limiter.limit("1/second", override_defaults= False)
 def doctype_detail(doctype_name):
     """DocType detail page"""
-    metadata = None
-    if APP_MODE == "production":
-        # In production mode, read from the static file instead of making API calls
-        if os.path.exists(f"./public/doctype/{doctype_name}.json"):
-            with open(f"./public/doctype/{doctype_name}.json", "r") as f:
-                metadata = json.load(f)
-        else:
-            flash("DocType {doctype_name} not found", "warning")
-            return redirect(url_for("index"))
-    else:
-        if not current_connection:
-            flash("Please connect to ERPNext first", "warning")
-            return redirect(url_for("connect"))
-
-        metadata = current_connection.get_doctype_definition(doctype_name)
-        if not metadata:
-            flash(f"Could not load DocType: {doctype_name}", "error")
-            return redirect(url_for("doctypes"))
-
+    metadata= _load_doctype_details(doctype_name, APP_MODE, current_connection)
+    if not metadata:
+        flash(f"Could not load DocType: {doctype_name}", "error")
+        return redirect(url_for("doctypes"))
     # Extract the fields objects
     fields = metadata.get("fields", [])
     # metadata
