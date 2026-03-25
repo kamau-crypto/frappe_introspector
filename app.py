@@ -22,7 +22,7 @@ from model.erpnext import ERPNextConnection
 from model.features import feature_marker, monitor_features
 from model.open_api import OpenAPIGenerator
 from model.redis.cache import cache_result
-from model.redis.connect import get_redis_client
+from model.redis.connect import configure_redis_memory, get_redis_client
 
 load_dotenv()
 
@@ -36,6 +36,9 @@ app.jinja_env.globals["feature_marker"] = feature_marker
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "erpnextinspectorsecretkey")
 app.config["MAX_CONTENT_LENGTH"] = 1 * 1024 * 1024  # 1MB max file upload
 app.config["APP_MODE"] = APP_MODE
+
+# Configure Redis memory limits once at startup
+configure_redis_memory(get_redis_client())
 
 
 # Flask Forms
@@ -81,7 +84,8 @@ limiter = Limiter(
     get_remote_address,
     app=app,
     default_limits=["2000 per day", "60 per hour"],
-    storage_uri="memory://",
+    storage_uri="redis://localhost:6379",
+    storage_options={"socket_connect_timeout": 30},
     strategy="sliding-window-counter",
 )
 
