@@ -30,13 +30,13 @@ def test_feature_marker():
     # Test the feature marker function with default badge type
     default_marker = feature_marker()
     assert default_marker, "Default marker should not be empty"
-    assert type(default_marker)== str, "Badge type value should be a string"
+    assert issubclass(type(default_marker), str), "Badge type value should be a string"
     assert "Coming Soon" in default_marker, "Default badge type should be 'coming_soon'"
     
     # Test the feature marker function with custom badge type. For example, "new". It should not 
     # exist
     custom_marker = feature_marker("new")
     assert custom_marker, "Custom marker should not be empty"
-    assert type(custom_marker)== str, "Badge type value should be a string"
+    assert issubclass(type(custom_marker), str), "Badge type value should be a string"
     assert "New" not in custom_marker, "Custom badge type should be 'Coming Soon'"
     assert "Coming Soon" in custom_marker, "Custom badge type should default to 'coming_soon' if unknown badge type is provided"
