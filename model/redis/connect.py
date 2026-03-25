@@ -39,9 +39,12 @@ def check_redis_connection():
         
 def get_redis_client():
     """ Get a redis client from the connection pool."""
-    return Redis(connection_pool=RedisConfig.pool)
+    client = Redis(connection_pool=RedisConfig.pool)
+    try:
+        client.config_set("maxmemory", "25mb")
+        client.config_set("maxmemory-policy", "allkeys-lru")
+    except Exception:
+        pass  # Managed Redis (e.g. Redis Cloud) may disallow CONFIG SET
+    return client
 
-# When working with redis, It can be used for different purposes in the application.
-# 1. Simple Caching
-# 2. 
 
