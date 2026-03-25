@@ -37,14 +37,16 @@ def check_redis_connection():
             "status": "error",
             "message": f"Failed to connect to Redis: {e}"}, 503
         
-def get_redis_client():
-    """ Get a redis client from the connection pool."""
-    client = Redis(connection_pool=RedisConfig.pool)
+def configure_redis_memory(client: Redis) -> None:
+    """Apply memory limits once at app startup. Safe to call multiple times — idempotent."""
     try:
         client.config_set("maxmemory", "25mb")
         client.config_set("maxmemory-policy", "allkeys-lru")
     except Exception:
         pass  # Managed Redis (e.g. Redis Cloud) may disallow CONFIG SET
-    return client
+
+def get_redis_client() -> Redis:
+    """ Get a redis client from the connection pool."""
+    return Redis(connection_pool=RedisConfig.pool)
 
 
