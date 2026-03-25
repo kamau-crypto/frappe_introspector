@@ -14,7 +14,7 @@
 # PRODUCTION MODE
 # APP MODE: "production"
 
-
+from markupsafe import Markup
 
 
 def monitor_features(app_mode):
@@ -72,13 +72,13 @@ def feature_marker(badge_type: str = "coming_soon") -> str:
         An HTML string for the badge, safe to render with |safe in Jinja2.
     """
     badges = {
-        "coming_soon": (
+        "coming_soon": Markup(
             '<span class="feature-badge feature-badge--coming-soon">'
             '<i class="fas fa-clock"></i>'
             '&nbsp;Coming Soon'
             '</span>'
         ),
-        "erpnext_mode": (
+        "erpnext_mode": Markup(
             '<span class="feature-badge feature-badge--erpnext">'
             '<i class="fas fa-plug"></i>'
             '&nbsp;ERPNext Mode'
