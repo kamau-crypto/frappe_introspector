@@ -79,10 +79,11 @@ Inspector{% endblock %}
             onclick="openRawDataModal()">
             <i class="fas fa-code mr-2"></i>Raw Data
         </button>
-        <a href="{{ url_for('generate_openapi') }}?doctypes={{ doctype_name }}"
-            class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 transition text-sm">
-            <i class="fas fa-file-export mr-2"></i>Export API
-            {{feature_marker("coming_soon")}}
+        <a {% if config.APP_MODE=="erpnext" %}href="{{ url_for('generate_openapi') }}?doctypes={{ doctype_name }}" {%
+            else %}href="#download" {% endif %}
+            class="feature-badge-anchor inline-flex items-center px-4 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 transition text-sm">
+            <i class="fas fa-file-export mr-2"></i><span>Export API</span>
+            {{feature_marker("coming_soon") | safe}}
         </a>
     </div>
 </div>
@@ -116,7 +117,7 @@ Inspector{% endblock %}
 {% endif %}
 
 <div class="bg-light-bg dark:bg-dark-muted rounded-md shadow-xl mb-6 bg-light-surface dark:bg-dark-surface">
-    <div class="border-b px-6 py-4">
+    <div class="border-b border-gray-300 dark:border-dark-border px-6 py-4">
         <h6 class="text-lg font-semibold mb-0 text-gray-700 dark:text-gray-400">DocType Properties</h6>
     </div>
     <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700 dark:text-gray-400">
@@ -177,7 +178,7 @@ Inspector{% endblock %}
         </button>
     </div>
     <!-- Field Filters -->
-    <div id="fieldFilters" class="px-6 py-4 border-b hidden">
+    <div id="fieldFilters" class="px-6 py-4 border-b border-gray-300 dark:border-dark-border hidden">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <input type="text" id="fieldSearch"
                 class="w-full border border-gray-300 dark:border-dark-border dark:text-dark-text dark:bg-dark-muted rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -235,9 +236,9 @@ Inspector{% endblock %}
             </thead>
             <tbody id="fieldsTableBody">
                 {% for field in fields %}
-                <tr class="field-row border-b" data-fieldname="{{ field.fieldname|lower }}"
-                    data-label="{{ field.label|lower if field.label }}" data-fieldtype="{{ field.fieldtype }}"
-                    data-required="{{ 'true' if field.reqd else 'false' }}"
+                <tr class="field-row border-b border-gray-300 dark:border-dark-border"
+                    data-fieldname="{{ field.fieldname|lower }}" data-label="{{ field.label|lower if field.label }}"
+                    data-fieldtype="{{ field.fieldtype }}" data-required="{{ 'true' if field.reqd else 'false' }}"
                     data-readonly="{{ 'true' if field.read_only else 'false' }}">
                     <td class="px-4 py-2">
                         <code class="text-blue-600 dark:text-blue-400 font-mono">{{ field.fieldname }}</code>
