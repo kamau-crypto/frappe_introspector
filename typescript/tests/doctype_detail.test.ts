@@ -230,7 +230,7 @@ function buildAiPickerDOM(): void {
         <i id="aiPickerChevron" class="fas fa-chevron-down"></i>
       </button>
       <div id="aiPickerMenu" class="hidden">
-        <button class="ai-pick" data-ai="general">
+        <button class="ai-pick" data-ai="generalize">
           <i class="fas fa-clipboard"></i>
           <span>Copy<span>Copy page data to clipboard</span></span>
         </button>
@@ -292,7 +292,7 @@ describe("initAiPicker()", () => {
 		btn.click(); // open menu
 
 		const generalPick = document.querySelector<HTMLElement>(
-			'.ai-pick[data-ai="general"]',
+			'.ai-pick[data-ai="generalize"]',
 		)!;
 		generalPick.click();
 
@@ -306,7 +306,7 @@ describe("initAiPicker()", () => {
 		btn.click();
 
 		const generalPick = document.querySelector<HTMLElement>(
-			'.ai-pick[data-ai="general"]',
+			'.ai-pick[data-ai="generalize"]',
 		)!;
 		generalPick.click();
 
