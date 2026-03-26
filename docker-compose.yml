@@ -1,0 +1,13 @@
+#
+services:
+  app:
+    build: .
+    image: erpnext-doctype-inspector:latest
+    platform: linux/amd64
+    ports:
+      - "5001:5000"
+    environment:
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - MODE=production

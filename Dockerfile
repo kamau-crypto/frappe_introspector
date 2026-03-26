@@ -11,7 +11,6 @@ RUN apk add --no-cache build-base \
     g++ \
     make \
     libffi-dev \
-    libev-dev \
     binutils
 
 # Copy only production requirements for better caching
@@ -42,10 +41,12 @@ RUN find /opt/venv -name "*.so" -exec strip --strip-all {} + 2>/dev/null || true
 # ============================================
 FROM python:3.12-alpine3.21 AS runtime
 
-# Install only essential runtime dependencies (libev, not libev-dev — no headers needed)
+# Install Redis, supervisord (process manager), and tini
+# redis-server is ~1MB on Alpine — acceptable for a cache sidecar
 RUN apk add --no-cache \
     tini \
-    libev
+    redis \
+    supervisor
 
 # Create non-root user for security
 RUN addgroup -S appuser && adduser -S -G appuser -u 1001 appuser
@@ -66,7 +67,10 @@ ENV PATH="/opt/venv/bin:$PATH" \
     FLASK_ENV=production \
     PORT=5000 \
     MODE=production \
-    WEB_CONCURRENCY=4
+    WEB_CONCURRENCY=4 \
+    REDIS_HOST=localhost \
+    REDIS_PORT=6379 \
+    REDIS_DB=0
 
 # Pre-create directories with correct ownership BEFORE COPY to avoid a
 # redundant chown/chmod pass over all copied files (which doubles layer size).
@@ -77,6 +81,9 @@ RUN mkdir -p static/swagger static/dist static/css static/typescript templates d
 # no follow-up chown/chmod needed so files are only written to a single layer.
 COPY --chown=appuser:appuser . .
 
+# Copy supervisord config
+COPY --chown=appuser:appuser supervisord.conf /etc/supervisord.conf
+
 # Remove development files without touching other files (avoids copy-on-write cost)
 RUN rm -rf .git .gitignore .dockerignore .env.example *.md 2>/dev/null || true
 
@@ -86,23 +93,7 @@ USER appuser
 # Expose port (Cloud Run uses PORT env var)
 EXPOSE 5000
 
-# Use tini as init system to handle signals properly
+# tini reaps zombies and forwards signals to supervisord
+# supervisord then manages both redis-server and gunicorn
 ENTRYPOINT ["/sbin/tini", "--"]
-
-# Run with gunicorn optimized for Cloud Run (JSON form avoids shell PATH lookup issues)
-CMD ["/opt/venv/bin/gunicorn", \
-    "--bind", "0.0.0.0:5000", \
-    "--workers", "2", \
-    "--worker-class", "gevent", \
-    "--worker-connections", "1000", \
-    "--max-requests", "1000", \
-    "--max-requests-jitter", "100", \
-    "--timeout", "120", \
-    "--graceful-timeout", "30", \
-    "--keep-alive", "5", \
-    "--log-level", "info", \
-    "--access-logfile", "-", \
-    "--error-logfile", "-", \
-    "--capture-output", \
-    "--enable-stdio-inheritance", \
-    "app:app"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
