@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "daisyui";
 @source "../../templates/**/*.html";
 
 /* Dark mode via .dark class (matches your current config) */
