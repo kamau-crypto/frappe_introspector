@@ -298,7 +298,7 @@ export function initAiPicker(wrapperId: string): void {
 			this.setAttribute("aria-selected", "true");
 			closeMenu();
 
-			if (val === "general") {
+			if (val === "generalize") {
 				const code = document.getElementById(
 					"rawJsonData",
 				) as HTMLElement | null;
