@@ -22,7 +22,7 @@ from model.erpnext import ERPNextConnection
 from model.features import feature_marker, monitor_features
 from model.open_api import OpenAPIGenerator
 from model.redis.cache import cache_result
-from model.redis.connect import configure_redis_memory, get_redis_client
+from model.redis.connect import get_redis_client
 
 load_dotenv()
 
@@ -36,9 +36,6 @@ app.jinja_env.globals["feature_marker"] = feature_marker
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "erpnextinspectorsecretkey")
 app.config["MAX_CONTENT_LENGTH"] = 1 * 1024 * 1024  # 1MB max file upload
 app.config["APP_MODE"] = APP_MODE
-
-# Configure Redis memory limits once at startup
-configure_redis_memory(get_redis_client())
 
 
 # Flask Forms
@@ -514,6 +511,9 @@ def swagger_static(filename):
     """Serve swagger static files from swagger"""
     return send_from_directory("static/swagger", filename)
 
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
 
 @app.errorhandler(404)
 def not_found(error):
