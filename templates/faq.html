@@ -7,19 +7,23 @@
 
 {% block content %}
 
-<div class="flex flex-col items-center justify-left py-6 px-4 gap-3">
+<div class="flex flex-col items-center justify-left py-6 px-4 gap-3 ">
     <h1 class="text-4xl font-bold mb-4 text-light-text dark:text-dark-text">Frequently Asked Questions</h1>
     <div class="collapse collapse-arrow bg-light-muted dark:bg-dark-muted border border-base-300">
         <input type="radio" name="my-accordion-2" checked="checked" />
-        <div class="collapse-title font-semibold">What is ERPNext Doctype Inspector?</div>
-        <div class="collapse-content text-sm"> ERPNext Doctype Inspector is an AI powered tool that Integrates Frappe
+        <div class="collapse-title font-semibold dark:text-dark-text text-light-text">What is ERPNext Doctype Inspector?
+        </div>
+        <div class="collapse-content text-sm text-gray-500 dark:text-dark-text"> ERPNext Doctype Inspector is an AI
+            powered tool that Integrates Frappe
             Apps, allowing
             developers to analyze and generate Frappe's apps Doctype metadata using leading AI chatbots. </div>
     </div>
     <div class="collapse collapse-arrow bg-light-muted dark:bg-dark-muted border border-base-300">
         <input type="radio" name="my-accordion-2" />
-        <div class="collapse-title font-semibold">What problem does ERPNext Inspector Solve?</div>
-        <div class="collapse-content text-sm"> As a developer, customizing ERPNext for different business solutions is
+        <div class="collapse-title font-semibold dark:text-dark-text text-light-text">What problem does ERPNext
+            Inspector Solve?</div>
+        <div class="collapse-content text-sm text-gray-500 dark:text-dark-text"> As a developer, customizing ERPNext for
+            different business solutions is
             often a problem, due to a mismatch of fields and having to go through each doctype to view the properties to
             utilize or extend. This tool, works to improve your productivity as a developer by creating Typescript types
             and AI capabilities allowing you to interact with ERPNext's core Doctypes from the AI chatbot of preference,
@@ -27,38 +31,46 @@
     </div>
     <div class="collapse collapse-arrow bg-light-muted dark:bg-dark-muted border border-base-300">
         <input type="radio" name="my-accordion-2" />
-        <div class="collapse-title font-semibold">How do I use DocType Inspector?</div>
-        <div class="collapse-content text-sm">To use DocType Inspector, navigate <a
+        <div class="collapse-title font-semibold dark:text-dark-text text-light-text">How do I use DocType Inspector?
+        </div>
+        <div class="collapse-content text-sm text-gray-500 dark:text-dark-text">To use DocType Inspector, navigate <a
                 href="{{ url_for('doctypes') }}">Doctype
                 list</a>. Search the doctype name from the list provided and click on the view button. From there you
             can view the properties of each doctype.</div>
     </div>
     <div class="collapse collapse-arrow bg-light-muted dark:bg-dark-muted border border-base-300">
         <input type="radio" name="my-accordion-2" />
-        <div class="collapse-title font-semibold">How many frappe Apps are currently supported ?</div>
-        <div class="collapse-content text-sm"> Frappe's ERPNext, Framework, and HRMS apps are currently supported. More
+        <div class="collapse-title font-semibold dark:text-dark-text text-light-text">How many frappe Apps are currently
+            supported ?</div>
+        <div class="collapse-content text-sm text-gray-500 dark:text-dark-text"> Frappe's ERPNext, Framework, and HRMS
+            apps are currently supported. More
             will come soon with requests. </div>
     </div>
     <div class="collapse collapse-arrow bg-light-muted dark:bg-dark-muted border border-base-300">
         <input type="radio" name="my-accordion-2" />
-        <div class="collapse-title font-semibold">How do I use my AI chatbot of choice aside from the one provided ?
+        <div class="collapse-title font-semibold dark:text-dark-text text-light-text">How do I use my AI chatbot of
+            choice aside from the one provided ?
         </div>
-        <div class="collapse-content text-sm"> On each Doctype page, there is a <strong>Copy as markdown </strong>
+        <div class="collapse-content text-sm text-gray-500 dark:text-dark-text"> On each Doctype page, there is a
+            <strong>Copy as markdown </strong>
             option, which replicates the contents of the doctype in a markdown format. Copy and paste this markdown into
-            your preferred AI chatbot.</div>
+            your preferred AI chatbot.
+        </div>
     </div>
     <div class="collapse collapse-arrow bg-light-muted dark:bg-dark-muted border border-base-300">
         <input type="radio" name="my-accordion-2" />
-        <div class="collapse-title font-semibold">How may AI chatbots are currently integrated ?</div>
-        <div class="collapse-content text-sm">
+        <div class="collapse-title font-semibold dark:text-dark-text text-light-text">How may AI chatbots are currently
+            integrated ?</div>
+        <div class="collapse-content text-sm text-gray-500 dark:text-dark-text">
             Claude AI, and ChatGPT are the only ones currently connected. <br> More AI chatbots will be added as similar
             functionality is added and their availability allows.
         </div>
     </div>
     <div class="collapse collapse-arrow bg-light-muted dark:bg-dark-muted border border-base-300">
         <input type="radio" name="my-accordion-2" />
-        <div class="collapse-title font-semibold">How do I use ERPNext Inspector with my local Instance ?</div>
-        <div class="collapse-content text-sm">
+        <div class="collapse-title font-semibold dark:text-dark-text text-light-text">How do I use ERPNext Inspector
+            with my local Instance ?</div>
+        <div class="collapse-content text-sm text-gray-500 dark:text-dark-text">
             This feature is currently in development, but will be available soon. It will allow you to connect your
             local instance of ERPNext to the Doctype Inspector, allowing you to view your custom doctypes and their
             properties in addition to the standard ones.

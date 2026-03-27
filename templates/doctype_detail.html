@@ -116,7 +116,7 @@ Inspector{% endblock %}
 </div>
 
 {% if doctype_doc.description %}
-<div class="bg-light-bg dark:bg-dark-bg rounded shadow-md mb-6 bg-light-surface dark:bg-dark-surface">
+<div class="rounded shadow-md mb-6 bg-light-surface dark:bg-dark-surface">
     <div class="px-6 py-4">
         <h6 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-400">Description</h6>
         <p class="text-gray-700 dark:text-gray-400">{{ doctype_doc.description }}</p>
@@ -124,7 +124,7 @@ Inspector{% endblock %}
 </div>
 {% endif %}
 
-<div class="bg-light-bg dark:bg-dark-muted rounded-md shadow-xl mb-6 bg-light-surface dark:bg-dark-surface">
+<div class="rounded-md shadow-xl mb-6 bg-light-surface dark:bg-dark-surface">
     <div class="border-b border-gray-300 dark:border-dark-border px-6 py-4">
         <h6 class="text-lg font-semibold mb-0 text-gray-700 dark:text-gray-400">DocType Properties</h6>
     </div>
@@ -176,7 +176,7 @@ Inspector{% endblock %}
     </div>
 </div>
 
-<div class="bg-light-surface dark:bg-dark-muted rounded-md shadow-xl mb-8">
+<div class="rounded-md shadow-xl mb-8 bg-light-surface dark:bg-dark-muted dark:text-dark-text text-light-text">
     <div class="border-b px-6 py-4 flex justify-between items-center bg-muted dark:bg-dark-muted">
         <h6 class="text-lg font-semibold mb-0 text-light-text dark:text-dark-text">Fields ({{ fields|length }})</h6>
         <button
@@ -185,7 +185,8 @@ Inspector{% endblock %}
             <i class="fas fa-filter mr-1 text-light-text dark:text-dark-text"></i>Filter
         </button>
     </div>
-    <div id="fieldFilters" class="px-6 py-4 border-b border-gray-300 dark:border-dark-border hidden">
+    <div id="fieldFilters"
+        class="px-6 py-4 border-b border-gray-300 dark:border-dark-border hidden dark:text-dark-text text-light-text">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <input type="text" id="fieldSearch"
                 class="w-full border border-gray-300 dark:border-dark-border dark:text-dark-text dark:bg-dark-muted rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -250,12 +251,13 @@ Inspector{% endblock %}
                     <td class="px-4 py-2">
                         <code class="text-blue-600 dark:text-blue-400 font-mono">{{ field.fieldname }}</code>
                     </td>
-                    <td class="px-4 py-2 dark:text-dark-text">{{ field.label or '-' }}</td>
+                    <td class="px-4 py-2 dark:text-dark-text text-gray-500">{{ field.label or '-' }}</td>
                     <td class="px-4 py-2">
-                        <span class="bg-gray-100 dark:bg-dark-muted rounded px-2 py-1 dark:text-dark-text">{{
+                        <span
+                            class="bg-gray-100 dark:bg-dark-muted rounded px-2 py-1 dark:text-dark-text  text-gray-500">{{
                             field.fieldtype }}</span>
                     </td>
-                    <td class="px-4 py-2 dark:text-dark-text">
+                    <td class="px-4 py-2 dark:text-dark-text text-gray-500">
                         {% if field.options %} {% if field.fieldtype == 'Select'
                         %}
                         <div class="flex flex-wrap gap-1 text-gray-700 dark:text-dark-text">
@@ -266,7 +268,8 @@ Inspector{% endblock %}
                                 option.strip() }}</span>
                             {% endif %} {% endfor %} {% if
                             field.options.split('\n')|length > 3 %}
-                            <span class="text-gray-700 dark:text-dark-text">+{{ field.options.split('\n')|length - 3 }}
+                            <span class="text-gray-700 dark:text-dark-text">+{{
+                                field.options.split('\n')|length - 3 }}
                                 more</span>
                             {% endif %}
                         </div>
@@ -279,10 +282,10 @@ Inspector{% endblock %}
                             <span class="bg-red-100 text-red-700 dark:text-red-400 rounded px-2 py-1">Required</span>
                             {% endif %} {% if field.read_only %}
                             <span
-                                class="bg-gray-300 dark:bg-dark-subtext text-gray-400 dark:text-dark-text rounded px-2 py-1">Read-only</span>
+                                class="bg-gray-300 dark:bg-dark-subtext text-gray-500 dark:text-dark-text rounded px-2 py-1">Read-only</span>
                             {% endif %} {% if field.unique %}
                             <span
-                                class="bg-yellow-100 text-yellow-700 dark:bg-dark-warning dark:text-yellow-400 rounded px-2 py-1">Unique</span>
+                                class="bg-yellow-100 text-yellow-700 dark:bg-dark-warning dark:text-yellow-100 rounded px-2 py-1">Unique</span>
                             {% endif %} {% if field.hidden %}
                             <span
                                 class="bg-gray-800 dark:bg-dark-border text-white dark:text-dark-text rounded px-2 py-1">Hidden</span>
@@ -300,7 +303,7 @@ Inspector{% endblock %}
 </div>
 <div id="rawDataModal"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 overflow-y-auto p-4">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 h-4/5 overflow-y-auto bg-light-bg dark:bg-dark-bg">
+    <div class="rounded-lg shadow-xl w-full max-w-4xl mx-4 h-4/5 overflow-y-auto bg-light-bg dark:bg-dark-bg">
         <div class="flex justify-between items-center border-b px-6 py-4">
             <h5 class="text-xl font-semibold dark:text-dark-text">Raw DocType Data</h5>
             <button type="button"
