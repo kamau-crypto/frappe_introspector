@@ -11,19 +11,31 @@
     <meta name="author" content="ERPNext DocType Inspector" />
     <meta name="keywords" content="ERPNext, Frappe, DocType, OpenAPI, TypeScript, API docs, developer tools" />
 
+    <!-- Standard Open Graph (Facebook, LinkedIn, Discord, etc.) -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="ERPNext DocType Inspector" />
     <meta property="og:description"
         content=" Simplify ERPNext customization by browsing comprehensive DocType details, fields, and relationships, and link with AI assistants for instant explanations." />
-    <meta property="og:image" content="{{ url_for('static', filename='img/og-preview.png', _external=True) }}" />
     <meta property="og:url" content="{{ request.url }}" />
     <meta property="og:site_name" content="ERPNext DocType Inspector" />
 
+    <!-- Open Graph Image Properties (Crucial for WhatsApp & iMessage previews) -->
+    <meta property="og:image" itemprop="image"
+        content="https://res.cloudinary.com/dvb8n2xw5/image/upload/v1774638545/og-preview_y6uyck.png" />
+    <meta property="og:image:secure_url" itemprop="image"
+        content="https://res.cloudinary.com/dvb8n2xw5/image/upload/v1774638545/og-preview_y6uyck.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ERPNext DocType Inspector Preview Image" />
+
+    <!-- Twitter / X Cards -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ERPNext DocType Inspector" />
     <meta name="twitter:description"
         content=" Simplify ERPNext customization by browsing comprehensive DocType details, fields, and relationships, and link with AI assistants for instant explanations." />
-    <meta name="twitter:image" content="{{ url_for('static', filename='img/og-preview.png', _external=True) }}" />
+    <meta name="twitter:image"
+        content="https://res.cloudinary.com/dvb8n2xw5/image/upload/v1774638545/og-preview_y6uyck.png" />
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
