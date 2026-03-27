@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+c{% extends "base.html" %}
 
 {% block title %}ERPNext DocType Inspector — Explore ERPNext, Frappe & HRMS{% endblock %}
 
@@ -17,7 +17,9 @@
             ERPNext DocType Inspector
         </h1>
         <p class="text-base md:text-lg text-center text-wrap text-gray-600 dark:text-gray-400 mb-2 text-shadow-xl">
-            Explore, analyze, and generate OpenAPI documentation for your ERPNext DocTypes with ease.
+            Simplify ERPNext customization by browsing comprehensive DocType details, fields, and relationships, and
+            link with AI
+            assistants for instant explanations.
         </p>
         <p class="text-sm md:text-base text-gray-500 dark:text-gray-500 mb-8">
             Browse <strong class="text-light-text dark:text-dark-text">DocTypes</strong> across
@@ -34,7 +36,7 @@
             <a {% if config.APP_MODE=="erpnext" %}href="{{ url_for('connect') }}" {% else %}href="#download" {% endif %}
                 class="feature-badge-anchor inline-flex items-center justify-center px-6 py-3 border border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 rounded-full text-base font-semibold hover:bg-blue-50 dark:hover:bg-blue-900 transition w-full sm:w-auto shadow-xl">
                 <i class="fas fa-plug mr-2"></i>Connect Your Instance <i class="fa-solid fa-arrow-right ml-2"></i>
-                {{ feature_marker("erpnext_mode") | safe }}
+                {{ feature_marker("coming_soon") | safe }}
             </a>
             <a {% if config.APP_MODE=="erpnext" %}href="{{ url_for('swagger_ui') }}" {% else %}href="#" {% endif %}
                 class="feature-badge-anchor inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 dark:text-gray-300 rounded-full text-base font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-500 transition w-full sm:w-auto shadow-xl">
@@ -273,7 +275,7 @@
                         in Claude</span>
                     <span
                         class="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 rounded px-2 py-1 font-sans">Open
-                        in Gemini</span>
+                        in ChatGPT</span>
                     <span
                         class="bg-gray-100 dark:bg-dark-muted text-gray-500 dark:text-gray-400 rounded px-2 py-1 font-sans">Copy</span>
                 </div>
@@ -339,7 +341,7 @@
 
         <!-- Local / Docker -->
         <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 flex flex-col border-t-4 border-purple-500">
-            <div class="flex items-center gap-3 mb-4">
+            <div class="flex items-center gap-3 mb-4 w-full">
                 <div
                     class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center flex-shrink-0">
                     <i class="fa-brands fa-docker text-purple-600 dark:text-purple-400 text-lg"></i>
@@ -349,6 +351,10 @@
                     <span
                         class="text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-400 rounded-full px-2 py-0.5 font-semibold">Full
                         feature set</span>
+                    <span
+                        class="text-xs feature-badge--coming-soon text-purple-700 dark:text-purple-400 rounded-full px-2 py-0.5 "><i
+                            class="fas fa-clock"></i>
+                        Coming Soon</span>
                 </div>
             </div>
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -386,11 +392,13 @@ docker run -p 5000:5000 \
     </div>
 </div>
 <div class="max-w-5xl mx-auto mb-12 px-4">
-    <div class="bg-white dark:bg-dark-surface rounded-xl shadow-md p-6 border border-gray-100 dark:border-dark-border">
+    <div
+        class="bg-white feature-badge-anchor dark:bg-dark-surface rounded-xl shadow-md p-6 border border-gray-100 dark:border-dark-border">
         <div class="flex items-center gap-3 mb-4">
             <i class="fas fa-server text-gray-600 dark:text-gray-400 text-xl"></i>
             <h2 class="text-xl font-bold text-light-text dark:text-dark-text">How the Local Instance Connection Works
             </h2>
+            {{ feature_marker("coming_soon") | safe }}
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
@@ -436,58 +444,6 @@ docker run -p 5000:5000 \
                     <code class="font-mono">http://localhost:8000</code> as the URL and set <code
                         class="font-mono">MODE=erpnext</code> in the Docker run command.
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="max-w-5xl mx-auto mb-10 px-4">
-    <div class="bg-light-bg dark:bg-dark-bg rounded shadow-md">
-        <div class="border-b px-6 py-4">
-            <h5 class="text-lg font-semibold mb-0 flex items-center gap-2 text-light-text dark:text-dark-text">
-                <i class="fas fa-info-circle text-light-accent dark:text-dark-accent"></i>How it Works
-            </h5>
-        </div>
-        <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-                <h6 class="font-semibold mb-2 flex items-center gap-2 text-light-text dark:text-dark-text">
-                    <i class="fas fa-step-forward text-blue-600 dark:text-blue-400"></i>Steps to Get Started
-                </h6>
-                <ol class="list-decimal list-inside text-sm text-gray-700 dark:text-gray-500 space-y-1">
-                    <li><strong>Connect:</strong> Enter your ERPNext URL and API credentials</li>
-                    <li><strong>Explore:</strong> Browse DocTypes and their field definitions</li>
-                    <li><strong>Generate:</strong> Export OpenAPI specs for selected DocTypes</li>
-                    <li><strong>Document:</strong> Use Swagger UI to interact with your APIs</li>
-                </ol>
-            </div>
-            <div>
-                <h6 class="font-semibold mb-2 flex items-center gap-2 text-light-text dark:text-dark-text">
-                    <i class="fas fa-key text-green-600 dark:text-green-400"></i>Requirements
-                </h6>
-                <ul class="list-none text-sm text-gray-700 dark:text-gray-500 space-y-1">
-                    <li class="flex items-center gap-2"><i
-                            class="fas fa-check text-green-600 dark:text-green-400"></i>ERPNext v13+ instance</li>
-                    <li class="flex items-center gap-2"><i
-                            class="fas fa-check text-green-600 dark:text-green-400"></i>API Key and Secret</li>
-                    <li class="flex items-center gap-2"><i
-                            class="fas fa-check text-green-600 dark:text-green-400"></i>Network access to your ERPNext
-                        server</li>
-                </ul>
-            </div>
-            <div>
-                <h6 class="font-semibold mb-2 flex items-center gap-2 text-light-text dark:text-dark-text">
-                    <i class="fas fa-code text-indigo-600 dark:text-indigo-400"></i>What You Can Export
-                </h6>
-                <ul class="list-none text-sm text-gray-700 dark:text-gray-500 space-y-1">
-                    <li class="flex items-center gap-2"><i
-                            class="fas fa-check text-indigo-500 dark:text-indigo-400"></i>OpenAPI 3.0 / Swagger spec
-                    </li>
-                    <li class="flex items-center gap-2"><i
-                            class="fas fa-check text-indigo-500 dark:text-indigo-400"></i>TypeScript interfaces</li>
-                    <li class="flex items-center gap-2"><i
-                            class="fas fa-check text-indigo-500 dark:text-indigo-400"></i>Python / Pydantic models</li>
-                    <li class="flex items-center gap-2"><i
-                            class="fas fa-check text-indigo-500 dark:text-indigo-400"></i>Go structs, C# classes</li>
-                </ul>
             </div>
         </div>
     </div>
