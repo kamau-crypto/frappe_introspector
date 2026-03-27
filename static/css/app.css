@@ -79,7 +79,7 @@ body {
 	position: absolute;
 	top: -0.55rem;
 	right: -0.4rem;
-	z-index: 10;
+	z-index: 5;
 	display: inline-flex;
 	align-items: center;
 	gap: 0.25rem;
