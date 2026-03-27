@@ -14,10 +14,11 @@
         <p class="text-light-text dark:text-dark-text mt-2 sm:text-sm md:text-base">{{ doctypes|length }} DocTypes found
         </p>
     </div>
-    <div>
+    <div class="hidden">
         <a href="{{ url_for('generate_openapi') }}"
             class="inline-flex items-center px-5 py-2 bg-green-600 text-light-muted dark:text-dark-text rounded hover:bg-green-700 dark:hover:bg-green-500 transition">
             <i class="fas fa-code mr-2"></i>Generate API Docs
+            {{feature_marker("coming_soon") | safe}}
         </a>
     </div>
 </div>
