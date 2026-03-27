@@ -1,5 +1,3 @@
-import { AIChatError } from "./client_error";
-
 type Provider = "gemini" | "claude" | "chatgpt" | "general" | "qwen";
 
 export function buildContextDeeplinking(provider: Provider): string {
@@ -109,11 +107,7 @@ async function createMarkdownFormat(): Promise<string | void> {
 	}
 
 	const markdown = sections.join("\n");
-	return navigator.clipboard.writeText(markdown).finally(() => {
-		new AIChatError(
-			"Markdown content has been copied to clipboard. Please paste it into your AI assistant.",
-		);
-	});
+	return navigator.clipboard.writeText(markdown);
 }
 
 // Expose for direct calls from non-module inline scripts
