@@ -22,6 +22,13 @@ Inspector{% endblock %}
         <p class="text-gray-500 dark:text-gray-400">Module: {{ doctype_doc.module }}</p>
         {% endif %}
     </div>
+    <div id="err_cont">
+        <div id="popup"
+            class="fixed top-10 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white dark:text-dark-text px-4 py-2 rounded shadow-lg text-center hidden">
+            <i class="fas fa-check mr-2" id="info-icons"></i>Page copied
+            to clipboard!
+        </div>
+    </div>
     <div class="flex gap-2 flex-wrap">
         <div class="relative inline-block text-left" id="aiPickerWrapper">
             <button type="button" id="aiPickerBtn"
@@ -44,8 +51,7 @@ Inspector{% endblock %}
                         data-ai="general" role="menuitem">
                         <i class="fas fa-clipboard text-sm text-gray-400 w-7 text-center"></i>
                         <span class="flex flex-col gap-1">
-                            <span>Copy</span>
-                            <span>Copy page data to clipboard</span>
+                            <span>Copy page as markdown</span>
                         </span>
                     </button>
                     <button type="button"
@@ -55,7 +61,8 @@ Inspector{% endblock %}
                             alt="">
                         <span class="flex flex-col gap-1">
                             <span>Claude</span>
-                            <span class="text-xs text-inline text-gray-200 px-2">Ask questions about this page </span>
+                            <span class="text-xs text-inline text-orange-600 dark:text-orange-400 px-2">Ask questions
+                                about this page </span>
                         </span>
                     </button>
                     <button type="button"
@@ -67,7 +74,8 @@ Inspector{% endblock %}
                             class="w-7 h-7 object-contain hidden dark:block" alt="chatgpt">
                         <span class="flex flex-col gap-1">
                             <span>OpenAI</span>
-                            <span class="text-xs text-inline text-gray-200 px-2">Ask questions about this page</span>
+                            <span class="text-xs text-inline text-emerald-600 dark:text-emerald-400 px-2">Ask questions
+                                about this page</span>
                         </span>
                     </button>
                 </div>
@@ -120,7 +128,7 @@ Inspector{% endblock %}
     <div class="border-b border-gray-300 dark:border-dark-border px-6 py-4">
         <h6 class="text-lg font-semibold mb-0 text-gray-700 dark:text-gray-400">DocType Properties</h6>
     </div>
-    <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700 dark:text-gray-400">
+    <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700 dark:text-gray-400" id="properties_list">
         <ul class="list-none space-y-2">
             <li>
                 <strong>Is Submittable:</strong>
@@ -177,7 +185,6 @@ Inspector{% endblock %}
             <i class="fas fa-filter mr-1 text-light-text dark:text-dark-text"></i>Filter
         </button>
     </div>
-    <!-- Field Filters -->
     <div id="fieldFilters" class="px-6 py-4 border-b border-gray-300 dark:border-dark-border hidden">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <input type="text" id="fieldSearch"
@@ -210,8 +217,8 @@ Inspector{% endblock %}
             </button>
         </div>
     </div>
-    <div class="overflow-x-auto">
-        <table class="min-w-full text-sm">
+    <div class="overflow-x-auto" id="properties_table">
+        <table class="table min-w-full text-sm">
             <thead class="bg-gray-50 dark:bg-dark-muted">
                 <tr>
                     <th class="px-4 py-2 text-left font-semibold text-gray-700 dark:text-dark-text">
