@@ -55,19 +55,54 @@ export class AIChatError extends Error {
 		// Based on the error type, set the background color and icon
 		switch (this.error_type) {
 			case "error":
-				errorContainer.classList.add("bg-red-600");
+				errorContainer.classList.add(
+					"bg-red-600",
+					"text-white",
+					"relative",
+					"top-10",
+					"animate-slideDown",
+					"shadow-lg",
+					"rounded",
+				);
 				infoIcons.classList.add("fa-exclamation-triangle");
 				break;
 			case "warning":
-				errorContainer.classList.add("bg-yellow-500", "text-black");
+				errorContainer.classList.add(
+					"bg-yellow-500",
+					"text-black",
+					"relative",
+					"top-10",
+					"animate-slideDown",
+					"shadow-lg",
+					"rounded",
+					"z-10",
+				);
 				infoIcons.classList.add("fa-info-circle");
 				break;
 			case "info":
-				errorContainer.classList.add("bg-green-600");
+				errorContainer.classList.add(
+					"bg-green-600",
+					"text-white",
+					"relative",
+					"top-10",
+					"animate-slideDown",
+					"shadow-lg",
+					"rounded",
+					"z-10",
+				);
 				infoIcons.classList.add("fa-check-circle");
 				break;
 			default:
-				errorContainer.classList.add("bg-green-600");
+				errorContainer.classList.add(
+					"bg-green-600",
+					"text-white",
+					"relative",
+					"top-10",
+					"animate-slideDown",
+					"shadow-lg",
+					"rounded",
+					"z-10",
+				);
 				infoIcons.classList.add("fa-check-circle");
 		}
 	}
