@@ -1,0 +1,82 @@
+<dialog id="privacy_modal" class="modal text-md py-10 justify-center align-middle sm:modal-middle">
+    <div class="flex flex-col py-8 px-4 max-w-4xl mx-auto gap-6 text-light-text dark:text-dark-text modal-box">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <h1 class="text-4xl font-bold mb-2">Privacy Policy</h1>
+        <p class="text-sm opacity-80 mb-6">Last updated: March 27, 2026</p>
+
+        <section class="flex flex-col gap-4">
+            <h2 class="text-2xl font-semibold">1. Information We Collect</h2>
+            <p class="text-base leading-relaxed">
+                When you use the ERPNext DocType Inspector, we may collect and process information necessary to
+                facilitate
+                the connection to your ERPNext instances. This includes <strong>ERPNext URLs, API Keys, and API
+                    Secrets</strong> which are required to fetch DocType metadata.
+            </p>
+        </section>
+
+        <section class="flex flex-col gap-4">
+            <h2 class="text-2xl font-semibold">2. How We Use Your Information</h2>
+            <p class="text-base leading-relaxed">
+                The credentials you provide are used strictly for communicating with your designated ERPNext instance.
+                We
+                use this access solely to read DocType structures, retrieve fields, and generate TypeScript interfaces
+                or
+                API documentation on your behalf.
+            </p>
+        </section>
+
+        <section class="flex flex-col gap-4">
+            <h2 class="text-2xl font-semibold">3. Data Storage & Caching</h2>
+            <p class="text-base leading-relaxed">
+                To improve performance and limit repeated requests to your ERPNext instance, we temporarily cache the
+                structure of fetched DocTypes (such as fields, descriptions, and types) using a local cache mechanism
+                with a
+                short Time-To-Live (e.g., 20 minutes). We do not permanently store your API credentials or any sensitive
+                business data from your ERPNext system.
+            </p>
+        </section>
+
+        <section class="flex flex-col gap-4">
+            <h2 class="text-2xl font-semibold">4. Third-Party Services</h2>
+            <p class="text-base leading-relaxed">
+                Our tool allows you to deep-link DocType metadata directly into external AI assistants (such as Claude
+                or
+                ChatGPT). When you use these features, the generated schema and prompts are handed over to the
+                respective AI
+                platforms. Please refer to their respective Privacy Policies to understand how they process this data.
+            </p>
+        </section>
+
+        <section class="flex flex-col gap-4">
+            <h2 class="text-2xl font-semibold">5. Security</h2>
+            <p class="text-base leading-relaxed">
+                We are committed to securing your data. We use appropriate technical and organizational measures to
+                protect
+                your credentials during transmission. However, no internet-based service is 100% secure, and we advise
+                against using production credentials if a test environment is available.
+            </p>
+        </section>
+
+        <section class="flex flex-col gap-4">
+            <h2 class="text-2xl font-semibold">6. Changes to This Policy</h2>
+            <p class="text-base leading-relaxed">
+                We may update our Privacy Policy from time to time. Any changes will be posted on this page with an
+                updated
+                revision date.
+            </p>
+        </section>
+
+        <section class="flex flex-col gap-4 mt-6">
+            <p class="text-base leading-relaxed">
+                If you have questions about this privacy policy, please contact the project maintainers or open an issue
+                in
+                the project repository.
+            </p>
+        </section>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
