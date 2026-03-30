@@ -152,3 +152,117 @@ bun run test:coverage
 ```
 
 > Tests are also executed automatically as part of the build step (`bun run build` runs `vitest run` before invoking `tsc` and Vite).
+
+---
+
+## Deploying to GCP Cloud Run
+
+The app runs as a single Docker container with Redis bundled inside (managed by `supervisord`). The steps below use the `gcloud` CLI.
+
+### Prerequisites
+
+```bash
+# Install gcloud CLI (if not already installed)
+# https://cloud.google.com/sdk/docs/install
+
+# Authenticate
+gcloud auth login
+
+# Set your project
+gcloud config set project YOUR_PROJECT_ID
+
+# Enable required APIs (only needed once per project)
+gcloud services enable run.googleapis.com artifactregistry.googleapis.com
+```
+
+### 1. Create an Artifact Registry repository
+
+```bash
+gcloud artifacts repositories create erpnext-inspector \
+  --repository-format=docker \
+  --location=us-central1 \
+  --description="ERPNext DocType Inspector"
+```
+
+### 2. Configure Docker to authenticate with Artifact Registry
+
+```bash
+gcloud auth configure-docker us-central1-docker.pkg.dev
+```
+
+### 3. Build and push the image
+
+```bash
+# Set your project and region
+export PROJECT_ID=$(gcloud config get-value project)
+export REGION=us-central1
+export IMAGE=us-central1-docker.pkg.dev/$PROJECT_ID/erpnext-inspector/app
+
+# Build for linux/amd64 (required for Cloud Run)
+docker build --platform linux/amd64 -t $IMAGE .
+
+# Push to Artifact Registry
+docker push $IMAGE
+```
+
+### 4. Deploy to Cloud Run
+
+```bash
+gcloud run deploy erpnext-doctype-inspector \
+  --image $IMAGE \
+  --platform managed \
+  --region $REGION \
+  --port 5000 \
+  --memory 512Mi \
+  --cpu 1 \
+  --min-instances 0 \
+  --max-instances 3 \
+  --set-env-vars MODE=production,REDIS_HOST=localhost,REDIS_PORT=6379,REDIS_DB=0 \
+  --set-secrets SECRET_KEY=erpnext-secret-key:latest \
+  --allow-unauthenticated
+```
+
+> **Note:** `SECRET_KEY` is stored in [Secret Manager](https://cloud.google.com/secret-manager). Create it once with:
+>
+> ```bash
+> echo -n "your-secret-key-here" | gcloud secrets create erpnext-secret-key --data-file=-
+> ```
+
+### 5. Verify the deployment
+
+```bash
+# Get the public URL
+gcloud run services describe erpnext-doctype-inspector \
+  --region $REGION \
+  --format "value(status.url)"
+
+# Stream live logs
+gcloud run services logs tail erpnext-doctype-inspector --region $REGION
+```
+
+### Updating after code changes
+
+```bash
+# Rebuild, push, and redeploy in one step
+docker build --platform linux/amd64 -t $IMAGE . && \
+docker push $IMAGE && \
+gcloud run deploy erpnext-doctype-inspector \
+  --image $IMAGE \
+  --region $REGION
+```
+
+### Environment variables reference
+
+| Variable     | Default     | Description                                                  |
+| ------------ | ----------- | ------------------------------------------------------------ |
+| `MODE`       | `erpnext`   | Set to `production` to use pre-indexed static files          |
+| `SECRET_KEY` | —           | Flask session signing key — use Secret Manager in production |
+| `REDIS_HOST` | `localhost` | Redis host — `localhost` when Redis is bundled in-container  |
+| `REDIS_PORT` | `6379`      | Redis port                                                   |
+| `REDIS_DB`   | `0`         | Redis database index                                         |
+
+### Important Cloud Run constraints
+
+- **Redis is ephemeral** — each Cloud Run instance has its own in-process Redis. Cache is lost when an instance scales down. This only causes cache misses (falls back to file reads), not data loss.
+- **No shared cache across instances** — if you need a persistent or shared cache, provision [Cloud Memorystore (Redis)](https://cloud.google.com/memorystore) and set `REDIS_HOST` to its private IP.
+- **Minimum instances** — set `--min-instances 1` to avoid cold starts if response latency matters more than cost.
